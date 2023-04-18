@@ -1,9 +1,7 @@
 package com.carrentalbackend.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Pricelist {
@@ -13,4 +11,6 @@ public class Pricelist {
     private double pricePerDay;
     private double pricePerWeek;
     private double pricePerMonth;
+    @OneToMany (mappedBy = "pricelist")
+    private List<Car> cars;
 }

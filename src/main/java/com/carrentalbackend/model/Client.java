@@ -1,6 +1,7 @@
 package com.carrentalbackend.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Client {
@@ -10,7 +11,8 @@ public class Client {
     private String firstName;
     private String lastName;
     private String email;
-    @ManyToOne (cascade = CascadeType.PERSIST)
-    @JoinColumn (name = "address_id",referencedColumnName = "id")
+    @ManyToOne
     private Address address;
+    @OneToMany (mappedBy = "client")
+    private List<Reservation> reservations;
 }

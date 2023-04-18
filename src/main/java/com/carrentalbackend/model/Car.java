@@ -5,7 +5,6 @@ import com.carrentalbackend.model.enumeration.CarStatus;
 import com.carrentalbackend.model.enumeration.Color;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 public class Car {
@@ -14,13 +13,18 @@ public class Car {
     private long id;
     private String make;
     private String model;
-    private CarBodyType bodyType;
-    private LocalDate yearOfManufacture;
-    private Color color;
     private int mileage;
-    private CarStatus status;
-    @OneToOne
-    private Pricelist pricelist;
     private int minRentalTime;
+    private int yearOfManufacture;
+    @Enumerated(EnumType.STRING)
+    private CarBodyType bodyType;
+    @Enumerated(EnumType.STRING)
+    private Color color;
+    @Enumerated(EnumType.STRING)
+    private CarStatus status;
+    @ManyToOne
+    private Pricelist pricelist;
+    @ManyToOne
+    private BranchOffice currentBranchOffice;
 
 }
