@@ -38,16 +38,16 @@ VALUES (1L, 'SUPERMINI', 'RED', 'Mazda', 20000, 5, '2','AVAILABLE',2015,1L,1L),
        (2L, 'SUV', 'BLACK', 'Mercedes', 140, 1, 'GLS','AVAILABLE',2021,2L,2L),
        (3L, 'ESTATE', 'WHITE', 'Ford', 8000, 5, 'Focus','UNAVAILABLE',2018,3L,1L);
 
-INSERT INTO car_pick_up(id,comments,pick_up_date,car_id,employee_id)
-VALUES (1L, 'first rental','2010-10-10',1L,1L),
-       (2L, null,'2010-10-15',2L,2L),
-       (3L, null,'2011-02-10',3L,4L),
-       (4L, null,'2012-10-10',1L,2L),
-       (5L, 'random comment','2013-10-10',1L,1L),
-       (6L, null,'2014-10-02',2L,1L),
-       (7L, null,'2014-09-12',2L,3L),
-       (8L, null,'2015-08-05',1L,1L),
-       (9L, null,'2016-04-23',1L,1L);
+INSERT INTO car_pick_up(id,comments,pick_up_date,car_id,employee_id, status)
+VALUES (1L, 'first rental','2010-10-10',1L,1L,'REALIZED'),
+       (2L, null,'2010-10-15',2L,2L,'REALIZED'),
+       (3L, null,'2011-02-10',3L,4L,'REALIZED'),
+       (4L, null,'2012-10-10',1L,2L,'REALIZED'),
+       (5L, 'random comment','2013-10-10',1L,1L,'REALIZED'),
+       (6L, null,'2014-10-02',2L,1L,'REALIZED'),
+       (7L, null,'2014-09-12',2L,3L,'REALIZED'),
+       (8L, null,'2015-08-05',1L,1L,'REALIZED'),
+       (9L, null,'2016-04-23',1L,1L,'PLANNED');
 
 INSERT INTO car_return (id, comments, extra_charge, return_date, car_id, employee_id)
 VALUES (1L, 'first return', 30, '2010-10-12',1L,2L),

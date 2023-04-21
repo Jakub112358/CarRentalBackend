@@ -1,5 +1,7 @@
 package com.carrentalbackend.model;
 
+import com.carrentalbackend.model.enumeration.RentalActionStatus;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -12,6 +14,8 @@ public class CarReturn {
     private String comments;
     private BigDecimal extraCharge;
     private LocalDateTime returnDate;
+    @Enumerated(value = EnumType.STRING)
+    RentalActionStatus status;
     @ManyToOne
     private Employee employee;
     @OneToOne (mappedBy = "carReturn")

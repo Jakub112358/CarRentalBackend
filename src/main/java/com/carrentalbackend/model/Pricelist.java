@@ -11,6 +11,6 @@ public class Pricelist {
     private double pricePerDay;
     private double pricePerWeek;
     private double pricePerMonth;
-    @OneToMany (mappedBy = "pricelist")
+    @OneToMany (mappedBy = "pricelist", cascade = CascadeType.PERSIST)
     private List<Car> cars;
 }

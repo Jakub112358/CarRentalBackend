@@ -13,6 +13,6 @@ public class Client {
     private String email;
     @ManyToOne
     private Address address;
-    @OneToMany (mappedBy = "client")
+    @OneToMany (mappedBy = "client", cascade = CascadeType.PERSIST)
     private List<Reservation> reservations;
 }

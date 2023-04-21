@@ -16,6 +16,6 @@ public class Employee {
     private JobPosition jobPosition;
     @ManyToOne
     private BranchOffice branchOffice;
-    @OneToMany (mappedBy = "employee")
+    @OneToMany (mappedBy = "employee", cascade = CascadeType.PERSIST)
     private List<CarPickUp> carPickUps;
 }

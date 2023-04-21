@@ -12,11 +12,11 @@ public class CarRentalCompany {
     @Lob
     @Basic(fetch = FetchType.LAZY)
     private byte[] logotype;
-    @OneToOne
+    @OneToOne (cascade = CascadeType.ALL)
     private Address address;
-    @OneToMany (mappedBy = "carRentalCompany")
+    @OneToMany (mappedBy = "carRentalCompany", cascade = CascadeType.PERSIST)
     private List<BranchOffice> branchOffices;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Finances finances;
 
 

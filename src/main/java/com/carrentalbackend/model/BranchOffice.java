@@ -8,16 +8,16 @@ public class BranchOffice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
-    @OneToMany(mappedBy = "branchOffice")
+    @OneToMany(mappedBy = "branchOffice", cascade = CascadeType.PERSIST)
     private List<Employee> employees;
-    @OneToMany (mappedBy = "currentBranchOffice")
+    @OneToMany (mappedBy = "currentBranchOffice", cascade = CascadeType.PERSIST)
     private List<Car> availableCars;
     @ManyToOne
     private CarRentalCompany carRentalCompany;
-    @OneToMany (mappedBy = "pickUpOffice")
+    @OneToMany (mappedBy = "pickUpOffice", cascade = CascadeType.PERSIST)
     private List<Reservation> pickUpReservations;
-    @OneToMany (mappedBy = "returnOffice")
+    @OneToMany (mappedBy = "returnOffice", cascade = CascadeType.PERSIST)
     private List<Reservation> returnReservations;
 }

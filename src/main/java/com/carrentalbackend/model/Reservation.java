@@ -1,5 +1,8 @@
 package com.carrentalbackend.model;
 
+import com.carrentalbackend.model.enumeration.RentalActionStatus;
+import com.carrentalbackend.model.enumeration.ReservationStatus;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -12,6 +15,8 @@ public class Reservation {
     private long id;
     private LocalDateTime reservationDate;
     private BigDecimal price;
+    @Enumerated(value = EnumType.STRING)
+    ReservationStatus status;
     @ManyToOne
     private Client client;
     @OneToOne
