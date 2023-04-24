@@ -1,11 +1,9 @@
-package com.carrentalbackend.model;
+package com.carrentalbackend.model.entity;
 
-import com.carrentalbackend.model.enumeration.RentalActionStatus;
 import com.carrentalbackend.model.enumeration.ReservationStatus;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity

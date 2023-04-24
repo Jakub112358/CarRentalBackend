@@ -1,10 +1,10 @@
-INSERT INTO address (id, zip_code, house_number, street, town)
-VALUES (1L, '10-100', '3c', 'ul. Kolejowa', 'Poznań'),
-       (2L, '20-100', '1', 'ul. Główna', 'Warszawa'),
-       (3L, '30-100', '2', 'ul. Uliczna', 'Kraków'),
-       (4L, '40-100', '1', 'aleje jakieśtam', 'Wrocław'),
-       (5L, '50-100', '12', 'ul. Nienazwana', 'Łódź'),
-       (6L, '60-100', '234', 'ul. Kolejowa', 'Gdańsk');
+INSERT INTO address (zip_code, house_number, street, town)
+VALUES ('10-100', '3c', 'ul. Kolejowa', 'Poznań'),
+       ('20-100', '1', 'ul. Główna', 'Warszawa'),
+       ('30-100', '2', 'ul. Uliczna', 'Kraków'),
+       ('40-100', '1', 'aleje jakieśtam', 'Wrocław'),
+       ('50-100', '12', 'ul. Nienazwana', 'Łódź'),
+       ('60-100', '234', 'ul. Kolejowa', 'Gdańsk');
 
 INSERT INTO client(id, email, first_name, last_name, address_id)
 VALUES (1L, 'client1@mail.com', 'Jan', 'Kowalski', 1L),
@@ -18,10 +18,10 @@ VALUES (1L, 100, 90, 80),
 INSERT INTO finances(id)
 VALUES (1L);
 
-INSERT INTO car_rental_company(id, domain, name, address_id, finances_id)
-VALUES(1L, 'www.web.com', 'fajna firma', 3L, 1L);
+INSERT INTO company(domain, name, address_id, finances_id)
+VALUES('www.web.com', 'fajna firma', 3L, 1L);
 
-INSERT INTO branch_office(id, address_id, car_rental_company_id)
+INSERT INTO branch_office(id, address_id, company_id)
 VALUES(1L, 4L, 1L),
       (2L, 5L, 1L),
       (3L, 6L, 1L);

@@ -1,4 +1,4 @@
-package com.carrentalbackend.model;
+package com.carrentalbackend.model.entity;
 
 import javax.persistence.*;
 import java.util.List;
@@ -8,8 +8,8 @@ public class Finances {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @OneToMany (mappedBy = "finances", cascade = CascadeType.PERSIST)
+    @OneToMany (mappedBy = "finances", cascade = CascadeType.ALL)
     private List<Income> incomes;
     @OneToOne (mappedBy = "finances")
-    private CarRentalCompany carRentalCompany;
+    private Company company;
 }

@@ -1,9 +1,14 @@
-package com.carrentalbackend.model;
+package com.carrentalbackend.model.entity;
+
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
+@Getter
+@Setter
 public class Income {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

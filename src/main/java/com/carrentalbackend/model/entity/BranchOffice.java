@@ -1,9 +1,14 @@
-package com.carrentalbackend.model;
+package com.carrentalbackend.model.entity;
+
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
 public class BranchOffice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,7 +20,7 @@ public class BranchOffice {
     @OneToMany (mappedBy = "currentBranchOffice", cascade = CascadeType.PERSIST)
     private List<Car> availableCars;
     @ManyToOne
-    private CarRentalCompany carRentalCompany;
+    private Company company;
     @OneToMany (mappedBy = "pickUpOffice", cascade = CascadeType.PERSIST)
     private List<Reservation> pickUpReservations;
     @OneToMany (mappedBy = "returnOffice", cascade = CascadeType.PERSIST)
