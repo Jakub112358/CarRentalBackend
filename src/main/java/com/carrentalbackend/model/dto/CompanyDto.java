@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CompanyDto {
+public class CompanyDto implements CrudDto<Company>{
     private long id;
     private String name;
     private String domain;
@@ -26,4 +26,17 @@ public class CompanyDto {
                 .address(company.getAddress())
                 .build();
     }
+
+    @Override
+    public Company toEntity() {
+        return Company.builder()
+                .name(this.name)
+                .domain(this.domain)
+                .logotype(this.logotype)
+                .address(this.address)
+                .build();
+    }
+
+
+
 }

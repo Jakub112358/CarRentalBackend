@@ -4,6 +4,7 @@ import com.carrentalbackend.model.dto.CompanyDto;
 import com.carrentalbackend.model.entity.Company;
 import com.carrentalbackend.repository.CompanyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,10 +12,14 @@ import java.util.List;
 
 
 @Service
-@RequiredArgsConstructor
 @Transactional
-public class CompanyService {
+public class CompanyService extends CrudService<Company>{
     private final CompanyRepository companyRepository;
+
+    public CompanyService(CompanyRepository companyRepository) {
+        super(companyRepository);
+        this.companyRepository = companyRepository;
+    }
 
     public CompanyDto save(CompanyDto companyDTO) {
         Company companyEntity = Company.toEntity(companyDTO);

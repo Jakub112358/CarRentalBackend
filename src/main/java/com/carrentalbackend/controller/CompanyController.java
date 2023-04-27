@@ -2,55 +2,43 @@ package com.carrentalbackend.controller;
 
 import com.carrentalbackend.model.dto.CompanyDto;
 import com.carrentalbackend.service.CompanyService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 import static com.carrentalbackend.controller.ApiConstraints.COMPANY;
 
 @RestController
 @RequestMapping(COMPANY)
-@RequiredArgsConstructor
-public class CompanyController {
-    private final CompanyService service;
+public class CompanyController extends CrudController<CompanyDto> {
+    private final CompanyService companyService;
 
-    @PostMapping
-    public ResponseEntity<CompanyDto> saveCompany(@RequestBody CompanyDto company) {
-        CompanyDto responseDTO = service.save(company);
-        URI newResourceLocation = getNewResourceLocation(responseDTO.getId());
-        return ResponseEntity.created(newResourceLocation).body(responseDTO);
+    public CompanyController(CompanyService service) {
+        super(service);
+        this.companyService = service;
     }
 
     @GetMapping
-    public ResponseEntity<List<CompanyDto>> findCompanies(){
-        return ResponseEntity.ok(service.findAll());
+    public ResponseEntity<List<CompanyDto>> findCompanies() {
+        return ResponseEntity.ok(companyService.findAll());
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<CompanyDto> findCompanyById(@PathVariable long id){
-        return ResponseEntity.ok(service.findById(id));
+    public ResponseEntity<CompanyDto> findCompanyById(@PathVariable long id) {
+        return ResponseEntity.ok(companyService.findById(id));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Void> updateCompany (@RequestBody CompanyDto updatedCompany, @PathVariable long id){
-        service.update(id, updatedCompany);
+    public ResponseEntity<Void> updateCompany(@RequestBody CompanyDto updatedCompany, @PathVariable long id) {
+        companyService.update(id, updatedCompany);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCompany(@PathVariable long id){
-        service.deleteById(id);
+    public ResponseEntity<Void> deleteCompany(@PathVariable long id) {
+        companyService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
-    private URI getNewResourceLocation(long id) {
-        return ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(id)
-                .toUri();
-    }
 }

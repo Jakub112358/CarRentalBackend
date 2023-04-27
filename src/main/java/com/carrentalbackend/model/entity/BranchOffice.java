@@ -1,7 +1,8 @@
 package com.carrentalbackend.model.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.carrentalbackend.model.dto.CrudDto;
+import com.carrentalbackend.model.dto.OfficeDto;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -9,7 +10,10 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class BranchOffice {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class BranchOffice implements CrudEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -25,4 +29,12 @@ public class BranchOffice {
     private List<Reservation> pickUpReservations;
     @OneToMany (mappedBy = "returnOffice", cascade = CascadeType.PERSIST)
     private List<Reservation> returnReservations;
+
+    @Override
+    public OfficeDto toDto() {
+        return OfficeDto.builder()
+                .id(this.id)
+                .address(this.address)
+                .build();
+    }
 }

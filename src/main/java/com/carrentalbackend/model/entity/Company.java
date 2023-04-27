@@ -1,6 +1,7 @@
 package com.carrentalbackend.model.entity;
 
 import com.carrentalbackend.model.dto.CompanyDto;
+import com.carrentalbackend.model.dto.CrudDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Company {
+public class Company implements CrudEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -36,5 +37,14 @@ public class Company {
                 .build();
     }
 
-
+    @Override
+    public CrudDto toDto() {
+        return CompanyDto.builder()
+                .id(this.id)
+                .name(this.name)
+                .domain(this.domain)
+                .logotype(this.logotype)
+                .address(this.address)
+                .build();
+    }
 }
