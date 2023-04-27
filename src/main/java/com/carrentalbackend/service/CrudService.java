@@ -1,5 +1,6 @@
 package com.carrentalbackend.service;
 
+import com.carrentalbackend.exception.ResourceNotFoundException;
 import com.carrentalbackend.model.dto.CrudDto;
 import com.carrentalbackend.model.entity.CrudEntity;
 import com.carrentalbackend.model.mapper.CrudMapper;
@@ -27,7 +28,7 @@ public abstract class CrudService<T extends CrudEntity, K extends CrudDto> {
 
     //TODO use proper exception
     public K findById(Long id){
-        return mapper.toDto(repository.findById(id).orElseThrow(()->new RuntimeException()));
+        return mapper.toDto(repository.findById(id).orElseThrow(()->new ResourceNotFoundException(id)));
     }
 
 

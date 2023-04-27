@@ -1,15 +1,11 @@
 package com.carrentalbackend.service;
 
+import com.carrentalbackend.exception.ResourceNotFoundException;
 import com.carrentalbackend.model.dto.CompanyDto;
 import com.carrentalbackend.model.entity.Company;
 import com.carrentalbackend.model.mapper.CompanyMapper;
 import com.carrentalbackend.repository.CompanyRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 
 @Service
@@ -21,10 +17,9 @@ public class CompanyService extends CrudService<Company, CompanyDto> {
         this.companyRepository = companyRepository;
     }
 
-    //TODO use proper exception
     @Override
     public void update(Long id, CompanyDto requestDto) {
-        Company company = companyRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        Company company = companyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
         if (requestDto.getName() != null)
             company.setName(requestDto.getName());
         if (requestDto.getDomain() != null)
@@ -35,11 +30,9 @@ public class CompanyService extends CrudService<Company, CompanyDto> {
             company.setAddress(requestDto.getAddress());
     }
 
-
-    //TODO use proper exception
     @Override
     public void deleteById(Long id) {
-        Company company = companyRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        Company company = companyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
         nullBranchOffices(company);
         companyRepository.deleteById(id);
     }
