@@ -30,11 +30,4 @@ public class BranchOffice implements CrudEntity{
     @OneToMany (mappedBy = "returnOffice", cascade = CascadeType.PERSIST)
     private List<Reservation> returnReservations;
 
-    @Override
-    public OfficeDto toDto() {
-        return OfficeDto.builder()
-                .id(this.id)
-                .address(this.address)
-                .build();
-    }
 }

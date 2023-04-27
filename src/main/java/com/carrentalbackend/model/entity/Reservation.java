@@ -1,12 +1,16 @@
 package com.carrentalbackend.model.entity;
 
 import com.carrentalbackend.model.enumeration.ReservationStatus;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Setter
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

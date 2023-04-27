@@ -2,6 +2,7 @@ package com.carrentalbackend.service;
 
 import com.carrentalbackend.model.dto.CompanyDto;
 import com.carrentalbackend.model.entity.Company;
+import com.carrentalbackend.model.mapper.CompanyMapper;
 import com.carrentalbackend.repository.CompanyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,61 +13,38 @@ import java.util.List;
 
 
 @Service
-@Transactional
-public class CompanyService extends CrudService<Company>{
+public class CompanyService extends CrudService<Company, CompanyDto> {
     private final CompanyRepository companyRepository;
 
-    public CompanyService(CompanyRepository companyRepository) {
-        super(companyRepository);
+    public CompanyService(CompanyRepository companyRepository, CompanyMapper companyMapper) {
+        super(companyRepository, companyMapper);
         this.companyRepository = companyRepository;
     }
 
-    public CompanyDto save(CompanyDto companyDTO) {
-        Company companyEntity = Company.toEntity(companyDTO);
-        companyRepository.save(companyEntity);
-        return CompanyDto.toDTO(companyEntity);
-    }
-
-    public List<CompanyDto> findAll() {
-        return companyRepository.findAll().stream().map(CompanyDto::toDTO).toList();
-    }
-
-    //TODO create proper exception
-    public CompanyDto findById(long id) {
-        return CompanyDto.toDTO(companyRepository.findById(id).orElseThrow(() -> new RuntimeException()));
-    }
-
     //TODO use proper exception
-    public void update(long id, CompanyDto update) {
+    @Override
+    public void update(Long id, CompanyDto requestDto) {
         Company company = companyRepository.findById(id).orElseThrow(() -> new RuntimeException());
-        if (update.getName() != null)
-            company.setName(update.getName());
-        if (update.getDomain() != null)
-            company.setDomain(update.getDomain());
-        if (update.getLogotype() != null)
-            company.setDomain(update.getDomain());
-        if (update.getAddress() != null)
-            company.setAddress(update.getAddress());
+        if (requestDto.getName() != null)
+            company.setName(requestDto.getName());
+        if (requestDto.getDomain() != null)
+            company.setDomain(requestDto.getDomain());
+        if (requestDto.getLogotype() != null)
+            company.setDomain(requestDto.getDomain());
+        if (requestDto.getAddress() != null)
+            company.setAddress(requestDto.getAddress());
     }
+
 
     //TODO use proper exception
-    public void deleteById(long id) {
-        if (companyRepository.existsById(id)) {
-            deleteCompany(id);
-        } else {
-            throw new RuntimeException();
-        }
-    }
-    //TODO user proper exception
-
-    private void deleteCompany(long id){
+    @Override
+    public void deleteById(Long id) {
         Company company = companyRepository.findById(id).orElseThrow(() -> new RuntimeException());
         nullBranchOffices(company);
         companyRepository.deleteById(id);
     }
 
-    private void nullBranchOffices(Company company){
-        System.out.println("nulling branch offices");
+    private void nullBranchOffices(Company company) {
         company.getBranchOffices().forEach((bo) -> bo.setCompany(null));
     }
 

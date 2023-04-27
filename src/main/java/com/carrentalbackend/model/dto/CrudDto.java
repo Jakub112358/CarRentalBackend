@@ -1,10 +1,5 @@
 package com.carrentalbackend.model.dto;
 
-import com.carrentalbackend.model.entity.CrudEntity;
-
-public interface CrudDto<T extends CrudEntity> {
+public interface CrudDto {
     long getId();
-    T toEntity();
-
-
 }

@@ -3,10 +3,14 @@ package com.carrentalbackend.model.entity;
 import com.carrentalbackend.model.enumeration.CarBodyType;
 import com.carrentalbackend.model.enumeration.CarStatus;
 import com.carrentalbackend.model.enumeration.Color;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

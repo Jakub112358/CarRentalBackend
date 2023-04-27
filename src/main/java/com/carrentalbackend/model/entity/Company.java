@@ -37,14 +37,4 @@ public class Company implements CrudEntity {
                 .build();
     }
 
-    @Override
-    public CrudDto toDto() {
-        return CompanyDto.builder()
-                .id(this.id)
-                .name(this.name)
-                .domain(this.domain)
-                .logotype(this.logotype)
-                .address(this.address)
-                .build();
-    }
 }
