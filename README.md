@@ -10,8 +10,13 @@ The main purpose of the application is to solve the problem of managing car rent
 The solution will be to create a personalized web application.
 
 ### Technical description: 
+
+**Backend:**
 Spring Boot REST application. The application meets all the requirements of level 2 of the Richardson Maturity Model. 
 I use tools such as e.g. Lombok. I focus on creating clean code and using appropriate design patters.
+
+**Frontend:**
+Angular application with PrimeNG library.
 
 ### Tech Stack:
 **Backend:**
@@ -21,6 +26,9 @@ I use tools such as e.g. Lombok. I focus on creating clean code and using approp
 
 **DataBase:**
 - H2 for development
+
+**Frontend:**
+- Angular 15
 
 ### App features: 
 
