@@ -1,0 +1,25 @@
+# 1. Copy this file
+# 2. Rename the copy to 'application-dev.yml'
+# 3. Make sure to add the copy to .gitignore, DO NOT SHARE ON GITHUB
+# 4. Fill in your local environment settings
+
+spring:
+  h2:
+    console:
+      enabled: true
+  # Database connection
+  datasource:
+    url: jdbc:h2:mem:testdb;DATABASE_TO_UPPER=false
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+
+
+  # Hibernate/JPA settings
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      # use 'create-drop' to initialize the DB on first run and after major changes to the model
+      # use 'update' otherwise
+      ddl-auto: create-drop
+    show-sql: true
