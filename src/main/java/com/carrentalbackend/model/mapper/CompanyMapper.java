@@ -2,18 +2,21 @@ package com.carrentalbackend.model.mapper;
 
 import com.carrentalbackend.model.dto.CompanyDto;
 import com.carrentalbackend.model.entity.Company;
+import com.carrentalbackend.model.entity.Finances;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CompanyMapper implements CrudMapper<Company, CompanyDto> {
+
     @Override
-    public Company toEntity(CompanyDto dto) {
+    public Company toNewEntity(CompanyDto dto) {
         return Company.builder()
                 .id(dto.getId())
                 .name(dto.getName())
                 .domain(dto.getDomain())
                 .logotype(dto.getLogotype())
                 .address(dto.getAddress())
+                .finances(new Finances())
                 .build();
     }
 

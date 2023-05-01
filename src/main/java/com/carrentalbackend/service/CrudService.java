@@ -17,7 +17,7 @@ public abstract class CrudService<T extends CrudEntity, K extends CrudDto> {
     protected final CrudMapper <T, K> mapper;
 
     public K save (K requestDto){
-        T entity = mapper.toEntity(requestDto);
+        T entity = mapper.toNewEntity(requestDto);
         repository.save(entity);
         return mapper.toDto(entity);
     }

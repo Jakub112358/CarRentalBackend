@@ -13,11 +13,13 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Address {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long id;
-    private String ZipCode;
+    private String zipCode;
     private String town;
     private String street;
     private String houseNumber;
