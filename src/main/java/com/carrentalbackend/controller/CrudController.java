@@ -3,7 +3,6 @@ package com.carrentalbackend.controller;
 import com.carrentalbackend.model.dto.CrudDto;
 import com.carrentalbackend.model.entity.CrudEntity;
 import com.carrentalbackend.service.CrudService;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,9 +34,8 @@ public abstract class CrudController<T extends CrudEntity, K extends CrudDto> {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody K requestDto) {
-        service.update(id, requestDto);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<K> update(@PathVariable Long id, @RequestBody K requestDto) {
+        return ResponseEntity.ok(service.update(id, requestDto));
     }
 
     @DeleteMapping("/{id}")

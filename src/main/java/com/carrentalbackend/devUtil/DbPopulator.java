@@ -1,8 +1,13 @@
 package com.carrentalbackend.devUtil;
 
+import com.carrentalbackend.model.dto.CarDto;
 import com.carrentalbackend.model.dto.CompanyDto;
 import com.carrentalbackend.model.dto.OfficeDto;
 import com.carrentalbackend.model.entity.Address;
+import com.carrentalbackend.model.enumeration.CarBodyType;
+import com.carrentalbackend.model.enumeration.CarStatus;
+import com.carrentalbackend.model.enumeration.Color;
+import com.carrentalbackend.service.CarService;
 import com.carrentalbackend.service.CompanyService;
 import com.carrentalbackend.service.OfficeService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +18,8 @@ import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -20,14 +27,65 @@ import java.nio.file.Files;
 public class DbPopulator {
     private final CompanyService companyService;
     private final OfficeService officeService;
+    private final CarService carService;
     private Address[] addresses;
     private int addressCounter = 0;
 
     @PostConstruct
     public void populateDB() throws IOException {
-        loadAddresses();
+        createAddressList();
         addCompany();
         addBranchOffices();
+        addCars();
+    }
+
+    private void addCars() {
+        List<CarDto> cars = createCarList();
+        for(CarDto car: cars){
+            carService.save(car);
+        }
+    }
+
+    private List<CarDto> createCarList() {
+        List<CarDto> cars = new ArrayList<>();
+        cars.add(CarDto.builder()
+                .id(0L)
+                .make("opel")
+                .model("astra")
+                .mileage(80_000)
+                .minRentalTime(1)
+                .yearOfManufacture(2010)
+                .bodyType(CarBodyType.CITY_CAR)
+                .color(Color.BLUE)
+                .status(CarStatus.AVAILABLE)
+                .currentBranchOfficeId(1L)
+                .build());
+        cars.add(CarDto.builder()
+                .id(0L)
+                .make("opel")
+                .model("astra")
+                .mileage(120_000)
+                .minRentalTime(1)
+                .yearOfManufacture(2013)
+                .bodyType(CarBodyType.CITY_CAR)
+                .color(Color.RED)
+                .status(CarStatus.UNAVAILABLE)
+                .currentBranchOfficeId(2L)
+                .build());
+        cars.add(CarDto.builder()
+                .id(0L)
+                .make("kia")
+                .model("sportage")
+                .mileage(30_000)
+                .minRentalTime(7)
+                .yearOfManufacture(2021)
+                .bodyType(CarBodyType.SUV)
+                .color(Color.WHITE)
+                .status(CarStatus.RENTED)
+                .currentBranchOfficeId(1L)
+                .build());
+
+        return cars;
     }
 
     private void addBranchOffices() {
@@ -54,7 +112,7 @@ public class DbPopulator {
         return this.addresses[addressCounter++];
     }
 
-    private void loadAddresses() {
+    private void createAddressList() {
         this.addresses = new Address[]{
                 new Address(0L, "11-111", "town1", "streetA", "1"),
                 new Address(0L, "22-111", "town1", "streetB", "2"),

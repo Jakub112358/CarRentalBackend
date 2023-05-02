@@ -5,9 +5,9 @@ import lombok.*;
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class CompanyDto implements CrudDto {
     private long id;
     private String name;

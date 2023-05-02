@@ -17,10 +17,11 @@ public class OfficeService extends CrudService<BranchOffice, OfficeDto> {
     }
 
     @Override
-    public void update(Long id, OfficeDto requestDto) {
+    public OfficeDto update(Long id, OfficeDto requestDto) {
         BranchOffice office = officeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
         if (requestDto.getAddress() != null)
             office.setAddress(requestDto.getAddress());
+        return mapper.toDto(office);
     }
 
     @Override

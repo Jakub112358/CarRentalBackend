@@ -32,6 +32,6 @@ public abstract class CrudService<T extends CrudEntity, K extends CrudDto> {
     }
 
 
-    public abstract void update(Long id, K requestDto);
+    public abstract K update(Long id, K requestDto);
     public abstract void deleteById(Long id);
 }
