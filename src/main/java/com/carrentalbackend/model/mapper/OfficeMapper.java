@@ -24,6 +24,18 @@ public class OfficeMapper implements CrudMapper<BranchOffice, OfficeDto> {
     }
 
     @Override
+    public BranchOffice toUpdateEntity(OfficeDto dto) {
+        Company company = null;
+        if (dto.getCompanyId() != null){
+            company = companyRepository.findById(dto.getCompanyId()).orElseThrow(() -> new ResourceNotFoundException(dto.getCompanyId()));
+        }
+        return BranchOffice.builder()
+                .address(dto.getAddress())
+                .company(company)
+                .build();
+    }
+
+    @Override
     public OfficeDto toDto(BranchOffice entity) {
         return OfficeDto.builder()
                 .id(entity.getId())

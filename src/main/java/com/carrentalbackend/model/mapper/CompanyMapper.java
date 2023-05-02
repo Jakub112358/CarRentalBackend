@@ -21,6 +21,16 @@ public class CompanyMapper implements CrudMapper<Company, CompanyDto> {
     }
 
     @Override
+    public Company toUpdateEntity(CompanyDto dto) {
+        return Company.builder()
+                .name(dto.getName())
+                .domain(dto.getDomain())
+                .logotype(dto.getLogotype())
+                .address(dto.getAddress())
+                .build();
+    }
+
+    @Override
     public CompanyDto toDto(Company entity) {
         return CompanyDto.builder()
                 .id(entity.getId())
@@ -30,4 +40,6 @@ public class CompanyMapper implements CrudMapper<Company, CompanyDto> {
                 .address(entity.getAddress())
                 .build();
     }
+
+
 }

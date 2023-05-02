@@ -19,9 +19,9 @@ public class Car implements CrudEntity {
     private long id;
     private String make;
     private String model;
-    private int mileage;
-    private int minRentalTime;
-    private int yearOfManufacture;
+    private Integer mileage;
+    private Integer minRentalTime;
+    private Integer yearOfManufacture;
     @Enumerated(EnumType.STRING)
     private CarBodyType bodyType;
     @Enumerated(EnumType.STRING)

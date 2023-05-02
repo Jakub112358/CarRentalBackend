@@ -17,19 +17,6 @@ public class CompanyService extends CrudService<Company, CompanyDto> {
         this.companyRepository = companyRepository;
     }
 
-    @Override
-    public CompanyDto update(Long id, CompanyDto requestDto) {
-        Company company = companyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
-        if (requestDto.getName() != null)
-            company.setName(requestDto.getName());
-        if (requestDto.getDomain() != null)
-            company.setDomain(requestDto.getDomain());
-        if (requestDto.getLogotype() != null)
-            company.setDomain(requestDto.getDomain());
-        if (requestDto.getAddress() != null)
-            company.setAddress(requestDto.getAddress());
-        return mapper.toDto(company);
-    }
 
     @Override
     public void deleteById(Long id) {

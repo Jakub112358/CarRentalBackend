@@ -16,13 +16,7 @@ public class OfficeService extends CrudService<BranchOffice, OfficeDto> {
         this.officeRepository = repository;
     }
 
-    @Override
-    public OfficeDto update(Long id, OfficeDto requestDto) {
-        BranchOffice office = officeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
-        if (requestDto.getAddress() != null)
-            office.setAddress(requestDto.getAddress());
-        return mapper.toDto(office);
-    }
+
 
     @Override
     public void deleteById(Long id) {

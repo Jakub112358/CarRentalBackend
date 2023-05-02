@@ -32,6 +32,26 @@ public class CarMapper implements CrudMapper<Car, CarDto> {
     }
 
     @Override
+    public Car toUpdateEntity(CarDto dto) {
+        BranchOffice office = null;
+        if (dto.getCurrentBranchOfficeId() != null) {
+            office = officeRepository.findById(dto.getCurrentBranchOfficeId())
+                    .orElseThrow(() -> new ResourceNotFoundException(dto.getCurrentBranchOfficeId()));
+        }
+        return Car.builder()
+                .make(dto.getMake())
+                .model(dto.getModel())
+                .mileage(dto.getMileage())
+                .minRentalTime(dto.getMinRentalTime())
+                .yearOfManufacture(dto.getYearOfManufacture())
+                .bodyType(dto.getBodyType())
+                .color(dto.getColor())
+                .status(dto.getStatus())
+                .currentBranchOffice(office)
+                .build();
+    }
+
+    @Override
     public CarDto toDto(Car entity) {
         return CarDto.builder()
                 .id(entity.getId())
@@ -46,4 +66,5 @@ public class CarMapper implements CrudMapper<Car, CarDto> {
                 .currentBranchOfficeId(entity.getCurrentBranchOffice().getId())
                 .build();
     }
+
 }

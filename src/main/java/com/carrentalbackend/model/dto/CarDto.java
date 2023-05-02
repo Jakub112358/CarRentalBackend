@@ -15,11 +15,11 @@ public class CarDto implements CrudDto{
     private long id;
     private String make;
     private String model;
-    private int mileage;
-    private int minRentalTime;
-    private int yearOfManufacture;
+    private Integer mileage;
+    private Integer minRentalTime;
+    private Integer yearOfManufacture;
     private CarBodyType bodyType;
     private Color color;
     private CarStatus status;
-    private long currentBranchOfficeId;
+    private Long currentBranchOfficeId;
 }

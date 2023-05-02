@@ -15,11 +15,6 @@ public class CarService extends CrudService<Car, CarDto> {
         this.carRepository = carRepository;
     }
 
-    //TODO implement method
-    @Override
-    public CarDto update(Long id, CarDto requestDto) {
-        return null;
-    }
 
     //TODO implement method
     @Override

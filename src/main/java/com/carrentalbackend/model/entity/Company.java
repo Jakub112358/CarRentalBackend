@@ -1,7 +1,5 @@
 package com.carrentalbackend.model.entity;
 
-import com.carrentalbackend.model.dto.CompanyDto;
-import com.carrentalbackend.model.dto.CrudDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,13 +26,6 @@ public class Company implements CrudEntity {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Finances finances;
 
-    public static Company toEntity (CompanyDto responseDTO){
-        return Company.builder()
-                .name(responseDTO.getName())
-                .domain(responseDTO.getDomain())
-                .logotype(responseDTO.getLogotype())
-                .address(responseDTO.getAddress())
-                .build();
-    }
+
 
 }

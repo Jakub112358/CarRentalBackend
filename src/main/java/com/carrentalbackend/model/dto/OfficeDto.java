@@ -11,5 +11,5 @@ import lombok.*;
 public class OfficeDto implements CrudDto {
     private long id;
     private Address address;
-    private long companyId;
+    private Long companyId;
 }
