@@ -1,8 +1,7 @@
 package com.carrentalbackend.model.entity;
 
 import com.carrentalbackend.model.enumeration.JobPosition;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,7 +9,10 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class Employee {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Employee implements CrudEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

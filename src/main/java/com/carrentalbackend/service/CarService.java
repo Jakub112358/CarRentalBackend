@@ -19,6 +19,5 @@ public class CarService extends CrudService<Car, CarDto> {
     //TODO implement method
     @Override
     public void deleteById(Long id) {
-
     }
 }

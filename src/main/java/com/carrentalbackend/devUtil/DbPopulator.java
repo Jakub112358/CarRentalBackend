@@ -2,13 +2,16 @@ package com.carrentalbackend.devUtil;
 
 import com.carrentalbackend.model.dto.CarDto;
 import com.carrentalbackend.model.dto.CompanyDto;
+import com.carrentalbackend.model.dto.EmployeeDto;
 import com.carrentalbackend.model.dto.OfficeDto;
 import com.carrentalbackend.model.entity.Address;
 import com.carrentalbackend.model.enumeration.CarBodyType;
 import com.carrentalbackend.model.enumeration.CarStatus;
 import com.carrentalbackend.model.enumeration.Color;
+import com.carrentalbackend.model.enumeration.JobPosition;
 import com.carrentalbackend.service.CarService;
 import com.carrentalbackend.service.CompanyService;
+import com.carrentalbackend.service.EmployeeService;
 import com.carrentalbackend.service.OfficeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -28,6 +31,7 @@ public class DbPopulator {
     private final CompanyService companyService;
     private final OfficeService officeService;
     private final CarService carService;
+    private final EmployeeService employeeService;
     private Address[] addresses;
     private int addressCounter = 0;
 
@@ -37,13 +41,30 @@ public class DbPopulator {
         addCompany();
         addBranchOffices();
         addCars();
+        addEmployees();
     }
+
+    private void addEmployees() {
+        List<EmployeeDto> employees = createEmployeeList();
+        for (EmployeeDto employee : employees) {
+            employeeService.save(employee);
+        }
+    }
+
 
     private void addCars() {
         List<CarDto> cars = createCarList();
-        for(CarDto car: cars){
+        for (CarDto car : cars) {
             carService.save(car);
         }
+    }
+
+    private List<EmployeeDto> createEmployeeList() {
+        List<EmployeeDto> employees = new ArrayList<>();
+        employees.add(EmployeeDto.builder().id(0L).firstName("John").lastName("Smith").jobPosition(JobPosition.MANAGER).branchOfficeId(1L).build());
+        employees.add(EmployeeDto.builder().id(0L).firstName("Bob").lastName("Budowniczy").jobPosition(JobPosition.MANAGER).branchOfficeId(2L).build());
+        employees.add(EmployeeDto.builder().id(0L).firstName("Ania").lastName("Z Zielonego Wzgorza").jobPosition(JobPosition.SELLER).branchOfficeId(1L).build());
+        return employees;
     }
 
     private List<CarDto> createCarList() {
