@@ -34,32 +34,29 @@ public abstract class CrudService<T extends CrudEntity, K extends CrudDto> {
     }
 
     public K update(Long id, K requestDto) {
-        T updateEntity = mapper.toUpdateEntity(requestDto);
         T instance = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
         //extracting fields of sent request using reflection
-        //Field[] fields = requestDto.getClass().getDeclaredFields();
-        Field[] fields = updateEntity.getClass().getDeclaredFields();
+        Field[] fields = requestDto.getClass().getDeclaredFields();
         //extracting non-null field names from request and then updating corresponding fields in instance
         Arrays.stream(fields)
                 .filter(f -> !f.getName().equals("id"))
                 .peek(f -> f.setAccessible(true))
-                .filter(f -> checkIfNotNull(f, updateEntity))
+                .filter(f -> checkIfNotNull(f, requestDto))
                 .map(Field::getName)
-                .forEach(name -> updateField(name, instance, updateEntity));
+                .forEach(name -> updateField(name, instance, requestDto));
 
         return mapper.toDto(instance);
     }
 
-
     public abstract void deleteById(Long id);
 
-    private void updateField(String name, T instance, T updateEntity) {
+    private void updateField(String name, T instance, K requestDto) {
         try {
             //extracting field with new data from request
-            Field requestField = updateEntity.getClass().getDeclaredField(name);
+            Field requestField = requestDto.getClass().getDeclaredField(name);
             requestField.setAccessible(true);
             //declaring an object transferring new data
-            Object value = requestField.get(updateEntity);
+            Object value = requestField.get(requestDto);
             //extracting field to update
             Field instanceField = instance.getClass().getDeclaredField(name);
             instanceField.setAccessible(true);
@@ -71,9 +68,9 @@ public abstract class CrudService<T extends CrudEntity, K extends CrudDto> {
 
     }
 
-    private boolean checkIfNotNull(Field f, T updateEntity) {
+    private boolean checkIfNotNull(Field f, K requestDto) {
         try {
-            return f.get(updateEntity) != null;
+            return f.get(requestDto) != null;
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
