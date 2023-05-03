@@ -2,6 +2,8 @@ package com.carrentalbackend.model.mapper;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
 import com.carrentalbackend.model.dto.OfficeDto;
+import com.carrentalbackend.model.dto.OfficeUpdateDto;
+import com.carrentalbackend.model.dto.UpdateDto;
 import com.carrentalbackend.model.entity.BranchOffice;
 import com.carrentalbackend.model.entity.Company;
 import com.carrentalbackend.repository.CompanyRepository;
@@ -15,7 +17,7 @@ public class OfficeMapper implements CrudMapper<BranchOffice, OfficeDto> {
 
     @Override
     public BranchOffice toNewEntity(OfficeDto dto) {
-        Company company = companyRepository.findById(dto.getCompanyId()).orElseThrow(() -> new ResourceNotFoundException(dto.getCompanyId()));
+        Company company = findCompanyById(dto.getCompanyId());
         return BranchOffice.builder()
                 .id(dto.getId())
                 .address(dto.getAddress())
@@ -24,16 +26,14 @@ public class OfficeMapper implements CrudMapper<BranchOffice, OfficeDto> {
     }
 
     @Override
-    public BranchOffice toUpdateEntity(OfficeDto dto) {
-        Company company = null;
-        if (dto.getCompanyId() != null){
-            company = companyRepository.findById(dto.getCompanyId()).orElseThrow(() -> new ResourceNotFoundException(dto.getCompanyId()));
-        }
-        return BranchOffice.builder()
+    public UpdateDto toUpdateEntity(OfficeDto dto) {
+        Company company = findCompanyById(dto.getCompanyId());
+        return OfficeUpdateDto.builder()
                 .address(dto.getAddress())
                 .company(company)
                 .build();
     }
+
 
     @Override
     public OfficeDto toDto(BranchOffice entity) {
@@ -42,6 +42,15 @@ public class OfficeMapper implements CrudMapper<BranchOffice, OfficeDto> {
                 .address(entity.getAddress())
                 .companyId(entity.getCompany().getId())
                 .build();
+    }
+
+    private Company findCompanyById(Long id){
+        if (id == null) {
+            return null;
+        } else {
+            return companyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        }
+
     }
 
 }

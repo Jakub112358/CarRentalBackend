@@ -2,6 +2,7 @@ package com.carrentalbackend.service;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
 import com.carrentalbackend.model.dto.CrudDto;
+import com.carrentalbackend.model.dto.UpdateDto;
 import com.carrentalbackend.model.entity.CrudEntity;
 import com.carrentalbackend.model.mapper.CrudMapper;
 import lombok.RequiredArgsConstructor;
@@ -35,28 +36,30 @@ public abstract class CrudService<T extends CrudEntity, K extends CrudDto> {
 
     public K update(Long id, K requestDto) {
         T instance = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        //mapping requestDto to updateDto, which has exactly same field names as corresponding entity
+        UpdateDto updateDto = mapper.toUpdateEntity(requestDto);
         //extracting fields of sent request using reflection
-        Field[] fields = requestDto.getClass().getDeclaredFields();
+        Field[] fields = updateDto.getClass().getDeclaredFields();
         //extracting non-null field names from request and then updating corresponding fields in instance
         Arrays.stream(fields)
                 .filter(f -> !f.getName().equals("id"))
                 .peek(f -> f.setAccessible(true))
-                .filter(f -> checkIfNotNull(f, requestDto))
+                .filter(f -> checkIfNotNull(f, updateDto))
                 .map(Field::getName)
-                .forEach(name -> updateField(name, instance, requestDto));
+                .forEach(name -> updateField(name, instance, updateDto));
 
         return mapper.toDto(instance);
     }
 
     public abstract void deleteById(Long id);
 
-    private void updateField(String name, T instance, K requestDto) {
+    private void updateField(String name, T instance, UpdateDto updateDto) {
         try {
             //extracting field with new data from request
-            Field requestField = requestDto.getClass().getDeclaredField(name);
+            Field requestField = updateDto.getClass().getDeclaredField(name);
             requestField.setAccessible(true);
             //declaring an object transferring new data
-            Object value = requestField.get(requestDto);
+            Object value = requestField.get(updateDto);
             //extracting field to update
             Field instanceField = instance.getClass().getDeclaredField(name);
             instanceField.setAccessible(true);
@@ -68,9 +71,9 @@ public abstract class CrudService<T extends CrudEntity, K extends CrudDto> {
 
     }
 
-    private boolean checkIfNotNull(Field f, K requestDto) {
+    private boolean checkIfNotNull(Field f, UpdateDto updateDto) {
         try {
-            return f.get(requestDto) != null;
+            return f.get(updateDto) != null;
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }

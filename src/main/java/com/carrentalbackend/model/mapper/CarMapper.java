@@ -2,6 +2,8 @@ package com.carrentalbackend.model.mapper;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
 import com.carrentalbackend.model.dto.CarDto;
+import com.carrentalbackend.model.dto.CarUpdateDto;
+import com.carrentalbackend.model.dto.UpdateDto;
 import com.carrentalbackend.model.entity.BranchOffice;
 import com.carrentalbackend.model.entity.Car;
 import com.carrentalbackend.repository.OfficeRepository;
@@ -15,8 +17,7 @@ public class CarMapper implements CrudMapper<Car, CarDto> {
 
     @Override
     public Car toNewEntity(CarDto dto) {
-        BranchOffice office = officeRepository.findById(dto.getCurrentBranchOfficeId())
-                .orElseThrow(() -> new ResourceNotFoundException(dto.getCurrentBranchOfficeId()));
+        BranchOffice office = findOfficeById(dto.getCurrentBranchOfficeId());
         return Car.builder()
                 .id(dto.getId())
                 .make(dto.getMake())
@@ -32,13 +33,9 @@ public class CarMapper implements CrudMapper<Car, CarDto> {
     }
 
     @Override
-    public Car toUpdateEntity(CarDto dto) {
-        BranchOffice office = null;
-        if (dto.getCurrentBranchOfficeId() != null) {
-            office = officeRepository.findById(dto.getCurrentBranchOfficeId())
-                    .orElseThrow(() -> new ResourceNotFoundException(dto.getCurrentBranchOfficeId()));
-        }
-        return Car.builder()
+    public UpdateDto toUpdateEntity(CarDto dto) {
+        BranchOffice office = findOfficeById(dto.getCurrentBranchOfficeId());
+        return CarUpdateDto.builder()
                 .make(dto.getMake())
                 .model(dto.getModel())
                 .mileage(dto.getMileage())
@@ -50,6 +47,7 @@ public class CarMapper implements CrudMapper<Car, CarDto> {
                 .currentBranchOffice(office)
                 .build();
     }
+
 
     @Override
     public CarDto toDto(Car entity) {
@@ -65,6 +63,14 @@ public class CarMapper implements CrudMapper<Car, CarDto> {
                 .status(entity.getStatus())
                 .currentBranchOfficeId(entity.getCurrentBranchOffice().getId())
                 .build();
+    }
+
+    private BranchOffice findOfficeById(Long id) {
+        if (id == null) {
+            return null;
+        } else {
+            return officeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        }
     }
 
 }
