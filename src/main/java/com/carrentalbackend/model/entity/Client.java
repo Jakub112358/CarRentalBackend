@@ -1,10 +1,17 @@
 package com.carrentalbackend.model.entity;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Client {
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Client implements CrudEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
