@@ -3,9 +3,10 @@ package com.carrentalbackend.controller;
 import com.carrentalbackend.model.dto.CarDto;
 import com.carrentalbackend.model.entity.Car;
 import com.carrentalbackend.service.CarService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.carrentalbackend.controller.ApiConstraints.CAR;
 
@@ -13,10 +14,15 @@ import static com.carrentalbackend.controller.ApiConstraints.CAR;
 @RequestMapping(CAR)
 @CrossOrigin(origins = "http://localhost:4200")
 public class CarController extends CrudController<Car, CarDto> {
-    private final CarService carService;
+    private final CarService service;
 
     public CarController(CarService service) {
         super(service);
-        this.carService = service;
+        this.service = service;
+    }
+
+    @GetMapping(params = "branchOfficeId")
+    public ResponseEntity<List<CarDto>> findByBranchOfficeId(@RequestParam Long branchOfficeId) {
+        return ResponseEntity.ok(service.findAllByBranchOfficeId(branchOfficeId));
     }
 }

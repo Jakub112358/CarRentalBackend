@@ -52,6 +52,10 @@ public class EmployeeMapper implements CrudMapper<Employee, EmployeeDto> {
     }
 
     private BranchOffice findOfficeById(Long id) {
-        return officeRepository.findById(id).orElseThrow(()->new ResourceNotFoundException(id));
+        if (id == null) {
+            return null;
+        } else {
+            return officeRepository.findById(id).orElseThrow(()->new ResourceNotFoundException(id));
+        }
     }
 }

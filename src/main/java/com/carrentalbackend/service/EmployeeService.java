@@ -6,19 +6,25 @@ import com.carrentalbackend.model.mapper.EmployeeMapper;
 import com.carrentalbackend.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EmployeeService extends CrudService<Employee, EmployeeDto> {
-    private final EmployeeRepository employeeRepository;
+    private final EmployeeRepository repository;
 
 
     public EmployeeService(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper) {
         super(employeeRepository, employeeMapper);
-        this.employeeRepository = employeeRepository;
+        this.repository = employeeRepository;
     }
 
     //TODO implement delete method
     @Override
     public void deleteById(Long id) {
 
+    }
+
+    public List<EmployeeDto> findAllByBranchOfficeId(Long id) {
+        return repository.findAllByBranchOffice_Id(id).stream().map(mapper::toDto).toList();
     }
 }
