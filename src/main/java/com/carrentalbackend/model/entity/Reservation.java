@@ -1,24 +1,29 @@
 package com.carrentalbackend.model.entity;
 
 import com.carrentalbackend.model.enumeration.ReservationStatus;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
-public class Reservation {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Reservation implements CrudEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private LocalDateTime reservationDate;
     private BigDecimal price;
+    private LocalDate dateFrom;
+    private LocalDate dateTo;
     @Enumerated(value = EnumType.STRING)
-    ReservationStatus status;
+    private ReservationStatus status;
     @ManyToOne
     private Client client;
     @OneToOne
@@ -27,9 +32,9 @@ public class Reservation {
     private BranchOffice pickUpOffice;
     @ManyToOne
     private BranchOffice returnOffice;
-    @OneToOne
+    @OneToOne (cascade = CascadeType.PERSIST)
     private CarPickUp carPickUp;
-    @OneToOne
+    @OneToOne (cascade = CascadeType.PERSIST)
     private CarReturn carReturn;
 
 

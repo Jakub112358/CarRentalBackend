@@ -11,5 +11,5 @@ import java.util.List;
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<Employee> findAllByBranchOffice_Id(Long id);
     Integer countAllByBranchOffice_IdAndJobPosition(Long id, JobPosition jobPosition);
-
+    List<Employee> findAllByBranchOfficeIsNull();
 }

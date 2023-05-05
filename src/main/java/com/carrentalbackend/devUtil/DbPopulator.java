@@ -2,10 +2,7 @@ package com.carrentalbackend.devUtil;
 
 import com.carrentalbackend.model.dto.*;
 import com.carrentalbackend.model.entity.Address;
-import com.carrentalbackend.model.enumeration.CarBodyType;
-import com.carrentalbackend.model.enumeration.CarStatus;
-import com.carrentalbackend.model.enumeration.Color;
-import com.carrentalbackend.model.enumeration.JobPosition;
+import com.carrentalbackend.model.enumeration.*;
 import com.carrentalbackend.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,7 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +27,7 @@ public class DbPopulator {
     private final CarService carService;
     private final EmployeeService employeeService;
     private final ClientService clientService;
+    private final ReservationService reservationService;
     private Address[] addresses;
     private int addressCounter = 0;
 
@@ -38,6 +39,33 @@ public class DbPopulator {
         addCars();
         addEmployees();
         addClients();
+        addReservations();
+    }
+
+    private void addReservations() {
+        List<ReservationDto> reservationDtos = createReservationDtos();
+        reservationDtos.forEach(reservationService::save);
+    }
+
+    private List<ReservationDto> createReservationDtos() {
+        List<ReservationDto> result = new ArrayList<>();
+        result.add(new ReservationDto(0L,
+                LocalDateTime.now(),
+                LocalDate.of(2023,5,10),
+                LocalDate.of(2023,5,15),
+                BigDecimal.valueOf(300),
+                ReservationStatus.PLANNED,
+                1L, 1L, 1L, 1L));
+        result.add(new ReservationDto(0L,
+                LocalDateTime.now(),
+                LocalDate.of(2023,5,12),
+                LocalDate.of(2023,5,19),
+                BigDecimal.valueOf(500),
+                ReservationStatus.PLANNED,
+                2L, 2L, 1L, 3L));
+
+
+        return result;
     }
 
     private void addClients() {
