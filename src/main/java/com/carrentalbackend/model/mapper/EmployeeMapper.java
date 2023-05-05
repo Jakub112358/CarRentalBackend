@@ -42,12 +42,13 @@ public class EmployeeMapper implements CrudMapper<Employee, EmployeeDto> {
 
     @Override
     public EmployeeDto toDto(Employee entity) {
+        Long officeId = entity.getBranchOffice() != null ? entity.getBranchOffice().getId() : null;
         return EmployeeDto.builder()
                 .id(entity.getId())
                 .firstName(entity.getFirstName())
                 .lastName(entity.getLastName())
                 .jobPosition(entity.getJobPosition())
-                .branchOfficeId(entity.getBranchOffice().getId())
+                .branchOfficeId(officeId)
                 .build();
     }
 

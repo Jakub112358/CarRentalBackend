@@ -21,26 +21,26 @@ public class OfficeService extends CrudService<BranchOffice, OfficeDto> {
     @Override
     public void deleteById(Long id) {
         BranchOffice office = officeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
-        nullEmployees(office);
-        nullCars(office);
-        nullPickUpReservations(office);
-        nullReturnReservations(office);
+        nullOfficeInEmployees(office);
+        nullOfficeInCars(office);
+        nullPickUpOfficeInReservations(office);
+        nullReturnOfficeInReservations(office);
         officeRepository.deleteById(id);
     }
 
-    private void nullReturnReservations(BranchOffice office) {
+    private void nullReturnOfficeInReservations(BranchOffice office) {
         office.getReturnReservations().forEach(r -> r.setReturnOffice(null));
     }
 
-    private void nullPickUpReservations(BranchOffice office) {
+    private void nullPickUpOfficeInReservations(BranchOffice office) {
         office.getPickUpReservations().forEach(r -> r.setPickUpOffice(null));
     }
 
-    private void nullCars(BranchOffice office) {
+    private void nullOfficeInCars(BranchOffice office) {
         office.getAvailableCars().forEach(c -> c.setCurrentBranchOffice(null));
     }
 
-    private void nullEmployees(BranchOffice office) {
+    private void nullOfficeInEmployees(BranchOffice office) {
         office.getEmployees().forEach(e -> e.setBranchOffice(null));
     }
 

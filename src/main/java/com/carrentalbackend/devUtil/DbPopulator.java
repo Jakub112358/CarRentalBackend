@@ -1,18 +1,12 @@
 package com.carrentalbackend.devUtil;
 
-import com.carrentalbackend.model.dto.CarDto;
-import com.carrentalbackend.model.dto.CompanyDto;
-import com.carrentalbackend.model.dto.EmployeeDto;
-import com.carrentalbackend.model.dto.OfficeDto;
+import com.carrentalbackend.model.dto.*;
 import com.carrentalbackend.model.entity.Address;
 import com.carrentalbackend.model.enumeration.CarBodyType;
 import com.carrentalbackend.model.enumeration.CarStatus;
 import com.carrentalbackend.model.enumeration.Color;
 import com.carrentalbackend.model.enumeration.JobPosition;
-import com.carrentalbackend.service.CarService;
-import com.carrentalbackend.service.CompanyService;
-import com.carrentalbackend.service.EmployeeService;
-import com.carrentalbackend.service.OfficeService;
+import com.carrentalbackend.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +26,7 @@ public class DbPopulator {
     private final OfficeService officeService;
     private final CarService carService;
     private final EmployeeService employeeService;
+    private final ClientService clientService;
     private Address[] addresses;
     private int addressCounter = 0;
 
@@ -42,21 +37,31 @@ public class DbPopulator {
         addBranchOffices();
         addCars();
         addEmployees();
+        addClients();
+    }
+
+    private void addClients() {
+        List<ClientDto> clients = createClientList();
+        clients.forEach(clientService::save);
+    }
+
+    private List<ClientDto> createClientList() {
+        List<ClientDto> result = new ArrayList<>();
+        result.add(new ClientDto(0L, "Jaś", "Fasola", "jas@fasola.xyz", getAddress()));
+        result.add(new ClientDto(0L, "Johnny", "Bravo", "johny@buziaczek.pl", getAddress()));
+        result.add(new ClientDto(0L, "Bruce", "Dickinson", "bruce@im.com", getAddress()));
+        return result;
     }
 
     private void addEmployees() {
         List<EmployeeDto> employees = createEmployeeList();
-        for (EmployeeDto employee : employees) {
-            employeeService.save(employee);
-        }
+        employees.forEach(employeeService::save);
     }
 
 
     private void addCars() {
         List<CarDto> cars = createCarList();
-        for (CarDto car : cars) {
-            carService.save(car);
-        }
+        cars.forEach(carService::save);
     }
 
     private List<EmployeeDto> createEmployeeList() {

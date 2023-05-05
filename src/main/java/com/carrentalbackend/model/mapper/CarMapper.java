@@ -51,6 +51,7 @@ public class CarMapper implements CrudMapper<Car, CarDto> {
 
     @Override
     public CarDto toDto(Car entity) {
+        Long officeId = entity.getCurrentBranchOffice() != null ? entity.getCurrentBranchOffice().getId() : null;
         return CarDto.builder()
                 .id(entity.getId())
                 .make(entity.getMake())
@@ -61,7 +62,7 @@ public class CarMapper implements CrudMapper<Car, CarDto> {
                 .bodyType(entity.getBodyType())
                 .color(entity.getColor())
                 .status(entity.getStatus())
-                .currentBranchOfficeId(entity.getCurrentBranchOffice().getId())
+                .currentBranchOfficeId(officeId)
                 .build();
     }
 
