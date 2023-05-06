@@ -21,5 +21,6 @@ public class CarDto implements CrudDto {
     private CarBodyType bodyType;
     private Color color;
     private CarStatus status;
+    private Long priceListId;
     private Long currentBranchOfficeId;
 }
