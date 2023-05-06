@@ -63,6 +63,13 @@ public class DbPopulator {
                 BigDecimal.valueOf(500),
                 ReservationStatus.PLANNED,
                 2L, 2L, 1L, 3L));
+        result.add(new ReservationDto(0L,
+                LocalDateTime.now(),
+                LocalDate.of(2022,5,12),
+                LocalDate.of(2022,5,19),
+                BigDecimal.valueOf(500),
+                ReservationStatus.REALIZED,
+                2L, 2L, 1L, 3L));
 
 
         return result;
@@ -102,42 +109,16 @@ public class DbPopulator {
 
     private List<CarDto> createCarList() {
         List<CarDto> cars = new ArrayList<>();
-        cars.add(CarDto.builder()
-                .id(0L)
-                .make("opel")
-                .model("astra")
-                .mileage(80_000)
-                .minRentalTime(1)
-                .yearOfManufacture(2010)
-                .bodyType(CarBodyType.CITY_CAR)
-                .color(Color.BLUE)
-                .status(CarStatus.AVAILABLE)
-                .currentBranchOfficeId(1L)
-                .build());
-        cars.add(CarDto.builder()
-                .id(0L)
-                .make("opel")
-                .model("astra")
-                .mileage(120_000)
-                .minRentalTime(1)
-                .yearOfManufacture(2013)
-                .bodyType(CarBodyType.CITY_CAR)
-                .color(Color.RED)
-                .status(CarStatus.UNAVAILABLE)
-                .currentBranchOfficeId(2L)
-                .build());
-        cars.add(CarDto.builder()
-                .id(0L)
-                .make("kia")
-                .model("sportage")
-                .mileage(30_000)
-                .minRentalTime(7)
-                .yearOfManufacture(2021)
-                .bodyType(CarBodyType.SUV)
-                .color(Color.WHITE)
-                .status(CarStatus.RENTED)
-                .currentBranchOfficeId(1L)
-                .build());
+        cars.add(new CarDto(0L,"opel","astra",10_000,1,2010,CarBodyType.CITY_CAR,Color.BLUE,CarStatus.AVAILABLE,1L));
+        cars.add(new CarDto(0L,"opel","astra",20_000,1,2011,CarBodyType.CITY_CAR,Color.RED,CarStatus.AVAILABLE,1L));
+        cars.add(new CarDto(0L,"opel","astra",30_000,1,2020,CarBodyType.CITY_CAR,Color.RED,CarStatus.AVAILABLE,1L));
+        cars.add(new CarDto(0L,"kia","sportage",40_000,1,2019,CarBodyType.SUV,Color.ORANGE,CarStatus.AVAILABLE,1L));
+        cars.add(new CarDto(0L,"kia","sportage",50_000,1,2018,CarBodyType.SUV,Color.OTHER,CarStatus.AVAILABLE,1L));
+        cars.add(new CarDto(0L,"kia","sportage",60_000,1,2017,CarBodyType.SUV,Color.BLACK,CarStatus.UNAVAILABLE,1L));
+        cars.add(new CarDto(0L,"ford","focus",70_000,1,2016,CarBodyType.ESTATE,Color.BLUE,CarStatus.UNAVAILABLE,1L));
+        cars.add(new CarDto(0L,"ford","focus",80_000,1,2015,CarBodyType.CITY_CAR,Color.BLUE,CarStatus.AVAILABLE,1L));
+        cars.add(new CarDto(0L,"ford","focus",90_000,1,2019,CarBodyType.CITY_CAR,Color.BLUE,CarStatus.AVAILABLE,1L));
+        cars.add(new CarDto(0L,"ford","focus",100_000,1,2021,CarBodyType.CITY_CAR,Color.BLUE,CarStatus.AVAILABLE,1L));
 
         return cars;
     }
@@ -150,8 +131,8 @@ public class DbPopulator {
 
     private void addCompany() throws IOException {
         companyService.save(CompanyDto.builder()
-                .name("Company1")
-                .domain("www.company1.com")
+                .name("Car Rental Company")
+                .domain("www.company.com")
                 .logotype(getPicture())
                 .address(getAddress())
                 .build());
@@ -168,15 +149,19 @@ public class DbPopulator {
 
     private void createAddressList() {
         this.addresses = new Address[]{
-                new Address(0L, "11-111", "town1", "streetA", "1"),
-                new Address(0L, "22-111", "town1", "streetB", "2"),
-                new Address(0L, "33-111", "town1", "streetC", "3"),
-                new Address(0L, "44-111", "town2", "streetA", "1"),
-                new Address(0L, "55-111", "town2", "streetD", "2"),
-                new Address(0L, "66-111", "town2", "streetE", "3"),
-                new Address(0L, "77-111", "town3", "streetF", "4"),
-                new Address(0L, "88-111", "town4", "streetA", "100A"),
-                new Address(0L, "99-111", "town5", "streetB", "12C/3"),
+                new Address(0L, "11-111", "Poznań", "ul. Roosevelta", "1"),
+                new Address(0L, "11-111", "Poznań", "ul. Kolejowa", "2"),
+                new Address(0L, "11-111", "Poznań", "ul. Piątkowska", "3"),
+                new Address(0L, "22-222", "Warszawa", "ul. Marszałkowska", "1"),
+                new Address(0L, "22-222", "Warszawa", "ul. Główna", "2"),
+                new Address(0L, "22-222", "Warszawa", "ul. Dębowa", "3"),
+                new Address(0L, "33-333", "Wrocław", "ul. Kolejowa", "4"),
+                new Address(0L, "44-444", "Kraków", "ul. Niepodległości", "100A"),
+                new Address(0L, "55-555", "Gdańsk", "ul. Zwycięstwa", "12C/3"),
+                new Address(0L, "55-556", "Gdańsk", "ul. Niepodległości", "3"),
+                new Address(0L, "55-557", "Gdańsk", "ul. Kolejowa", "12"),
+                new Address(0L, "55-558", "Gdańsk", "ul. Uliczna", "8C/15"),
+                new Address(0L, "55-559", "Gdańsk", "ul. Zwycięstwa", "12"),
 
         };
     }

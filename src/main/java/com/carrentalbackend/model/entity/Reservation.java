@@ -26,7 +26,7 @@ public class Reservation implements CrudEntity {
     private ReservationStatus status;
     @ManyToOne
     private Client client;
-    @OneToOne
+    @ManyToOne
     private Car car;
     @ManyToOne
     private BranchOffice pickUpOffice;

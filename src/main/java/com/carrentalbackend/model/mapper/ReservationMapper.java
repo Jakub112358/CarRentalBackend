@@ -18,6 +18,7 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationDto
     private final OfficeRepository officeRepository;
     @Override
     public Reservation toNewEntity(ReservationDto dto) {
+        //TODO price should be recalculated here!
         Client client = clientRepository.findById(dto.getClientId()).orElseThrow(()-> new ResourceNotFoundException(dto.getClientId()));
         Car car = carRepository.findById(dto.getCarId()).orElseThrow(()-> new ResourceNotFoundException(dto.getCarId()));
         BranchOffice pickUpOffice = officeRepository.findById(dto.getPickUpOfficeId()).orElseThrow(()-> new ResourceNotFoundException(dto.getPickUpOfficeId()));
