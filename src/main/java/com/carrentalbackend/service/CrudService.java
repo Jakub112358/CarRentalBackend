@@ -1,8 +1,8 @@
 package com.carrentalbackend.service;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
-import com.carrentalbackend.model.dto.CrudDto;
-import com.carrentalbackend.model.dto.UpdateDto;
+import com.carrentalbackend.model.dto.crudDto.CrudDto;
+import com.carrentalbackend.model.dto.updateDto.UpdateDto;
 import com.carrentalbackend.model.entity.CrudEntity;
 import com.carrentalbackend.model.mapper.CrudMapper;
 import lombok.RequiredArgsConstructor;

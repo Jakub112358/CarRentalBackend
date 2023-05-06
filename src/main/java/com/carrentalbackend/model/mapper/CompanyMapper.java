@@ -1,8 +1,8 @@
 package com.carrentalbackend.model.mapper;
 
-import com.carrentalbackend.model.dto.CompanyDto;
-import com.carrentalbackend.model.dto.CompanyUpdateDto;
-import com.carrentalbackend.model.dto.UpdateDto;
+import com.carrentalbackend.model.dto.crudDto.CompanyDto;
+import com.carrentalbackend.model.dto.updateDto.CompanyUpdateDto;
+import com.carrentalbackend.model.dto.updateDto.UpdateDto;
 import com.carrentalbackend.model.entity.Company;
 import com.carrentalbackend.model.entity.Finances;
 import org.springframework.stereotype.Component;

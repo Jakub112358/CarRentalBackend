@@ -1,6 +1,6 @@
 package com.carrentalbackend.controller;
 
-import com.carrentalbackend.model.dto.ClientDto;
+import com.carrentalbackend.model.dto.crudDto.ClientDto;
 import com.carrentalbackend.model.entity.Client;
 import com.carrentalbackend.service.ClientService;
 import org.springframework.web.bind.annotation.CrossOrigin;

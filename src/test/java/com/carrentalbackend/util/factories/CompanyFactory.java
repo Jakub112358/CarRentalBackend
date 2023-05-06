@@ -1,6 +1,6 @@
 package com.carrentalbackend.util.factories;
 
-import com.carrentalbackend.model.dto.CompanyDto;
+import com.carrentalbackend.model.dto.crudDto.CompanyDto;
 import com.carrentalbackend.model.entity.Address;
 
 public class CompanyFactory {

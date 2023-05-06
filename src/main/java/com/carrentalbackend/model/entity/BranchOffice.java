@@ -1,7 +1,5 @@
 package com.carrentalbackend.model.entity;
 
-import com.carrentalbackend.model.dto.CrudDto;
-import com.carrentalbackend.model.dto.OfficeDto;
 import lombok.*;
 
 import javax.persistence.*;

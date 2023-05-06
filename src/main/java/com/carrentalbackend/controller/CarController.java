@@ -1,6 +1,6 @@
 package com.carrentalbackend.controller;
 
-import com.carrentalbackend.model.dto.CarDto;
+import com.carrentalbackend.model.dto.crudDto.CarDto;
 import com.carrentalbackend.model.entity.Car;
 import com.carrentalbackend.model.request.CarSearchRequest;
 import com.carrentalbackend.service.CarService;

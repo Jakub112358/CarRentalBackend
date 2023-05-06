@@ -1,6 +1,6 @@
 package com.carrentalbackend.controller;
 
-import com.carrentalbackend.model.dto.CrudDto;
+import com.carrentalbackend.model.dto.crudDto.CrudDto;
 import com.carrentalbackend.model.entity.CrudEntity;
 import com.carrentalbackend.service.CrudService;
 import lombok.RequiredArgsConstructor;

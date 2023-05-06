@@ -1,5 +1,6 @@
-package com.carrentalbackend.model.dto;
+package com.carrentalbackend.model.dto.crudDto;
 
+import com.carrentalbackend.model.dto.crudDto.CrudDto;
 import com.carrentalbackend.model.enumeration.ReservationStatus;
 import lombok.*;
 

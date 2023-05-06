@@ -1,4 +1,4 @@
-package com.carrentalbackend.model.dto;
+package com.carrentalbackend.model.dto.crudDto;
 
 import com.carrentalbackend.model.enumeration.CarBodyType;
 import com.carrentalbackend.model.enumeration.CarStatus;
@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CarDto implements CrudDto{
+public class CarDto implements CrudDto {
 
     private long id;
     private String make;

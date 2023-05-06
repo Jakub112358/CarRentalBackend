@@ -8,4 +8,5 @@ public class ApiConstraints {
     public final static String EMPLOYEE = BASE_URL + "/employees";
     public final static String MESSAGE = BASE_URL + "/messages";
     public final static String CLIENT = BASE_URL + "/clients";
+    public final static String PRICELIST = BASE_URL + "/pricelists";
 }

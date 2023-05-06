@@ -1,6 +1,6 @@
 package com.carrentalbackend.service;
 
-import com.carrentalbackend.model.dto.ClientDto;
+import com.carrentalbackend.model.dto.crudDto.ClientDto;
 import com.carrentalbackend.model.entity.Client;
 import com.carrentalbackend.model.mapper.ClientMapper;
 import com.carrentalbackend.repository.ClientRepository;

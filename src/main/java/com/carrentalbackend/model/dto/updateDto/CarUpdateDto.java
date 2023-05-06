@@ -1,4 +1,4 @@
-package com.carrentalbackend.model.dto;
+package com.carrentalbackend.model.dto.updateDto;
 
 import com.carrentalbackend.model.entity.BranchOffice;
 import com.carrentalbackend.model.enumeration.CarBodyType;
@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CarUpdateDto implements UpdateDto{
+public class CarUpdateDto implements UpdateDto {
     private String make;
     private String model;
     private Integer mileage;

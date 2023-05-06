@@ -1,6 +1,6 @@
 package com.carrentalbackend.service;
 
-import com.carrentalbackend.model.dto.ReservationDto;
+import com.carrentalbackend.model.dto.crudDto.ReservationDto;
 import com.carrentalbackend.model.entity.Reservation;
 import com.carrentalbackend.model.mapper.ReservationMapper;
 import com.carrentalbackend.repository.ReservationRepository;

@@ -1,6 +1,6 @@
 package com.carrentalbackend.devUtil;
 
-import com.carrentalbackend.model.dto.*;
+import com.carrentalbackend.model.dto.crudDto.*;
 import com.carrentalbackend.model.entity.Address;
 import com.carrentalbackend.model.enumeration.*;
 import com.carrentalbackend.service.*;
@@ -28,6 +28,7 @@ public class DbPopulator {
     private final EmployeeService employeeService;
     private final ClientService clientService;
     private final ReservationService reservationService;
+    private final PricelistService pricelistService;
     private Address[] addresses;
     private int addressCounter = 0;
 
@@ -36,10 +37,24 @@ public class DbPopulator {
         createAddressList();
         addCompany();
         addBranchOffices();
+        addPricelists()
         addCars();
         addEmployees();
         addClients();
         addReservations();
+    }
+
+    private void addPricelists() {
+        List<PricelistDto> pricelistDtos = createPricelistDtos();
+        pricelistDtos.forEach(pricelistService::save);
+    }
+
+    private List<PricelistDto> createPricelistDtos() {
+        List<PricelistDto> result = new ArrayList<>();
+        result.add(new PricelistDto(0L, 100.0, 90.0, 80.0));
+        result.add(new PricelistDto(0L, 150.0, 130.0, 120.0));
+        result.add(new PricelistDto(0L, 600.0, 450.0, 400.0));
+        return result;
     }
 
     private void addReservations() {

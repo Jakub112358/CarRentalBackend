@@ -1,6 +1,6 @@
 package com.carrentalbackend.controller;
 
-import com.carrentalbackend.model.dto.EmployeeDto;
+import com.carrentalbackend.model.dto.crudDto.EmployeeDto;
 import com.carrentalbackend.model.entity.Employee;
 import com.carrentalbackend.service.EmployeeService;
 import org.springframework.http.ResponseEntity;

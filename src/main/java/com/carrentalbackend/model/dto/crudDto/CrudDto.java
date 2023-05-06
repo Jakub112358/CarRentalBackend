@@ -1,4 +1,4 @@
-package com.carrentalbackend.model.dto;
+package com.carrentalbackend.model.dto.crudDto;
 
 public interface CrudDto {
     long getId();

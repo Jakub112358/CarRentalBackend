@@ -1,4 +1,4 @@
-package com.carrentalbackend.model.dto;
+package com.carrentalbackend.model.dto.updateDto;
 
 import com.carrentalbackend.model.entity.Address;
 import lombok.*;
@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CompanyUpdateDto implements UpdateDto{
+public class CompanyUpdateDto implements UpdateDto {
     private String name;
     private String domain;
     private byte[] logotype;

@@ -1,8 +1,8 @@
 package com.carrentalbackend.model.mapper;
 
-import com.carrentalbackend.model.dto.ClientDto;
-import com.carrentalbackend.model.dto.ClientUpdateDto;
-import com.carrentalbackend.model.dto.UpdateDto;
+import com.carrentalbackend.model.dto.crudDto.ClientDto;
+import com.carrentalbackend.model.dto.updateDto.ClientUpdateDto;
+import com.carrentalbackend.model.dto.updateDto.UpdateDto;
 import com.carrentalbackend.model.entity.Client;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

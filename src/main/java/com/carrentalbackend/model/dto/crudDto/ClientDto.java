@@ -1,4 +1,4 @@
-package com.carrentalbackend.model.dto;
+package com.carrentalbackend.model.dto.crudDto;
 
 import com.carrentalbackend.model.entity.Address;
 import lombok.*;
@@ -8,12 +8,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CompanyDto implements CrudDto {
+public class ClientDto implements CrudDto {
     private long id;
-    private String name;
-    private String domain;
-    private byte[] logotype;
+    private String firstName;
+    private String lastName;
+    private String email;
     private Address address;
-
 
 }

@@ -1,7 +1,7 @@
 package com.carrentalbackend.service;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
-import com.carrentalbackend.model.dto.OfficeDto;
+import com.carrentalbackend.model.dto.crudDto.OfficeDto;
 import com.carrentalbackend.model.entity.BranchOffice;
 import com.carrentalbackend.model.mapper.OfficeMapper;
 import com.carrentalbackend.repository.OfficeRepository;

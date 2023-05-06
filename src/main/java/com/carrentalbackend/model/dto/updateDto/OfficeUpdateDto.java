@@ -1,4 +1,4 @@
-package com.carrentalbackend.model.dto;
+package com.carrentalbackend.model.dto.updateDto;
 
 import com.carrentalbackend.model.entity.Address;
 import com.carrentalbackend.model.entity.Company;
@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OfficeUpdateDto implements UpdateDto{
+public class OfficeUpdateDto implements UpdateDto {
 
     private Address address;
     private Company company;

@@ -1,4 +1,4 @@
-package com.carrentalbackend.model.dto;
+package com.carrentalbackend.model.dto.updateDto;
 
 import com.carrentalbackend.model.entity.Address;
 import lombok.*;
@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ClientUpdateDto implements UpdateDto{
+public class ClientUpdateDto implements UpdateDto {
     private String firstName;
     private String lastName;
     private String email;

@@ -1,8 +1,8 @@
 package com.carrentalbackend.model.mapper;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
-import com.carrentalbackend.model.dto.ReservationDto;
-import com.carrentalbackend.model.dto.UpdateDto;
+import com.carrentalbackend.model.dto.crudDto.ReservationDto;
+import com.carrentalbackend.model.dto.updateDto.UpdateDto;
 import com.carrentalbackend.model.entity.*;
 import com.carrentalbackend.repository.CarRepository;
 import com.carrentalbackend.repository.ClientRepository;

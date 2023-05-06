@@ -1,6 +1,6 @@
 package com.carrentalbackend.service;
 
-import com.carrentalbackend.model.dto.CarDto;
+import com.carrentalbackend.model.dto.crudDto.CarDto;
 import com.carrentalbackend.model.entity.BranchOffice;
 import com.carrentalbackend.model.entity.Car;
 import com.carrentalbackend.model.entity.Reservation;
