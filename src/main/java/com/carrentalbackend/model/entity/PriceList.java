@@ -10,13 +10,13 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Pricelist implements CrudEntity{
+public class PriceList implements CrudEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private double pricePerDay;
     private double pricePerWeek;
     private double pricePerMonth;
-    @OneToMany (mappedBy = "pricelist", cascade = CascadeType.PERSIST)
+    @OneToMany (mappedBy = "priceList", cascade = CascadeType.PERSIST)
     private List<Car> cars;
 }

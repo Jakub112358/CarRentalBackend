@@ -4,6 +4,7 @@ import com.carrentalbackend.exception.ResourceNotFoundException;
 import com.carrentalbackend.model.dto.crudDto.ReservationDto;
 import com.carrentalbackend.model.dto.updateDto.UpdateDto;
 import com.carrentalbackend.model.entity.*;
+import com.carrentalbackend.model.enumeration.ReservationStatus;
 import com.carrentalbackend.repository.CarRepository;
 import com.carrentalbackend.repository.ClientRepository;
 import com.carrentalbackend.repository.OfficeRepository;
@@ -18,19 +19,18 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationDto
     private final OfficeRepository officeRepository;
     @Override
     public Reservation toNewEntity(ReservationDto dto) {
-        //TODO price should be recalculated here!
+        //TODO price should be recalculated!
         Client client = clientRepository.findById(dto.getClientId()).orElseThrow(()-> new ResourceNotFoundException(dto.getClientId()));
         Car car = carRepository.findById(dto.getCarId()).orElseThrow(()-> new ResourceNotFoundException(dto.getCarId()));
         BranchOffice pickUpOffice = officeRepository.findById(dto.getPickUpOfficeId()).orElseThrow(()-> new ResourceNotFoundException(dto.getPickUpOfficeId()));
         BranchOffice returnOffice = officeRepository.findById(dto.getReturnOfficeId()).orElseThrow(()-> new ResourceNotFoundException(dto.getReturnOfficeId()));
 
         return Reservation.builder()
-                .id(dto.getId())
                 .reservationDate(dto.getReservationDate())
                 .price(dto.getPrice())
-                .status(dto.getStatus())
-                .dateTo(dto.getDateTo())
                 .dateFrom(dto.getDateFrom())
+                .dateTo(dto.getDateTo())
+                .status(ReservationStatus.PLANNED)
                 .client(client)
                 .car(car)
                 .pickUpOffice(pickUpOffice)

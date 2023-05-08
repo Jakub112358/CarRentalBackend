@@ -29,7 +29,7 @@ public class Car implements CrudEntity {
     @Enumerated(EnumType.STRING)
     private CarStatus status;
     @ManyToOne
-    private Pricelist pricelist;
+    private PriceList priceList;
     @ManyToOne
     private BranchOffice currentBranchOffice;
 

@@ -28,7 +28,7 @@ public class DbPopulator {
     private final EmployeeService employeeService;
     private final ClientService clientService;
     private final ReservationService reservationService;
-    private final PricelistService pricelistService;
+    private final PriceListService pricelistService;
     private Address[] addresses;
     private int addressCounter = 0;
 

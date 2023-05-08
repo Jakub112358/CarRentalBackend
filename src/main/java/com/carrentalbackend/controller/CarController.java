@@ -1,5 +1,6 @@
 package com.carrentalbackend.controller;
 
+import com.carrentalbackend.model.dto.CarRentDto;
 import com.carrentalbackend.model.dto.crudDto.CarDto;
 import com.carrentalbackend.model.entity.Car;
 import com.carrentalbackend.model.request.CarSearchRequest;
@@ -32,10 +33,10 @@ public class CarController extends CrudController<Car, CarDto> {
     //    @PostMapping(params = {"dateFrom","dateTo","picUpOfficeId"})
     //TODO consider if this endpoint is correct
     @PostMapping("/search")
-    public ResponseEntity<List<CarDto>> findByAvailableInDatesAndCriteria(@RequestBody(required = false) CarSearchRequest criteria,
-                                                                          @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFrom,
-                                                                          @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateTo,
-                                                                          @RequestParam Long pickUpOfficeId) {
+    public ResponseEntity<List<CarRentDto>> findByAvailableInDatesAndCriteria(@RequestBody(required = false) CarSearchRequest criteria,
+                                                                              @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFrom,
+                                                                              @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateTo,
+                                                                              @RequestParam Long pickUpOfficeId) {
         return ResponseEntity.ok(service.findByAvailableInDatesAndCriteria(dateFrom, dateTo, pickUpOfficeId, criteria));
 
     }

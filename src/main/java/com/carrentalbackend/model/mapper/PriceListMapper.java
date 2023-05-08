@@ -2,15 +2,15 @@ package com.carrentalbackend.model.mapper;
 
 import com.carrentalbackend.model.dto.crudDto.PricelistDto;
 import com.carrentalbackend.model.dto.updateDto.UpdateDto;
-import com.carrentalbackend.model.entity.Pricelist;
+import com.carrentalbackend.model.entity.PriceList;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 @Component
-public class PricelistMapper implements CrudMapper<Pricelist, PricelistDto> {
+public class PriceListMapper implements CrudMapper<PriceList, PricelistDto> {
     @Override
-    public Pricelist toNewEntity(PricelistDto dto) {
-        return Pricelist.builder()
+    public PriceList toNewEntity(PricelistDto dto) {
+        return PriceList.builder()
                 .id(dto.getId())
                 .pricePerDay(dto.getPricePerDay())
                 .pricePerWeek(dto.getPricePerWeek())
@@ -25,7 +25,7 @@ public class PricelistMapper implements CrudMapper<Pricelist, PricelistDto> {
     }
 
     @Override
-    public PricelistDto toDto(Pricelist entity) {
+    public PricelistDto toDto(PriceList entity) {
         return PricelistDto.builder()
                 .id(entity.getId())
                 .pricePerDay(entity.getPricePerDay())
