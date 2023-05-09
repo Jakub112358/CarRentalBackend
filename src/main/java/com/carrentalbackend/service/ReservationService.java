@@ -5,6 +5,7 @@ import com.carrentalbackend.model.entity.Finances;
 import com.carrentalbackend.model.entity.Income;
 import com.carrentalbackend.model.entity.Reservation;
 import com.carrentalbackend.model.mapper.ReservationMapper;
+import com.carrentalbackend.model.rest.ReservationClientResponse;
 import com.carrentalbackend.repository.CompanyRepository;
 import com.carrentalbackend.repository.IncomeRepository;
 import com.carrentalbackend.repository.ReservationRepository;
@@ -64,11 +65,11 @@ public class ReservationService extends CrudService<Reservation, ReservationDto>
     public void deleteById(Long id) {
     }
 
-    public List<ReservationDto> findByClientId(Long clientId) {
+    public List<ReservationClientResponse> findByClientId(Long clientId) {
         return reservationRepository
                 .findAllByClient_Id(clientId)
                 .stream()
-                .map(reservationMapper::toDto)
+                .map(reservationMapper::toReservationClientResponse)
                 .toList();
     }
 }

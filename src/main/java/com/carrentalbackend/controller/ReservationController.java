@@ -2,6 +2,7 @@ package com.carrentalbackend.controller;
 
 import com.carrentalbackend.model.dto.crudDto.ReservationDto;
 import com.carrentalbackend.model.entity.Reservation;
+import com.carrentalbackend.model.rest.ReservationClientResponse;
 import com.carrentalbackend.service.ReservationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class ReservationController extends CrudController<Reservation, Reservati
     }
 
     @GetMapping(params = "clientId")
-    public ResponseEntity<List<ReservationDto>> findByClientId(@RequestParam Long clientId) {
+    public ResponseEntity<List<ReservationClientResponse>> findByClientId(@RequestParam Long clientId) {
         return ResponseEntity.ok(reservationService.findByClientId(clientId));
     }
 }

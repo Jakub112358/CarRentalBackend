@@ -1,16 +1,21 @@
 package com.carrentalbackend.model.mapper;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
+import com.carrentalbackend.model.dto.crudDto.IncomeDto;
 import com.carrentalbackend.model.dto.crudDto.ReservationDto;
-import com.carrentalbackend.model.dto.updateDto.UpdateDto;
+import com.carrentalbackend.model.dto.updateDto.ReservationUpdateDto;
 import com.carrentalbackend.model.entity.*;
 import com.carrentalbackend.model.enumeration.RentalActionStatus;
 import com.carrentalbackend.model.enumeration.ReservationStatus;
+import com.carrentalbackend.model.rest.ReservationClientResponse;
 import com.carrentalbackend.repository.CarRepository;
 import com.carrentalbackend.repository.ClientRepository;
+import com.carrentalbackend.repository.IncomeRepository;
 import com.carrentalbackend.repository.OfficeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -18,13 +23,18 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationDto
     private final ClientRepository clientRepository;
     private final CarRepository carRepository;
     private final OfficeRepository officeRepository;
+    private final IncomeRepository incomeRepository;
+    private final CarMapper carMapper;
+    private final OfficeMapper officeMapper;
+    private final IncomeMapper incomeMapper;
+
     @Override
     public Reservation toNewEntity(ReservationDto dto) {
         //TODO price should be recalculated!
-        Client client = clientRepository.findById(dto.getClientId()).orElseThrow(()-> new ResourceNotFoundException(dto.getClientId()));
-        Car car = carRepository.findById(dto.getCarId()).orElseThrow(()-> new ResourceNotFoundException(dto.getCarId()));
-        BranchOffice pickUpOffice = officeRepository.findById(dto.getPickUpOfficeId()).orElseThrow(()-> new ResourceNotFoundException(dto.getPickUpOfficeId()));
-        BranchOffice returnOffice = officeRepository.findById(dto.getReturnOfficeId()).orElseThrow(()-> new ResourceNotFoundException(dto.getReturnOfficeId()));
+        Client client = clientRepository.findById(dto.getClientId()).orElseThrow(() -> new ResourceNotFoundException(dto.getClientId()));
+        Car car = carRepository.findById(dto.getCarId()).orElseThrow(() -> new ResourceNotFoundException(dto.getCarId()));
+        BranchOffice pickUpOffice = officeRepository.findById(dto.getPickUpOfficeId()).orElseThrow(() -> new ResourceNotFoundException(dto.getPickUpOfficeId()));
+        BranchOffice returnOffice = officeRepository.findById(dto.getReturnOfficeId()).orElseThrow(() -> new ResourceNotFoundException(dto.getReturnOfficeId()));
         CarPickUp carPickUp = createCarPickUp(dto, car, pickUpOffice);
         CarReturn carReturn = createCarReturn(dto, car, returnOffice);
 
@@ -63,9 +73,20 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationDto
 
     //TODO implement
     @Override
-    public UpdateDto toUpdateEntity(ReservationDto dto) {
-        return null;
+    public ReservationUpdateDto toUpdateEntity(ReservationDto dto) {
+        Client client = dto.getClientId() != null ? clientRepository.findById(dto.getClientId()).orElse(null) : null;
+        BranchOffice pickUpOffice = dto.getPickUpOfficeId() != null ? officeRepository.findById(dto.getPickUpOfficeId()).orElse(null) : null;
+        BranchOffice returnOffice = dto.getReturnOfficeId() != null ? officeRepository.findById(dto.getReturnOfficeId()).orElse(null) : null;
+        return ReservationUpdateDto.builder()
+                .dateFrom(dto.getDateFrom())
+                .dateTo(dto.getDateTo())
+                .client(client)
+                .pickUpOffice(pickUpOffice)
+                .returnOffice(returnOffice)
+                .status(dto.getStatus())
+                .build();
     }
+
     @Override
     public ReservationDto toDto(Reservation entity) {
 
@@ -85,6 +106,29 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationDto
                 .carId(carId)
                 .pickUpOfficeId(pickUpOfficeId)
                 .returnOfficeId(returnOfficeId)
+                .build();
+    }
+
+    public ReservationClientResponse toReservationClientResponse(Reservation reservation) {
+
+        Long clientId = reservation.getClient() != null ? reservation.getClient().getId() : null;
+        List<IncomeDto> incomes = incomeRepository
+                .findAllByReservation_Id(reservation.getId())
+                .stream()
+                .map(incomeMapper::toDto)
+                .toList();
+
+        return ReservationClientResponse.builder()
+                .id(reservation.getId())
+                .dateFrom(reservation.getDateFrom())
+                .dateTo(reservation.getDateTo())
+                .price(reservation.getPrice())
+                .status(reservation.getStatus())
+                .clientId(clientId)
+                .car(carMapper.toDto(reservation.getCar()))
+                .pickUpOffice(officeMapper.toDto(reservation.getPickUpOffice()))
+                .returnOffice(officeMapper.toDto(reservation.getReturnOffice()))
+                .incomes(incomes)
                 .build();
     }
 }
