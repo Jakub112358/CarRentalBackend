@@ -83,14 +83,14 @@ public class DbPopulator {
                 LocalDate.of(2022, 5, 12),
                 LocalDate.of(2022, 5, 19),
                 BigDecimal.valueOf(500),
-                ReservationStatus.REALIZED,
+                ReservationStatus.PLANNED,
                 2L, 2L, 1L, 3L));
         result.add(new ReservationDto(0L,
                 LocalDateTime.now(),
-                LocalDate.of(2022, 5, 12),
-                LocalDate.of(2022, 5, 19),
+                LocalDate.of(2023, 5, 12),
+                LocalDate.of(2023, 5, 19),
                 BigDecimal.valueOf(500),
-                ReservationStatus.REALIZED,
+                ReservationStatus.PLANNED,
                 1L, 2L, 1L, 3L));
 
 

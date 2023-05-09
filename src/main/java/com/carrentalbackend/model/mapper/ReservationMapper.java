@@ -1,7 +1,6 @@
 package com.carrentalbackend.model.mapper;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
-import com.carrentalbackend.model.dto.crudDto.IncomeDto;
 import com.carrentalbackend.model.dto.crudDto.ReservationDto;
 import com.carrentalbackend.model.dto.updateDto.ReservationUpdateDto;
 import com.carrentalbackend.model.entity.*;
@@ -10,12 +9,9 @@ import com.carrentalbackend.model.enumeration.ReservationStatus;
 import com.carrentalbackend.model.rest.ReservationClientResponse;
 import com.carrentalbackend.repository.CarRepository;
 import com.carrentalbackend.repository.ClientRepository;
-import com.carrentalbackend.repository.IncomeRepository;
 import com.carrentalbackend.repository.OfficeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -23,10 +19,8 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationDto
     private final ClientRepository clientRepository;
     private final CarRepository carRepository;
     private final OfficeRepository officeRepository;
-    private final IncomeRepository incomeRepository;
     private final CarMapper carMapper;
     private final OfficeMapper officeMapper;
-    private final IncomeMapper incomeMapper;
 
     @Override
     public Reservation toNewEntity(ReservationDto dto) {
@@ -112,11 +106,6 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationDto
     public ReservationClientResponse toReservationClientResponse(Reservation reservation) {
 
         Long clientId = reservation.getClient() != null ? reservation.getClient().getId() : null;
-        List<IncomeDto> incomes = incomeRepository
-                .findAllByReservation_Id(reservation.getId())
-                .stream()
-                .map(incomeMapper::toDto)
-                .toList();
 
         return ReservationClientResponse.builder()
                 .id(reservation.getId())
@@ -128,7 +117,6 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationDto
                 .car(carMapper.toDto(reservation.getCar()))
                 .pickUpOffice(officeMapper.toDto(reservation.getPickUpOffice()))
                 .returnOffice(officeMapper.toDto(reservation.getReturnOffice()))
-                .incomes(incomes)
                 .build();
     }
 }

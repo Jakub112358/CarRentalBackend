@@ -1,18 +1,26 @@
 package com.carrentalbackend.service;
 
+import com.carrentalbackend.exception.ResourceNotFoundException;
 import com.carrentalbackend.model.dto.crudDto.ReservationDto;
 import com.carrentalbackend.model.entity.Finances;
 import com.carrentalbackend.model.entity.Income;
 import com.carrentalbackend.model.entity.Reservation;
+import com.carrentalbackend.model.enumeration.ReservationStatus;
 import com.carrentalbackend.model.mapper.ReservationMapper;
 import com.carrentalbackend.model.rest.ReservationClientResponse;
 import com.carrentalbackend.repository.CompanyRepository;
+import com.carrentalbackend.repository.FinancesRepository;
 import com.carrentalbackend.repository.IncomeRepository;
 import com.carrentalbackend.repository.ReservationRepository;
 import com.carrentalbackend.service.validator.ReservationValidator;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.List;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
 public class ReservationService extends CrudService<Reservation, ReservationDto> {
@@ -20,6 +28,7 @@ public class ReservationService extends CrudService<Reservation, ReservationDto>
     private final IncomeRepository incomeRepository;
     private final ReservationRepository reservationRepository;
     private final CompanyRepository companyRepository;
+    private final FinancesRepository financesRepository;
     private final ReservationMapper reservationMapper;
 
     public ReservationService(ReservationRepository repository,
@@ -27,13 +36,15 @@ public class ReservationService extends CrudService<Reservation, ReservationDto>
                               ReservationValidator reservationValidator,
                               IncomeRepository incomeRepository,
                               ReservationRepository reservationRepository,
-                              CompanyRepository companyRepository) {
+                              CompanyRepository companyRepository,
+                              FinancesRepository financesRepository) {
         super(repository, mapper);
         this.reservationValidator = reservationValidator;
         this.incomeRepository = incomeRepository;
         this.reservationRepository = reservationRepository;
         this.companyRepository = companyRepository;
         this.reservationMapper = mapper;
+        this.financesRepository = financesRepository;
     }
 
     @Override
@@ -58,7 +69,6 @@ public class ReservationService extends CrudService<Reservation, ReservationDto>
                 .reservation(reservation)
                 .finances(finances)
                 .build();
-
     }
 
     @Override
@@ -71,5 +81,45 @@ public class ReservationService extends CrudService<Reservation, ReservationDto>
                 .stream()
                 .map(reservationMapper::toReservationClientResponse)
                 .toList();
+    }
+
+    @Override
+    public ReservationDto update(Long id, ReservationDto requestDto) {
+        //TODO: should check for request sender and add extra charge only if user cancel his reservation
+        performFinancialOperations(id, requestDto);
+        return super.update(id, requestDto);
+    }
+
+    private void performFinancialOperations(Long id, ReservationDto requestDto) {
+        Reservation reservationBefore = reservationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        ReservationStatus statusBefore = reservationBefore.getStatus();
+        ReservationStatus statusAfter = requestDto.getStatus();
+
+        if (ReservationStatus.PLANNED.equals(statusBefore) && ReservationStatus.CANCELLED.equals(statusAfter)) {
+            performPayback(reservationBefore);
+        }
+    }
+
+    //TODO consider finances id, split to more methods
+    private void performPayback(Reservation reservationBefore) {
+        BigDecimal price = reservationBefore.getPrice();
+        double extraChargeRatio = calculateExtraChargeRatio(reservationBefore);
+        BigDecimal refundValue = BigDecimal.valueOf(price.doubleValue() * (1.0 - extraChargeRatio) * (-1)).setScale(2, RoundingMode.CEILING);
+        Finances finances = financesRepository.getReferenceById(1L);
+        Income refund = new Income(0L, refundValue, reservationBefore, finances);
+        incomeRepository.save(refund);
+    }
+
+    private double calculateExtraChargeRatio(Reservation reservationBefore) {
+        LocalDate dateNow = LocalDate.now();
+        LocalDate reservationStart = reservationBefore.getDateFrom();
+        long daysDifference = DAYS.between(dateNow, reservationStart);
+        if (daysDifference > 10) {
+            return 0;
+        } else if (daysDifference > 2) {
+            return 0.1;
+        } else {
+            return 0.5;
+        }
     }
 }
