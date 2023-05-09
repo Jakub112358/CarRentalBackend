@@ -4,6 +4,7 @@ import com.carrentalbackend.exception.ResourceNotFoundException;
 import com.carrentalbackend.model.dto.crudDto.ReservationDto;
 import com.carrentalbackend.model.dto.updateDto.UpdateDto;
 import com.carrentalbackend.model.entity.*;
+import com.carrentalbackend.model.enumeration.RentalActionStatus;
 import com.carrentalbackend.model.enumeration.ReservationStatus;
 import com.carrentalbackend.repository.CarRepository;
 import com.carrentalbackend.repository.ClientRepository;
@@ -24,6 +25,8 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationDto
         Car car = carRepository.findById(dto.getCarId()).orElseThrow(()-> new ResourceNotFoundException(dto.getCarId()));
         BranchOffice pickUpOffice = officeRepository.findById(dto.getPickUpOfficeId()).orElseThrow(()-> new ResourceNotFoundException(dto.getPickUpOfficeId()));
         BranchOffice returnOffice = officeRepository.findById(dto.getReturnOfficeId()).orElseThrow(()-> new ResourceNotFoundException(dto.getReturnOfficeId()));
+        CarPickUp carPickUp = createCarPickUp(dto, car, pickUpOffice);
+        CarReturn carReturn = createCarReturn(dto, car, returnOffice);
 
         return Reservation.builder()
                 .reservationDate(dto.getReservationDate())
@@ -35,11 +38,30 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationDto
                 .car(car)
                 .pickUpOffice(pickUpOffice)
                 .returnOffice(returnOffice)
-                .carPickUp(new CarPickUp())
-                .carReturn(new CarReturn())
+                .carPickUp(carPickUp)
+                .carReturn(carReturn)
                 .build();
     }
-//TODO implement
+
+    private CarReturn createCarReturn(ReservationDto dto, Car car, BranchOffice office) {
+        return CarReturn.builder()
+                .plannedReturnDate(dto.getDateTo())
+                .status(RentalActionStatus.PLANNED)
+                .car(car)
+                .branchOffice(office)
+                .build();
+    }
+
+    private CarPickUp createCarPickUp(ReservationDto dto, Car car, BranchOffice office) {
+        return CarPickUp.builder()
+                .plannedPickUpDate(dto.getDateFrom())
+                .status(RentalActionStatus.PLANNED)
+                .car(car)
+                .branchOffice(office)
+                .build();
+    }
+
+    //TODO implement
     @Override
     public UpdateDto toUpdateEntity(ReservationDto dto) {
         return null;

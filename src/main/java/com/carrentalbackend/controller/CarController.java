@@ -1,9 +1,9 @@
 package com.carrentalbackend.controller;
 
-import com.carrentalbackend.model.dto.CarRentDto;
+import com.carrentalbackend.model.rest.CarRentResponse;
 import com.carrentalbackend.model.dto.crudDto.CarDto;
 import com.carrentalbackend.model.entity.Car;
-import com.carrentalbackend.model.request.CarSearchRequest;
+import com.carrentalbackend.model.rest.CarSearchByCriteriaRequest;
 import com.carrentalbackend.service.CarService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -33,11 +33,12 @@ public class CarController extends CrudController<Car, CarDto> {
     //    @PostMapping(params = {"dateFrom","dateTo","picUpOfficeId"})
     //TODO consider if this endpoint is correct
     @PostMapping("/search")
-    public ResponseEntity<List<CarRentDto>> findByAvailableInDatesAndCriteria(@RequestBody(required = false) CarSearchRequest criteria,
-                                                                              @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFrom,
-                                                                              @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateTo,
-                                                                              @RequestParam Long pickUpOfficeId) {
-        return ResponseEntity.ok(service.findByAvailableInDatesAndCriteria(dateFrom, dateTo, pickUpOfficeId, criteria));
+    public ResponseEntity<List<CarRentResponse>> findByAvailableInDatesAndCriteria(@RequestBody(required = false) CarSearchByCriteriaRequest criteria,
+                                                                                   @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFrom,
+                                                                                   @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateTo,
+                                                                                   @RequestParam Long pickUpOfficeId,
+                                                                                   @RequestParam Long returnOfficeId) {
+        return ResponseEntity.ok(service.findByAvailableInDatesAndCriteria(dateFrom, dateTo, pickUpOfficeId, returnOfficeId, criteria));
 
     }
 

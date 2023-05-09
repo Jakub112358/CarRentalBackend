@@ -66,22 +66,22 @@ public class DbPopulator {
         List<ReservationDto> result = new ArrayList<>();
         result.add(new ReservationDto(0L,
                 LocalDateTime.now(),
-                LocalDate.of(2023,5,10),
-                LocalDate.of(2023,5,15),
+                LocalDate.of(2023, 5, 10),
+                LocalDate.of(2023, 5, 15),
                 BigDecimal.valueOf(300),
                 ReservationStatus.PLANNED,
                 1L, 1L, 1L, 1L));
         result.add(new ReservationDto(0L,
                 LocalDateTime.now(),
-                LocalDate.of(2023,5,12),
-                LocalDate.of(2023,5,19),
+                LocalDate.of(2023, 5, 12),
+                LocalDate.of(2023, 5, 19),
                 BigDecimal.valueOf(500),
                 ReservationStatus.PLANNED,
                 2L, 2L, 1L, 3L));
         result.add(new ReservationDto(0L,
                 LocalDateTime.now(),
-                LocalDate.of(2022,5,12),
-                LocalDate.of(2022,5,19),
+                LocalDate.of(2022, 5, 12),
+                LocalDate.of(2022, 5, 19),
                 BigDecimal.valueOf(500),
                 ReservationStatus.REALIZED,
                 2L, 2L, 1L, 3L));
@@ -124,16 +124,16 @@ public class DbPopulator {
 
     private List<CarDto> createCarList() {
         List<CarDto> cars = new ArrayList<>();
-        cars.add(new CarDto(0L,"opel","astra",10_000,1,2010,CarBodyType.CITY_CAR,Color.BLUE,CarStatus.AVAILABLE,1L,1L));
-        cars.add(new CarDto(0L,"opel","astra",20_000,1,2011,CarBodyType.CITY_CAR,Color.RED,CarStatus.AVAILABLE,1L,1L));
-        cars.add(new CarDto(0L,"opel","astra",30_000,1,2020,CarBodyType.CITY_CAR,Color.RED,CarStatus.AVAILABLE,2L,1L));
-        cars.add(new CarDto(0L,"kia","sportage",40_000,1,2019,CarBodyType.SUV,Color.ORANGE,CarStatus.AVAILABLE,1L,1L));
-        cars.add(new CarDto(0L,"kia","sportage",50_000,1,2018,CarBodyType.SUV,Color.OTHER,CarStatus.AVAILABLE,3L,1L));
-        cars.add(new CarDto(0L,"kia","sportage",60_000,1,2017,CarBodyType.SUV,Color.BLACK,CarStatus.UNAVAILABLE,3L,1L));
-        cars.add(new CarDto(0L,"ford","focus",70_000,1,2016,CarBodyType.ESTATE,Color.BLUE,CarStatus.UNAVAILABLE,1L,1L));
-        cars.add(new CarDto(0L,"ford","focus",80_000,1,2015,CarBodyType.CITY_CAR,Color.BLUE,CarStatus.AVAILABLE,2L,1L));
-        cars.add(new CarDto(0L,"ford","focus",90_000,1,2019,CarBodyType.CITY_CAR,Color.BLUE,CarStatus.AVAILABLE,2L,1L));
-        cars.add(new CarDto(0L,"ford","focus",100_000,1,2021,CarBodyType.CITY_CAR,Color.BLUE,CarStatus.AVAILABLE,1L,1L));
+        cars.add(new CarDto(0L, "opel", "astra", 10_000, 1, 2010, CarBodyType.CITY_CAR, Color.BLUE, CarStatus.AVAILABLE, 1L, 1L));
+        cars.add(new CarDto(0L, "opel", "astra", 20_000, 1, 2011, CarBodyType.CITY_CAR, Color.RED, CarStatus.AVAILABLE, 1L, 1L));
+        cars.add(new CarDto(0L, "opel", "astra", 30_000, 1, 2020, CarBodyType.CITY_CAR, Color.RED, CarStatus.AVAILABLE, 2L, 1L));
+        cars.add(new CarDto(0L, "kia", "sportage", 40_000, 1, 2019, CarBodyType.SUV, Color.ORANGE, CarStatus.AVAILABLE, 1L, 1L));
+        cars.add(new CarDto(0L, "kia", "sportage", 50_000, 1, 2018, CarBodyType.SUV, Color.OTHER, CarStatus.AVAILABLE, 3L, 1L));
+        cars.add(new CarDto(0L, "kia", "sportage", 60_000, 1, 2017, CarBodyType.SUV, Color.BLACK, CarStatus.UNAVAILABLE, 3L, 1L));
+        cars.add(new CarDto(0L, "ford", "focus", 70_000, 1, 2016, CarBodyType.ESTATE, Color.BLUE, CarStatus.UNAVAILABLE, 1L, 1L));
+        cars.add(new CarDto(0L, "ford", "focus", 80_000, 1, 2015, CarBodyType.CITY_CAR, Color.BLUE, CarStatus.AVAILABLE, 2L, 1L));
+        cars.add(new CarDto(0L, "ford", "focus", 90_000, 1, 2019, CarBodyType.CITY_CAR, Color.BLUE, CarStatus.AVAILABLE, 2L, 1L));
+        cars.add(new CarDto(0L, "ford", "focus", 100_000, 1, 2021, CarBodyType.CITY_CAR, Color.BLUE, CarStatus.AVAILABLE, 1L, 1L));
 
         return cars;
     }
@@ -150,6 +150,7 @@ public class DbPopulator {
                 .domain("www.company.com")
                 .logotype(getPicture())
                 .address(getAddress())
+                .differentOfficesExtraCharge(50.0)
                 .build());
     }
 

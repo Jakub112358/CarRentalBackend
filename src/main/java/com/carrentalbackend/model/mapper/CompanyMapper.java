@@ -19,6 +19,7 @@ public class CompanyMapper implements CrudMapper<Company, CompanyDto> {
                 .logotype(dto.getLogotype())
                 .address(dto.getAddress())
                 .finances(new Finances())
+                .differentOfficesExtraCharge(dto.getDifferentOfficesExtraCharge())
                 .build();
     }
 

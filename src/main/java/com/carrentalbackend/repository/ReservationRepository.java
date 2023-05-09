@@ -12,4 +12,6 @@ import java.util.List;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
     List<Reservation> findAllByDateFromBeforeAndCar_IdAndStatusNot(LocalDate date, Long carId, ReservationStatus status);
+
+    List<Reservation> findAllByClient_Id(Long clientId);
 }

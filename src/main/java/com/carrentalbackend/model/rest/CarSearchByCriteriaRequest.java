@@ -1,4 +1,4 @@
-package com.carrentalbackend.model.request;
+package com.carrentalbackend.model.rest;
 
 import com.carrentalbackend.model.enumeration.Color;
 import lombok.*;
@@ -8,6 +8,6 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CarSearchRequest {
+public class CarSearchByCriteriaRequest {
     private Color color;
 }

@@ -1,7 +1,7 @@
 package com.carrentalbackend.model.mapper;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
-import com.carrentalbackend.model.dto.CarRentDto;
+import com.carrentalbackend.model.rest.CarRentResponse;
 import com.carrentalbackend.model.dto.crudDto.CarDto;
 import com.carrentalbackend.model.dto.updateDto.CarUpdateDto;
 import com.carrentalbackend.model.dto.updateDto.UpdateDto;
@@ -62,7 +62,7 @@ public class CarMapper implements CrudMapper<Car, CarDto> {
     @Override
     public CarDto toDto(Car entity) {
         Long officeId = entity.getCurrentBranchOffice() != null ? entity.getCurrentBranchOffice().getId() : null;
-        Long pricelistId = entity.getPriceList() != null ? entity.getPriceList().getId() : null;
+        Long priceListId = entity.getPriceList() != null ? entity.getPriceList().getId() : null;
         return CarDto.builder()
                 .id(entity.getId())
                 .make(entity.getMake())
@@ -73,15 +73,15 @@ public class CarMapper implements CrudMapper<Car, CarDto> {
                 .bodyType(entity.getBodyType())
                 .color(entity.getColor())
                 .status(entity.getStatus())
-                .priceListId(pricelistId)
+                .priceListId(priceListId)
                 .currentBranchOfficeId(officeId)
                 .build();
     }
 
-    public CarRentDto toRentDto(Car entity) {
+    public CarRentResponse toRentDto(Car entity) {
         Long officeId = entity.getCurrentBranchOffice() != null ? entity.getCurrentBranchOffice().getId() : null;
         Long priceListId = entity.getPriceList() != null ? entity.getPriceList().getId() : null;
-        return CarRentDto.builder()
+        return CarRentResponse.builder()
                 .id(entity.getId())
                 .make(entity.getMake())
                 .model(entity.getModel())

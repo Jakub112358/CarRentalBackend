@@ -16,6 +16,7 @@ public class Company implements CrudEntity {
     private long id;
     private String name;
     private String domain;
+    private double differentOfficesExtraCharge;
     @Lob
     @Basic(fetch = FetchType.LAZY)
     private byte[] logotype;

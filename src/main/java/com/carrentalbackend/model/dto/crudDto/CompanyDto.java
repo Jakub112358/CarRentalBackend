@@ -14,6 +14,7 @@ public class CompanyDto implements CrudDto {
     private String domain;
     private byte[] logotype;
     private Address address;
+    private double differentOfficesExtraCharge;
 
 
 }
