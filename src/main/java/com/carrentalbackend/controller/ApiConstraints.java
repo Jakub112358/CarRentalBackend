@@ -10,4 +10,5 @@ public class ApiConstraints {
     public final static String CLIENT = BASE_URL + "/clients";
     public final static String PRICE_LIST = BASE_URL + "/pricelists";
     public final static String RESERVATION = BASE_URL + "/reservations";
+    public final static String PICK_UP = BASE_URL + "/pick-ups";
 }
