@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CarReturn {
+public class CarReturn implements CrudEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -22,7 +22,7 @@ public class CarReturn {
     private LocalDate returnDate;
     private LocalDate plannedReturnDate;
     @Enumerated(value = EnumType.STRING)
-    RentalActionStatus status;
+    private RentalActionStatus status;
     @ManyToOne
     private Employee employee;
     @OneToOne(mappedBy = "carReturn")
