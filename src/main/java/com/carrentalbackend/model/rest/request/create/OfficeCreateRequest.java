@@ -9,7 +9,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class OfficeCreateRequest implements CreateRequest{
-    private long id;
     private Address address;
     private Long companyId;
 }

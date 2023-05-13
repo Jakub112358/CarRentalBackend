@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class ReservationUpdateRequest implements UpdateRequest{
-    private long id;
     private LocalDateTime reservationDate;
     private LocalDate dateFrom;
     private LocalDate dateTo;

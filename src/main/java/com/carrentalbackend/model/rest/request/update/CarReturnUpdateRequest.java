@@ -12,7 +12,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class CarReturnUpdateRequest implements UpdateRequest {
-    private long id;
     private String comments;
     private BigDecimal extraCharge;
     private LocalDate returnDate;
