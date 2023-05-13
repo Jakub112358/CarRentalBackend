@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CarPickUp implements CrudEntity {
+public class PickUp implements CrudEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -28,5 +28,5 @@ public class CarPickUp implements CrudEntity {
     @ManyToOne
     private Car car;
     @ManyToOne
-    private BranchOffice branchOffice;
+    private Office office;
 }

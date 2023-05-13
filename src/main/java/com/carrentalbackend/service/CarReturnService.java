@@ -38,7 +38,7 @@ public class CarReturnService extends CrudService<CarReturn, CarReturnDto> {
     }
 
     public Set<CarReturnDto> findAllByOfficeId(Long officeId) {
-        return carReturnRepository.findAllByBranchOffice_Id(officeId)
+        return carReturnRepository.findAllByOffice_Id(officeId)
                 .stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toSet());

@@ -2,6 +2,9 @@ package com.carrentalbackend.controller;
 
 import com.carrentalbackend.model.dto.crudDto.CrudDto;
 import com.carrentalbackend.model.entity.CrudEntity;
+import com.carrentalbackend.model.rest.request.create.CreateRequest;
+import com.carrentalbackend.model.rest.request.update.UpdateRequest;
+import com.carrentalbackend.model.rest.response.Response;
 import com.carrentalbackend.service.CrudService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -10,32 +13,34 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 
-public abstract class CrudController<T extends CrudEntity, K extends CrudDto> {
-    protected final CrudService<T, K> service;
+public abstract class CrudController<T extends CreateRequest, U extends UpdateRequest> {
+    //TODO: refactor service!
+    protected final CrudService<?, ?> service;
 
     @PostMapping
-    public ResponseEntity<CrudDto> save(@RequestBody K dto) {
-        CrudDto responseDTO = service.save(dto);
-        URI newResourceLocation = getNewResourceLocation(responseDTO.getId());
-        return ResponseEntity.created(newResourceLocation).body(responseDTO);
+    public ResponseEntity<Response> save(@RequestBody T createRequest) {
+        Response response = service.save(createRequest);
+        URI newResourceLocation = getNewResourceLocation(response.getId());
+        return ResponseEntity.created(newResourceLocation).body(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<K>> findAll() {
+    public ResponseEntity<Set<Response>> findAll() {
         return ResponseEntity.ok(service.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<K> findById(@PathVariable Long id) {
+    public ResponseEntity<Response> findById(@PathVariable Long id) {
         return ResponseEntity.ok(service.findById(id));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<K> update(@PathVariable Long id, @RequestBody K requestDto) {
-        return ResponseEntity.ok(service.update(id, requestDto));
+    public ResponseEntity<Response> update(@PathVariable Long id, @RequestBody U updateRequest) {
+        return ResponseEntity.ok(service.update(id, updateRequest));
     }
 
     @DeleteMapping("/{id}")

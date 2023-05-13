@@ -1,6 +1,6 @@
 package com.carrentalbackend.model.dto.updateDto;
 
-import com.carrentalbackend.model.entity.BranchOffice;
+import com.carrentalbackend.model.entity.Office;
 import com.carrentalbackend.model.entity.PriceList;
 import com.carrentalbackend.model.enumeration.CarBodyType;
 import com.carrentalbackend.model.enumeration.CarStatus;
@@ -22,5 +22,5 @@ public class CarUpdateDto implements UpdateDto {
     private Color color;
     private CarStatus status;
     private PriceList priceList;
-    private BranchOffice currentBranchOffice;
+    private Office currentOffice;
 }

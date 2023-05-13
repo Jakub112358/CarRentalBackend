@@ -1,16 +1,16 @@
 package com.carrentalbackend.service;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
-import com.carrentalbackend.model.rest.CarRentResponse;
+import com.carrentalbackend.model.rest.response.CarRentResponse;
 import com.carrentalbackend.model.dto.crudDto.CarDto;
-import com.carrentalbackend.model.entity.BranchOffice;
+import com.carrentalbackend.model.entity.Office;
 import com.carrentalbackend.model.entity.Car;
 import com.carrentalbackend.model.entity.PriceList;
 import com.carrentalbackend.model.entity.Reservation;
 import com.carrentalbackend.model.enumeration.CarStatus;
 import com.carrentalbackend.model.enumeration.ReservationStatus;
 import com.carrentalbackend.model.mapper.CarMapper;
-import com.carrentalbackend.model.rest.CarSearchByCriteriaRequest;
+import com.carrentalbackend.model.rest.request.CarSearchByCriteriaRequest;
 import com.carrentalbackend.repository.CarRepository;
 import com.carrentalbackend.repository.CompanyRepository;
 import com.carrentalbackend.repository.PriceListRepository;
@@ -48,8 +48,8 @@ public class CarService extends CrudService<Car, CarDto> {
         this.companyRepository = companyRepository;
     }
 
-    public List<CarDto> findAllByBranchOfficeId(Long branchOfficeId) {
-        return carRepository.findAllByCurrentBranchOffice_Id(branchOfficeId)
+    public List<CarDto> findAllByOfficeId(Long branchOfficeId) {
+        return carRepository.findAllByCurrentOffice_Id(branchOfficeId)
                 .stream()
                 .map(mapper::toDto)
                 .toList();
@@ -123,10 +123,10 @@ public class CarService extends CrudService<Car, CarDto> {
         Optional<Reservation> lastReservation = reservations.stream().max(Comparator.comparing(Reservation::getDateTo));
         return lastReservation
                 .map(reservation -> compareOffices(reservation.getReturnOffice(), pickUpOfficeId))
-                .orElseGet(() -> compareOffices(car.getCurrentBranchOffice(), pickUpOfficeId));
+                .orElseGet(() -> compareOffices(car.getCurrentOffice(), pickUpOfficeId));
     }
 
-    private boolean compareOffices(BranchOffice office, Long pickUpOfficeId) {
+    private boolean compareOffices(Office office, Long pickUpOfficeId) {
         if (office != null) {
             return office.getId() == pickUpOfficeId;
         }

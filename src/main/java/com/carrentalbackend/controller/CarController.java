@@ -1,23 +1,24 @@
 package com.carrentalbackend.controller;
 
-import com.carrentalbackend.model.rest.CarRentResponse;
-import com.carrentalbackend.model.dto.crudDto.CarDto;
-import com.carrentalbackend.model.entity.Car;
-import com.carrentalbackend.model.rest.CarSearchByCriteriaRequest;
+import com.carrentalbackend.model.rest.request.CarSearchByCriteriaRequest;
+import com.carrentalbackend.model.rest.request.create.CarCreateRequest;
+import com.carrentalbackend.model.rest.request.update.CarUpdateRequest;
+import com.carrentalbackend.model.rest.response.CarRentResponse;
+import com.carrentalbackend.model.rest.response.CarResponse;
 import com.carrentalbackend.service.CarService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 import static com.carrentalbackend.controller.ApiConstraints.CAR;
 
 @RestController
 @RequestMapping(CAR)
 @CrossOrigin(origins = "http://localhost:4200")
-public class CarController extends CrudController<Car, CarDto> {
+public class CarController extends CrudController<CarCreateRequest, CarUpdateRequest> {
     private final CarService service;
 
     public CarController(CarService service) {
@@ -25,19 +26,18 @@ public class CarController extends CrudController<Car, CarDto> {
         this.service = service;
     }
 
-    @GetMapping(params = "branchOfficeId")
-    public ResponseEntity<List<CarDto>> findByBranchOfficeId(@RequestParam Long branchOfficeId) {
-        return ResponseEntity.ok(service.findAllByBranchOfficeId(branchOfficeId));
+    @GetMapping(params = "officeId")
+    public ResponseEntity<Set<CarResponse>> findByOfficeId(@RequestParam Long officeId) {
+        return ResponseEntity.ok(service.findAllByOfficeId(officeId));
     }
 
-    //    @PostMapping(params = {"dateFrom","dateTo","picUpOfficeId"})
-    //TODO consider if this endpoint is correct
+    //TODO: consider if this endpoint is correct
     @PostMapping("/search")
-    public ResponseEntity<List<CarRentResponse>> findByAvailableInDatesAndCriteria(@RequestBody(required = false) CarSearchByCriteriaRequest criteria,
-                                                                                   @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFrom,
-                                                                                   @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateTo,
-                                                                                   @RequestParam Long pickUpOfficeId,
-                                                                                   @RequestParam Long returnOfficeId) {
+    public ResponseEntity<Set<CarRentResponse>> findByAvailableInDatesAndCriteria(@RequestBody(required = false) CarSearchByCriteriaRequest criteria,
+                                                                                  @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFrom,
+                                                                                  @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateTo,
+                                                                                  @RequestParam Long pickUpOfficeId,
+                                                                                  @RequestParam Long returnOfficeId) {
         return ResponseEntity.ok(service.findByAvailableInDatesAndCriteria(dateFrom, dateTo, pickUpOfficeId, returnOfficeId, criteria));
 
     }

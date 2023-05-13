@@ -1,4 +1,4 @@
-package com.carrentalbackend.model.rest;
+package com.carrentalbackend.model.rest.response;
 
 import com.carrentalbackend.model.enumeration.CarBodyType;
 import com.carrentalbackend.model.enumeration.CarStatus;

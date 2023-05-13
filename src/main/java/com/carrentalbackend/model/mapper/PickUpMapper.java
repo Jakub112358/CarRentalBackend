@@ -3,6 +3,8 @@ package com.carrentalbackend.model.mapper;
 import com.carrentalbackend.model.dto.crudDto.PickUpDto;
 import com.carrentalbackend.model.dto.updateDto.PickUpUpdateDto;
 import com.carrentalbackend.model.entity.*;
+import com.carrentalbackend.model.rest.request.create.CreateRequest;
+import com.carrentalbackend.model.rest.response.Response;
 import com.carrentalbackend.repository.CarRepository;
 import com.carrentalbackend.repository.EmployeeRepository;
 import com.carrentalbackend.repository.OfficeRepository;
@@ -12,14 +14,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class PickUpMapper implements CrudMapper<CarPickUp, PickUpDto> {
+public class PickUpMapper implements CrudMapper<PickUp, PickUpDto> {
     private final EmployeeRepository employeeRepository;
     private final CarRepository carRepository;
     private final ReservationRepository reservationRepository;
     private final OfficeRepository officeRepository;
     //TODO: implement
     @Override
-    public CarPickUp toNewEntity(PickUpDto dto) {
+    public PickUp toNewEntity(PickUpDto dto) {
         return null;
     }
 
@@ -28,7 +30,7 @@ public class PickUpMapper implements CrudMapper<CarPickUp, PickUpDto> {
         Employee employee = dto.getEmployeeId() != null ? employeeRepository.getReferenceById(dto.getEmployeeId()) : null;
         Reservation reservation = dto.getReservationId() != null ? reservationRepository.getReferenceById(dto.getReservationId()) : null;
         Car car = dto.getCarId() != null ? carRepository.getReferenceById(dto.getId()) : null;
-        BranchOffice office = dto.getBranchOfficeId() != null ? officeRepository.getReferenceById(dto.getBranchOfficeId()) : null;
+        Office office = dto.getBranchOfficeId() != null ? officeRepository.getReferenceById(dto.getBranchOfficeId()) : null;
 
         return PickUpUpdateDto.builder()
                 .comments(dto.getComments())
@@ -38,16 +40,16 @@ public class PickUpMapper implements CrudMapper<CarPickUp, PickUpDto> {
                 .employee(employee)
                 .reservation(reservation)
                 .car(car)
-                .branchOffice(office)
+                .office(office)
                 .build();
     }
 
     @Override
-    public PickUpDto toDto(CarPickUp entity) {
+    public PickUpDto toDto(PickUp entity) {
         Long employeeId = entity.getEmployee() != null ? entity.getEmployee().getId() : null;
         Long reservationId = entity.getReservation() != null ? entity.getReservation().getId() : null;
         Long carId = entity.getCar() != null ? entity.getCar().getId() : null;
-        Long branchOfficeId = entity.getBranchOffice() != null ? entity.getBranchOffice().getId() : null;
+        Long branchOfficeId = entity.getOffice() != null ? entity.getOffice().getId() : null;
         return PickUpDto.builder()
                 .id(entity.getId())
                 .comments(entity.getComments())
@@ -59,5 +61,15 @@ public class PickUpMapper implements CrudMapper<CarPickUp, PickUpDto> {
                 .carId(carId)
                 .branchOfficeId(branchOfficeId)
                 .build();
+    }
+
+    @Override
+    public PickUp toNewEntity(CreateRequest request) {
+        return null;
+    }
+
+    @Override
+    public Response toCreateResponse(PickUp entity) {
+        return null;
     }
 }

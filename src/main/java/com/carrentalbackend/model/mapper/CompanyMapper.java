@@ -5,6 +5,10 @@ import com.carrentalbackend.model.dto.updateDto.CompanyUpdateDto;
 import com.carrentalbackend.model.dto.updateDto.UpdateDto;
 import com.carrentalbackend.model.entity.Company;
 import com.carrentalbackend.model.entity.Finances;
+import com.carrentalbackend.model.rest.request.create.CompanyCreateRequest;
+import com.carrentalbackend.model.rest.request.create.CreateRequest;
+import com.carrentalbackend.model.rest.response.Response;
+import com.carrentalbackend.service.util.ServiceUtil;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -45,5 +49,23 @@ public class CompanyMapper implements CrudMapper<Company, CompanyDto> {
                 .build();
     }
 
+    @Override
+    public Company toNewEntity(CreateRequest request) {
+        ServiceUtil.checkIfInstance(request, CompanyCreateRequest.class);
+        CompanyCreateRequest companyRequest = (CompanyCreateRequest) request;
 
+        return Company.builder()
+                .name(companyRequest.getName())
+                .domain(companyRequest.getDomain())
+                .logotype(companyRequest.getLogotype())
+                .address(companyRequest.getAddress())
+                .finances(new Finances())
+                .differentOfficesExtraCharge(companyRequest.getDifferentOfficesExtraCharge())
+                .build();
+    }
+
+    @Override
+    public Response toCreateResponse(Company entity) {
+        return null;
+    }
 }

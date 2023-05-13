@@ -25,6 +25,6 @@ public class EmployeeService extends CrudService<Employee, EmployeeDto> {
     }
 
     public List<EmployeeDto> findAllByBranchOfficeId(Long id) {
-        return repository.findAllByBranchOffice_Id(id).stream().map(mapper::toDto).toList();
+        return repository.findAllByOffice_Id(id).stream().map(mapper::toDto).toList();
     }
 }

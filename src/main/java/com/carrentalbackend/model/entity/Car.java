@@ -31,6 +31,6 @@ public class Car implements CrudEntity {
     @ManyToOne
     private PriceList priceList;
     @ManyToOne
-    private BranchOffice currentBranchOffice;
+    private Office currentOffice;
 
 }

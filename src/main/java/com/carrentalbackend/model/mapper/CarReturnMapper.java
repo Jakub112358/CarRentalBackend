@@ -3,6 +3,8 @@ package com.carrentalbackend.model.mapper;
 import com.carrentalbackend.model.dto.crudDto.CarReturnDto;
 import com.carrentalbackend.model.dto.updateDto.CarReturnUpdateDto;
 import com.carrentalbackend.model.entity.*;
+import com.carrentalbackend.model.rest.request.create.CreateRequest;
+import com.carrentalbackend.model.rest.response.Response;
 import com.carrentalbackend.repository.CarRepository;
 import com.carrentalbackend.repository.EmployeeRepository;
 import com.carrentalbackend.repository.OfficeRepository;
@@ -24,7 +26,7 @@ public class CarReturnMapper implements CrudMapper<CarReturn, CarReturnDto> {
         Employee employee = dto.getEmployeeId() != null ? employeeRepository.getReferenceById(dto.getEmployeeId()) : null;
         Reservation reservation = dto.getReservationId() != null ? reservationRepository.getReferenceById(dto.getReservationId()) : null;
         Car car = dto.getCarId() != null ? carRepository.getReferenceById(dto.getCarId()) : null;
-        BranchOffice branchOffice = dto.getBranchOfficeId() != null ? officeRepository.getReferenceById(dto.getBranchOfficeId()) : null;
+        Office office = dto.getBranchOfficeId() != null ? officeRepository.getReferenceById(dto.getBranchOfficeId()) : null;
 
         return CarReturn.builder()
                 .comments(dto.getComments())
@@ -35,7 +37,7 @@ public class CarReturnMapper implements CrudMapper<CarReturn, CarReturnDto> {
                 .employee(employee)
                 .reservation(reservation)
                 .car(car)
-                .branchOffice(branchOffice)
+                .office(office)
                 .build();
     }
 
@@ -57,7 +59,7 @@ public class CarReturnMapper implements CrudMapper<CarReturn, CarReturnDto> {
         Long reservationId = entity.getReservation() != null ? entity.getReservation().getId() : null;
         Long carId = entity.getCar() != null ? entity.getCar().getId() : null;
         int carMileage = entity.getCar() != null ? entity.getCar().getMileage() : 0;
-        Long branchOfficeId = entity.getBranchOffice() != null ? entity.getBranchOffice().getId() : null;
+        Long branchOfficeId = entity.getOffice() != null ? entity.getOffice().getId() : null;
         return CarReturnDto.builder()
                 .id(entity.getId())
                 .comments(entity.getComments())
@@ -71,5 +73,15 @@ public class CarReturnMapper implements CrudMapper<CarReturn, CarReturnDto> {
                 .branchOfficeId(branchOfficeId)
                 .mileage(carMileage)
                 .build();
+    }
+
+    @Override
+    public CarReturn toNewEntity(CreateRequest request) {
+        return null;
+    }
+
+    @Override
+    public Response toCreateResponse(CarReturn entity) {
+        return null;
     }
 }

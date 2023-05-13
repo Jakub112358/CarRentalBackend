@@ -11,15 +11,15 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BranchOffice implements CrudEntity{
+public class Office implements CrudEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
-    @OneToMany(mappedBy = "branchOffice", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "office", cascade = CascadeType.PERSIST)
     private List<Employee> employees;
-    @OneToMany (mappedBy = "currentBranchOffice", cascade = CascadeType.PERSIST)
+    @OneToMany (mappedBy = "currentOffice", cascade = CascadeType.PERSIST)
     private List<Car> availableCars;
     @ManyToOne
     private Company company;

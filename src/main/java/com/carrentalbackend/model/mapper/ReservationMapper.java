@@ -6,7 +6,9 @@ import com.carrentalbackend.model.dto.updateDto.ReservationUpdateDto;
 import com.carrentalbackend.model.entity.*;
 import com.carrentalbackend.model.enumeration.RentalActionStatus;
 import com.carrentalbackend.model.enumeration.ReservationStatus;
-import com.carrentalbackend.model.rest.ReservationClientResponse;
+import com.carrentalbackend.model.rest.request.create.CreateRequest;
+import com.carrentalbackend.model.rest.response.Response;
+import com.carrentalbackend.model.rest.response.ReservationClientResponse;
 import com.carrentalbackend.repository.CarRepository;
 import com.carrentalbackend.repository.ClientRepository;
 import com.carrentalbackend.repository.OfficeRepository;
@@ -27,9 +29,9 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationDto
         //TODO price should be recalculated!
         Client client = clientRepository.findById(dto.getClientId()).orElseThrow(() -> new ResourceNotFoundException(dto.getClientId()));
         Car car = carRepository.findById(dto.getCarId()).orElseThrow(() -> new ResourceNotFoundException(dto.getCarId()));
-        BranchOffice pickUpOffice = officeRepository.findById(dto.getPickUpOfficeId()).orElseThrow(() -> new ResourceNotFoundException(dto.getPickUpOfficeId()));
-        BranchOffice returnOffice = officeRepository.findById(dto.getReturnOfficeId()).orElseThrow(() -> new ResourceNotFoundException(dto.getReturnOfficeId()));
-        CarPickUp carPickUp = createCarPickUp(dto, car, pickUpOffice);
+        Office pickUpOffice = officeRepository.findById(dto.getPickUpOfficeId()).orElseThrow(() -> new ResourceNotFoundException(dto.getPickUpOfficeId()));
+        Office returnOffice = officeRepository.findById(dto.getReturnOfficeId()).orElseThrow(() -> new ResourceNotFoundException(dto.getReturnOfficeId()));
+        PickUp pickUp = createCarPickUp(dto, car, pickUpOffice);
         CarReturn carReturn = createCarReturn(dto, car, returnOffice);
 
         return Reservation.builder()
@@ -42,26 +44,26 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationDto
                 .car(car)
                 .pickUpOffice(pickUpOffice)
                 .returnOffice(returnOffice)
-                .carPickUp(carPickUp)
+                .pickUp(pickUp)
                 .carReturn(carReturn)
                 .build();
     }
 
-    private CarReturn createCarReturn(ReservationDto dto, Car car, BranchOffice office) {
+    private CarReturn createCarReturn(ReservationDto dto, Car car, Office office) {
         return CarReturn.builder()
                 .plannedReturnDate(dto.getDateTo())
                 .status(RentalActionStatus.PLANNED)
                 .car(car)
-                .branchOffice(office)
+                .office(office)
                 .build();
     }
 
-    private CarPickUp createCarPickUp(ReservationDto dto, Car car, BranchOffice office) {
-        return CarPickUp.builder()
+    private PickUp createCarPickUp(ReservationDto dto, Car car, Office office) {
+        return PickUp.builder()
                 .plannedPickUpDate(dto.getDateFrom())
                 .status(RentalActionStatus.PLANNED)
                 .car(car)
-                .branchOffice(office)
+                .office(office)
                 .build();
     }
 
@@ -69,8 +71,8 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationDto
     @Override
     public ReservationUpdateDto toUpdateEntity(ReservationDto dto) {
         Client client = dto.getClientId() != null ? clientRepository.findById(dto.getClientId()).orElse(null) : null;
-        BranchOffice pickUpOffice = dto.getPickUpOfficeId() != null ? officeRepository.findById(dto.getPickUpOfficeId()).orElse(null) : null;
-        BranchOffice returnOffice = dto.getReturnOfficeId() != null ? officeRepository.findById(dto.getReturnOfficeId()).orElse(null) : null;
+        Office pickUpOffice = dto.getPickUpOfficeId() != null ? officeRepository.findById(dto.getPickUpOfficeId()).orElse(null) : null;
+        Office returnOffice = dto.getReturnOfficeId() != null ? officeRepository.findById(dto.getReturnOfficeId()).orElse(null) : null;
         return ReservationUpdateDto.builder()
                 .dateFrom(dto.getDateFrom())
                 .dateTo(dto.getDateTo())
@@ -118,5 +120,15 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationDto
                 .pickUpOffice(officeMapper.toDto(reservation.getPickUpOffice()))
                 .returnOffice(officeMapper.toDto(reservation.getReturnOffice()))
                 .build();
+    }
+
+    @Override
+    public Reservation toNewEntity(CreateRequest request) {
+        return null;
+    }
+
+    @Override
+    public Response toCreateResponse(Reservation entity) {
+        return null;
     }
 }

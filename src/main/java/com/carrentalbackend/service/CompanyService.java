@@ -26,7 +26,7 @@ public class CompanyService extends CrudService<Company, CompanyDto> {
     }
 
     private void nullBranchOffices(Company company) {
-        company.getBranchOffices().forEach((bo) -> bo.setCompany(null));
+        company.getOffices().forEach((bo) -> bo.setCompany(null));
     }
 
 }

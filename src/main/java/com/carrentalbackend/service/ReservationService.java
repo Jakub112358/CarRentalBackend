@@ -7,7 +7,10 @@ import com.carrentalbackend.model.entity.Income;
 import com.carrentalbackend.model.entity.Reservation;
 import com.carrentalbackend.model.enumeration.ReservationStatus;
 import com.carrentalbackend.model.mapper.ReservationMapper;
-import com.carrentalbackend.model.rest.ReservationClientResponse;
+import com.carrentalbackend.model.rest.request.create.CreateRequest;
+import com.carrentalbackend.model.rest.response.Response;
+import com.carrentalbackend.model.rest.response.ReservationClientResponse;
+import com.carrentalbackend.model.rest.response.ReservationResponse;
 import com.carrentalbackend.repository.CompanyRepository;
 import com.carrentalbackend.repository.FinancesRepository;
 import com.carrentalbackend.repository.IncomeRepository;
@@ -47,25 +50,28 @@ public class ReservationService extends CrudService<Reservation, ReservationDto>
         this.financesRepository = financesRepository;
     }
 
+
     @Override
-    public ReservationDto save(ReservationDto requestDto) {
-        reservationValidator.validate(requestDto);
-        ReservationDto response = super.save(requestDto);
+    public Response save(CreateRequest request) {
+        reservationValidator.validate(request);
+        Response response = super.save(request);
         addIncome(response);
         return response;
     }
 
-    private void addIncome(ReservationDto dto) {
-        Income income = reservationToIncome(dto);
+    private void addIncome(Response response) {
+        Income income = reservationToIncome(response);
         incomeRepository.save(income);
     }
 
-    private Income reservationToIncome(ReservationDto dto) {
+    private Income reservationToIncome(Response response) {
+        //TODO: check this class before
+        ReservationResponse reservationResponse = (ReservationResponse) response;
         //TODO company id hardcoded?
-        Reservation reservation = reservationRepository.getReferenceById(dto.getId());
+        Reservation reservation = reservationRepository.getReferenceById(response.getId());
         Finances finances = companyRepository.findById(1L).orElseThrow().getFinances();
         return Income.builder()
-                .incomeValue(dto.getPrice())
+                .incomeValue(reservationResponse.getPrice())
                 .reservation(reservation)
                 .finances(finances)
                 .build();

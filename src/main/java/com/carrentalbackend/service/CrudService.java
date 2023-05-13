@@ -5,6 +5,8 @@ import com.carrentalbackend.model.dto.crudDto.CrudDto;
 import com.carrentalbackend.model.dto.updateDto.UpdateDto;
 import com.carrentalbackend.model.entity.CrudEntity;
 import com.carrentalbackend.model.mapper.CrudMapper;
+import com.carrentalbackend.model.rest.request.create.CreateRequest;
+import com.carrentalbackend.model.rest.response.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,10 +21,10 @@ public abstract class CrudService<T extends CrudEntity, K extends CrudDto> {
     protected final JpaRepository<T, Long> repository;
     protected final CrudMapper<T, K> mapper;
 
-    public K save(K requestDto) {
-        T entity = mapper.toNewEntity(requestDto);
+    public Response save(CreateRequest request) {
+        T entity = mapper.toNewEntity(request);
         repository.save(entity);
-        return mapper.toDto(entity);
+        return mapper.toCreateResponse(entity);
     }
 
     public List<K> findAll() {

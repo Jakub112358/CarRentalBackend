@@ -1,6 +1,6 @@
 package com.carrentalbackend.model.dto.updateDto;
 
-import com.carrentalbackend.model.entity.BranchOffice;
+import com.carrentalbackend.model.entity.Office;
 import com.carrentalbackend.model.entity.Car;
 import com.carrentalbackend.model.entity.Employee;
 import com.carrentalbackend.model.entity.Reservation;
@@ -22,5 +22,5 @@ public class PickUpUpdateDto implements UpdateDto{
     private Employee employee;
     private Reservation reservation;
     private Car car;
-    private BranchOffice branchOffice;
+    private Office office;
 }

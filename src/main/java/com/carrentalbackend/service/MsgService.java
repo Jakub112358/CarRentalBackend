@@ -39,7 +39,7 @@ public class MsgService {
     }
 
     private List<Msg> checkEmployeesWithNullBranchOffice() {
-        List<Employee> employees = employeeRepository.findAllByBranchOfficeIsNull();
+        List<Employee> employees = employeeRepository.findAllByOfficeIsNull();
         return employees.stream()
                 .map(employee -> createMsg_EmployeeWithNullOffice(employee.getId()))
                 .toList();
@@ -55,7 +55,7 @@ public class MsgService {
     }
 
     private List<Msg> checkCarsWithNullBranchOffice() {
-        List<Car> cars = carRepository.findAllByCurrentBranchOfficeIsNull();
+        List<Car> cars = carRepository.findAllByCurrentOfficeIsNull();
         return cars.stream()
                 .map(car -> createMsg_CarWithNullOffice(car.getId()))
                 .toList();
@@ -88,6 +88,6 @@ public class MsgService {
     }
 
     private Integer getNumberOfManagersInOffice(Long officeId) {
-        return employeeRepository.countAllByBranchOffice_IdAndJobPosition(officeId, JobPosition.MANAGER);
+        return employeeRepository.countAllByOffice_IdAndJobPosition(officeId, JobPosition.MANAGER);
     }
 }
