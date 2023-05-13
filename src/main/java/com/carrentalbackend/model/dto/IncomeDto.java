@@ -1,4 +1,4 @@
-package com.carrentalbackend.model.dto.crudDto;
+package com.carrentalbackend.model.dto;
 
 import lombok.*;
 
@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class IncomeDto implements CrudDto {
+public class IncomeDto {
 
     private long id;
     private BigDecimal incomeValue;

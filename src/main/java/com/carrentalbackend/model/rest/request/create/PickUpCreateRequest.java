@@ -18,5 +18,5 @@ public class PickUpCreateRequest implements CreateRequest{
     private Long employeeId;
     private Long reservationId;
     private Long carId;
-    private Long branchOfficeId;
+    private Long officeId;
 }

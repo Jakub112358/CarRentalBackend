@@ -1,6 +1,6 @@
 package com.carrentalbackend.model.mapper;
 
-import com.carrentalbackend.model.dto.crudDto.IncomeDto;
+import com.carrentalbackend.model.dto.IncomeDto;
 import com.carrentalbackend.model.entity.Income;
 import org.springframework.stereotype.Component;
 

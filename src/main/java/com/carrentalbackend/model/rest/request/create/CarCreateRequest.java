@@ -20,6 +20,6 @@ public class CarCreateRequest implements CreateRequest{
     private Color color;
     private CarStatus status;
     private Long priceListId;
-    private Long currentBranchOfficeId;
+    private Long currentOfficeId;
 
 }

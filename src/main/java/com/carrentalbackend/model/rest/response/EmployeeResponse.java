@@ -13,5 +13,5 @@ public class EmployeeResponse implements Response{
     private String firstName;
     private String lastName;
     private JobPosition jobPosition;
-    private Long branchOfficeId;
+    private Long officeId;
 }

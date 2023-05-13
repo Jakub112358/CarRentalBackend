@@ -1,7 +1,5 @@
 package com.carrentalbackend.model.rest.response;
 
-import com.carrentalbackend.model.dto.crudDto.CarDto;
-import com.carrentalbackend.model.dto.crudDto.OfficeDto;
 import com.carrentalbackend.model.enumeration.ReservationStatus;
 import lombok.*;
 
@@ -20,7 +18,7 @@ public class ReservationClientResponse {
     private BigDecimal price;
     private ReservationStatus status;
     private Long clientId;
-    private CarDto car;
-    private OfficeDto pickUpOffice;
-    private OfficeDto returnOffice;
+    private CarResponse car;
+    private OfficeResponse pickUpOffice;
+    private OfficeResponse returnOffice;
 }

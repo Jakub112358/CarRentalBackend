@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Transactional
 public abstract class CrudService<T extends CrudEntity> {
     protected final JpaRepository<T, Long> repository;
-    protected final CrudMapper<T, ?> mapper;
+    protected final CrudMapper<T> mapper;
 
     public Response save(CreateRequest request) {
         T entity = mapper.toNewEntity(request);

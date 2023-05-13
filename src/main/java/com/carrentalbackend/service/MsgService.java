@@ -12,10 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-
 import java.util.List;
-
-import static com.carrentalbackend.util.MsgConstants.*;
 
 @RequiredArgsConstructor
 @Service
@@ -23,6 +20,7 @@ public class MsgService {
     private final OfficeRepository officeRepository;
     private final EmployeeRepository employeeRepository;
     private final CarRepository carRepository;
+
     public List<Msg> getAllByRecipient(MsgRecipient recipient) {
         return switch (recipient) {
             case ADMIN -> getMsgsForAdmin();
@@ -47,7 +45,7 @@ public class MsgService {
 
     private Msg createMsg_EmployeeWithNullOffice(Long id) {
         String content = createContent_EmployeeWithNullOffice(id);
-        return new Msg(WARNING_EMPLOYEE_NULL_OFFICE, content, MsgRecipient.ADMIN);
+        return new Msg("Employee with empty branch office field", content, MsgRecipient.ADMIN);
     }
 
     private String createContent_EmployeeWithNullOffice(Long id) {
@@ -61,9 +59,9 @@ public class MsgService {
                 .toList();
     }
 
-    private Msg createMsg_CarWithNullOffice(Long id){
+    private Msg createMsg_CarWithNullOffice(Long id) {
         String content = createContent_CarWithNullOffice(id);
-        return new Msg(WARNING_CAR_NULL_OFFICE, content, MsgRecipient.ADMIN);
+        return new Msg("Car with empty branch office field", content, MsgRecipient.ADMIN);
     }
 
     private String createContent_CarWithNullOffice(Long id) {
@@ -75,9 +73,9 @@ public class MsgService {
         List<Long> officeIds = officeRepository.getAllOfficeIds();
         for (Long officeId : officeIds) {
             int managers = getNumberOfManagersInOffice(officeId);
-            if (managers != 1){
+            if (managers != 1) {
                 String content = createIncorrectNumberOfManagersContent(officeId, managers);
-                result.add(new Msg(WARNING_MANAGERS, content, MsgRecipient.ADMIN));
+                result.add(new Msg("Incorrect manager number", content, MsgRecipient.ADMIN));
             }
         }
         return result;

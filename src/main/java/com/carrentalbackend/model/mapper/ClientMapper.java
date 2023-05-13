@@ -1,11 +1,14 @@
 package com.carrentalbackend.model.mapper;
 
-import com.carrentalbackend.model.dto.crudDto.ClientDto;
 import com.carrentalbackend.model.dto.updateDto.ClientUpdateDto;
 import com.carrentalbackend.model.dto.updateDto.UpdateDto;
 import com.carrentalbackend.model.entity.Client;
+import com.carrentalbackend.model.rest.request.create.ClientCreateRequest;
 import com.carrentalbackend.model.rest.request.create.CreateRequest;
+import com.carrentalbackend.model.rest.request.update.UpdateRequest;
+import com.carrentalbackend.model.rest.response.ClientResponse;
 import com.carrentalbackend.model.rest.response.Response;
+import com.carrentalbackend.service.util.ServiceUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,32 +16,26 @@ import java.util.ArrayList;
 
 @Component
 @RequiredArgsConstructor
-public class ClientMapper implements CrudMapper<Client, ClientDto> {
+public class ClientMapper implements CrudMapper<Client> {
+
+
     @Override
-    public Client toNewEntity(ClientDto dto) {
+    public Client toNewEntity(CreateRequest request) {
+        ServiceUtil.checkIfInstance(request, ClientCreateRequest.class);
+        ClientCreateRequest clientRequest = (ClientCreateRequest) request;
+
         return Client.builder()
-                .id(dto.getId())
-                .firstName(dto.getFirstName())
-                .lastName(dto.getLastName())
-                .email(dto.getEmail())
-                .address(dto.getAddress())
+                .firstName(clientRequest.getFirstName())
+                .lastName(clientRequest.getLastName())
+                .email(clientRequest.getEmail())
+                .address(clientRequest.getAddress())
                 .reservations(new ArrayList<>())
                 .build();
     }
 
     @Override
-    public UpdateDto toUpdateEntity(ClientDto dto) {
-        return ClientUpdateDto.builder()
-                .firstName(dto.getFirstName())
-                .lastName(dto.getLastName())
-                .email(dto.getEmail())
-                .address(dto.getAddress())
-                .build();
-    }
-
-    @Override
-    public ClientDto toDto(Client entity) {
-        return ClientDto.builder()
+    public Response toResponse(Client entity) {
+        return ClientResponse.builder()
                 .id(entity.getId())
                 .firstName(entity.getFirstName())
                 .lastName(entity.getLastName())
@@ -48,12 +45,15 @@ public class ClientMapper implements CrudMapper<Client, ClientDto> {
     }
 
     @Override
-    public Client toNewEntity(CreateRequest request) {
-        return null;
-    }
+    public UpdateDto toUpdateDto(UpdateRequest request) {
+        ServiceUtil.checkIfInstance(request, ClientCreateRequest.class);
+        ClientCreateRequest clientRequest = (ClientCreateRequest) request;
 
-    @Override
-    public Response toResponse(Client entity) {
-        return null;
+        return ClientUpdateDto.builder()
+                .firstName(clientRequest.getFirstName())
+                .lastName(clientRequest.getLastName())
+                .email(clientRequest.getEmail())
+                .address(clientRequest.getAddress())
+                .build();
     }
 }

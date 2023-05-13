@@ -23,7 +23,7 @@ public class PickUp implements CrudEntity {
     private RentalActionStatus status;
     @ManyToOne
     private Employee employee;
-    @OneToOne(mappedBy = "carPickUp")
+    @OneToOne(mappedBy = "pickUp")
     private Reservation reservation;
     @ManyToOne
     private Car car;

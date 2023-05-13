@@ -1,14 +1,17 @@
 package com.carrentalbackend.model.mapper;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
-import com.carrentalbackend.model.dto.crudDto.EmployeeDto;
 import com.carrentalbackend.model.dto.updateDto.EmployeeUpdateDto;
 import com.carrentalbackend.model.dto.updateDto.UpdateDto;
-import com.carrentalbackend.model.entity.Office;
 import com.carrentalbackend.model.entity.Employee;
+import com.carrentalbackend.model.entity.Office;
 import com.carrentalbackend.model.rest.request.create.CreateRequest;
+import com.carrentalbackend.model.rest.request.create.EmployeeCreateRequest;
+import com.carrentalbackend.model.rest.request.update.UpdateRequest;
+import com.carrentalbackend.model.rest.response.EmployeeResponse;
 import com.carrentalbackend.model.rest.response.Response;
 import com.carrentalbackend.repository.OfficeRepository;
+import com.carrentalbackend.service.util.ServiceUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -16,59 +19,56 @@ import java.util.ArrayList;
 
 @Component
 @RequiredArgsConstructor
-public class EmployeeMapper implements CrudMapper<Employee, EmployeeDto> {
+public class EmployeeMapper implements CrudMapper<Employee> {
     private final OfficeRepository officeRepository;
+
+    private Office findOfficeById(Long id) {
+        if (id == null) {
+            return null;
+        } else {
+            return officeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        }
+    }
+
     @Override
-    public Employee toNewEntity(EmployeeDto dto) {
-        Office office = findOfficeById(dto.getBranchOfficeId());
+    public Employee toNewEntity(CreateRequest request) {
+        ServiceUtil.checkIfInstance(request, EmployeeCreateRequest.class);
+        EmployeeCreateRequest employeeRequest = (EmployeeCreateRequest) request;
+
+        Office office = findOfficeById(employeeRequest.getBranchOfficeId());
         return Employee.builder()
-                .id(dto.getId())
-                .firstName(dto.getFirstName())
-                .lastName(dto.getLastName())
-                .jobPosition(dto.getJobPosition())
+                .id(employeeRequest.getId())
+                .firstName(employeeRequest.getFirstName())
+                .lastName(employeeRequest.getLastName())
+                .jobPosition(employeeRequest.getJobPosition())
                 .office(office)
                 .pickUps(new ArrayList<>())
                 .build();
     }
 
     @Override
-    public UpdateDto toUpdateEntity(EmployeeDto dto) {
-        Office office = findOfficeById(dto.getBranchOfficeId());
-        return EmployeeUpdateDto.builder()
-                .firstName(dto.getFirstName())
-                .lastName(dto.getLastName())
-                .jobPosition(dto.getJobPosition())
-                .office(office)
-                .build();
-    }
-
-    @Override
-    public EmployeeDto toDto(Employee entity) {
+    public Response toResponse(Employee entity) {
         Long officeId = entity.getOffice() != null ? entity.getOffice().getId() : null;
-        return EmployeeDto.builder()
+        return EmployeeResponse.builder()
                 .id(entity.getId())
                 .firstName(entity.getFirstName())
                 .lastName(entity.getLastName())
                 .jobPosition(entity.getJobPosition())
-                .branchOfficeId(officeId)
+                .officeId(officeId)
                 .build();
     }
 
-    private Office findOfficeById(Long id) {
-        if (id == null) {
-            return null;
-        } else {
-            return officeRepository.findById(id).orElseThrow(()->new ResourceNotFoundException(id));
-        }
-    }
-
     @Override
-    public Employee toNewEntity(CreateRequest request) {
-        return null;
-    }
+    public UpdateDto toUpdateDto(UpdateRequest request) {
+        ServiceUtil.checkIfInstance(request, EmployeeCreateRequest.class);
+        EmployeeCreateRequest employeeRequest = (EmployeeCreateRequest) request;
 
-    @Override
-    public Response toResponse(Employee entity) {
-        return null;
+        Office office = findOfficeById(employeeRequest.getBranchOfficeId());
+        return EmployeeUpdateDto.builder()
+                .firstName(employeeRequest.getFirstName())
+                .lastName(employeeRequest.getLastName())
+                .jobPosition(employeeRequest.getJobPosition())
+                .office(office)
+                .build();
     }
 }

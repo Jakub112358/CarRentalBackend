@@ -1,6 +1,5 @@
-package com.carrentalbackend.model.dto.crudDto;
+package com.carrentalbackend.model.dto.updateDto;
 
-import com.carrentalbackend.model.dto.crudDto.CrudDto;
 import lombok.*;
 
 @Getter
@@ -8,8 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PricelistDto implements CrudDto {
-    private long id;
+public class PriceListUpdateDto implements UpdateDto{
     private Double pricePerDay;
     private Double pricePerWeek;
     private Double pricePerMonth;
