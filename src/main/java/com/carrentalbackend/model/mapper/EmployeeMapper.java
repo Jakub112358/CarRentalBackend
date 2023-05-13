@@ -37,7 +37,6 @@ public class EmployeeMapper implements CrudMapper<Employee> {
 
         Office office = findOfficeById(employeeRequest.getBranchOfficeId());
         return Employee.builder()
-                .id(employeeRequest.getId())
                 .firstName(employeeRequest.getFirstName())
                 .lastName(employeeRequest.getLastName())
                 .jobPosition(employeeRequest.getJobPosition())

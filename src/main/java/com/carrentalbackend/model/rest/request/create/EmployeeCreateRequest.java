@@ -9,7 +9,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class EmployeeCreateRequest implements CreateRequest{
-    private long id;
     private String firstName;
     private String lastName;
     private JobPosition jobPosition;
