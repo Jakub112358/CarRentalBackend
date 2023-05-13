@@ -65,7 +65,7 @@ public class CompanyMapper implements CrudMapper<Company, CompanyDto> {
     }
 
     @Override
-    public Response toCreateResponse(Company entity) {
+    public Response toResponse(Company entity) {
         return null;
     }
 }

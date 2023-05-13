@@ -25,7 +25,7 @@ public class CarMapper implements CrudMapper<Car, CarDto> {
     }
 
     @Override
-    public Response toCreateResponse(Car entity) {
+    public Response toResponse(Car entity) {
         return null;
     }
 
@@ -91,7 +91,7 @@ public class CarMapper implements CrudMapper<Car, CarDto> {
                 .build();
     }
 
-    public CarRentResponse toRentDto(Car entity) {
+    public CarRentResponse toCarRentResponse(Car entity) {
         Long officeId = entity.getCurrentOffice() != null ? entity.getCurrentOffice().getId() : null;
         Long priceListId = entity.getPriceList() != null ? entity.getPriceList().getId() : null;
         return CarRentResponse.builder()

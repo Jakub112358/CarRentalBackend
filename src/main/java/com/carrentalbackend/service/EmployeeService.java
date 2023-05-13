@@ -1,15 +1,16 @@
 package com.carrentalbackend.service;
 
-import com.carrentalbackend.model.dto.crudDto.EmployeeDto;
 import com.carrentalbackend.model.entity.Employee;
 import com.carrentalbackend.model.mapper.EmployeeMapper;
+import com.carrentalbackend.model.rest.response.Response;
 import com.carrentalbackend.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
-public class EmployeeService extends CrudService<Employee, EmployeeDto> {
+public class EmployeeService extends CrudService<Employee> {
     private final EmployeeRepository repository;
 
 
@@ -24,7 +25,7 @@ public class EmployeeService extends CrudService<Employee, EmployeeDto> {
 
     }
 
-    public List<EmployeeDto> findAllByBranchOfficeId(Long id) {
-        return repository.findAllByOffice_Id(id).stream().map(mapper::toDto).toList();
+    public Set<Response> findAllByOfficeId(Long id) {
+        return repository.findAllByOffice_Id(id).stream().map(mapper::toResponse).collect(Collectors.toSet());
     }
 }

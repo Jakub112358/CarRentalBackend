@@ -68,7 +68,7 @@ public class EmployeeMapper implements CrudMapper<Employee, EmployeeDto> {
     }
 
     @Override
-    public Response toCreateResponse(Employee entity) {
+    public Response toResponse(Employee entity) {
         return null;
     }
 }

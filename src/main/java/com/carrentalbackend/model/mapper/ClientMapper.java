@@ -53,7 +53,7 @@ public class ClientMapper implements CrudMapper<Client, ClientDto> {
     }
 
     @Override
-    public Response toCreateResponse(Client entity) {
+    public Response toResponse(Client entity) {
         return null;
     }
 }

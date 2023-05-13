@@ -73,7 +73,7 @@ public class OfficeMapper implements CrudMapper<Office, OfficeDto> {
     }
 
     @Override
-    public Response toCreateResponse(Office entity) {
+    public Response toResponse(Office entity) {
         return OfficeResponse.builder()
                 .id(entity.getId())
                 .address(entity.getAddress())

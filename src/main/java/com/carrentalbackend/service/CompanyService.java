@@ -1,7 +1,6 @@
 package com.carrentalbackend.service;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
-import com.carrentalbackend.model.dto.crudDto.CompanyDto;
 import com.carrentalbackend.model.entity.Company;
 import com.carrentalbackend.model.mapper.CompanyMapper;
 import com.carrentalbackend.repository.CompanyRepository;
@@ -9,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class CompanyService extends CrudService<Company, CompanyDto> {
+public class CompanyService extends CrudService<Company> {
     private final CompanyRepository companyRepository;
 
     public CompanyService(CompanyRepository companyRepository, CompanyMapper companyMapper) {

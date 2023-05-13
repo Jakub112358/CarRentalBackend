@@ -2,7 +2,7 @@ package com.carrentalbackend.controller;
 
 import com.carrentalbackend.model.rest.request.create.CarReturnCreateRequest;
 import com.carrentalbackend.model.rest.request.update.CarReturnUpdateRequest;
-import com.carrentalbackend.model.rest.response.CarReturnResponse;
+import com.carrentalbackend.model.rest.response.Response;
 import com.carrentalbackend.service.CarReturnService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +23,7 @@ public class CarReturnController extends CrudController<CarReturnCreateRequest, 
     }
 
     @GetMapping(params = "officeId")
-    public ResponseEntity<Set<CarReturnResponse>> findAllByOfficeId(@RequestParam Long officeId) {
+    public ResponseEntity<Set<Response>> findAllByOfficeId(@RequestParam Long officeId) {
         return ResponseEntity.ok(carReturnService.findAllByOfficeId(officeId));
     }
 

@@ -81,7 +81,7 @@ public class CarReturnMapper implements CrudMapper<CarReturn, CarReturnDto> {
     }
 
     @Override
-    public Response toCreateResponse(CarReturn entity) {
+    public Response toResponse(CarReturn entity) {
         return null;
     }
 }

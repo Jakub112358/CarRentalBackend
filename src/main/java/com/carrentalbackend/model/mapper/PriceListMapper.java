@@ -42,7 +42,7 @@ public class PriceListMapper implements CrudMapper<PriceList, PricelistDto> {
     }
 
     @Override
-    public Response toCreateResponse(PriceList entity) {
+    public Response toResponse(PriceList entity) {
         return null;
     }
 }

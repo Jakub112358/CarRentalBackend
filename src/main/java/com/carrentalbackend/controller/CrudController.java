@@ -1,7 +1,5 @@
 package com.carrentalbackend.controller;
 
-import com.carrentalbackend.model.dto.crudDto.CrudDto;
-import com.carrentalbackend.model.entity.CrudEntity;
 import com.carrentalbackend.model.rest.request.create.CreateRequest;
 import com.carrentalbackend.model.rest.request.update.UpdateRequest;
 import com.carrentalbackend.model.rest.response.Response;
@@ -12,14 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 import java.util.Set;
 
 @RequiredArgsConstructor
 
 public abstract class CrudController<T extends CreateRequest, U extends UpdateRequest> {
     //TODO: refactor service!
-    protected final CrudService<?, ?> service;
+    protected final CrudService<?> service;
 
     @PostMapping
     public ResponseEntity<Response> save(@RequestBody T createRequest) {

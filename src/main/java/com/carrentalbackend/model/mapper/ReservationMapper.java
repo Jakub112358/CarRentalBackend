@@ -128,7 +128,7 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationDto
     }
 
     @Override
-    public Response toCreateResponse(Reservation entity) {
+    public Response toResponse(Reservation entity) {
         return null;
     }
 }

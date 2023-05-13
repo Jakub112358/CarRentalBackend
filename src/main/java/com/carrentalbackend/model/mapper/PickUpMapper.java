@@ -69,7 +69,7 @@ public class PickUpMapper implements CrudMapper<PickUp, PickUpDto> {
     }
 
     @Override
-    public Response toCreateResponse(PickUp entity) {
+    public Response toResponse(PickUp entity) {
         return null;
     }
 }

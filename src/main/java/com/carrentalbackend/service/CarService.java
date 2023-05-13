@@ -1,34 +1,31 @@
 package com.carrentalbackend.service;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
-import com.carrentalbackend.model.rest.response.CarRentResponse;
-import com.carrentalbackend.model.dto.crudDto.CarDto;
-import com.carrentalbackend.model.entity.Office;
 import com.carrentalbackend.model.entity.Car;
+import com.carrentalbackend.model.entity.Office;
 import com.carrentalbackend.model.entity.PriceList;
 import com.carrentalbackend.model.entity.Reservation;
 import com.carrentalbackend.model.enumeration.CarStatus;
 import com.carrentalbackend.model.enumeration.ReservationStatus;
 import com.carrentalbackend.model.mapper.CarMapper;
 import com.carrentalbackend.model.rest.request.CarSearchByCriteriaRequest;
+import com.carrentalbackend.model.rest.response.CarRentResponse;
+import com.carrentalbackend.model.rest.response.Response;
 import com.carrentalbackend.repository.CarRepository;
 import com.carrentalbackend.repository.CompanyRepository;
 import com.carrentalbackend.repository.PriceListRepository;
 import com.carrentalbackend.repository.ReservationRepository;
 import org.springframework.stereotype.Service;
 
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
-public class CarService extends CrudService<Car, CarDto> {
+public class CarService extends CrudService<Car> {
     private final CarRepository carRepository;
     private final ReservationRepository reservationRepository;
     private final PriceListRepository priceListRepository;
@@ -48,11 +45,11 @@ public class CarService extends CrudService<Car, CarDto> {
         this.companyRepository = companyRepository;
     }
 
-    public List<CarDto> findAllByOfficeId(Long branchOfficeId) {
-        return carRepository.findAllByCurrentOffice_Id(branchOfficeId)
+    public Set<Response> findAllByOfficeId(Long officeId) {
+        return carRepository.findAllByCurrentOffice_Id(officeId)
                 .stream()
-                .map(mapper::toDto)
-                .toList();
+                .map(mapper::toResponse)
+                .collect(Collectors.toSet());
     }
 
     //TODO implement method
@@ -60,16 +57,16 @@ public class CarService extends CrudService<Car, CarDto> {
     public void deleteById(Long id) {
     }
 
-    public List<CarRentResponse> findByAvailableInDatesAndCriteria(LocalDate dateFrom, LocalDate dateTo, Long pickUpOfficeId, Long returnOfficeId, CarSearchByCriteriaRequest criteria) {
+    public Set<CarRentResponse> findByAvailableInDatesAndCriteria(LocalDate dateFrom, LocalDate dateTo, Long pickUpOfficeId, Long returnOfficeId, CarSearchByCriteriaRequest criteria) {
         //TODO: implement criteria
         List<Car> cars = carRepository.findAllByStatusIsNot(CarStatus.UNAVAILABLE);
         int rentalLength = calculateRentalLength(dateFrom, dateTo);
         boolean sameOffices = Objects.equals(returnOfficeId, pickUpOfficeId);
         return cars.stream()
                 .filter(c -> checkIfAvailable(c, dateFrom, dateTo, pickUpOfficeId))
-                .map(carMapper::toRentDto)
-                .peek(rentDto -> calculateAndSetPrice(rentDto, rentalLength, sameOffices))
-                .toList();
+                .map(carMapper::toCarRentResponse)
+                .peek(response -> calculateAndSetPrice(response, rentalLength, sameOffices))
+                .collect(Collectors.toSet());
     }
 
     private void calculateAndSetPrice(CarRentResponse rentResponse, int rentalLength, boolean sameOffices) {

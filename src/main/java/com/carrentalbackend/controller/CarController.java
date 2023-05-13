@@ -4,7 +4,7 @@ import com.carrentalbackend.model.rest.request.CarSearchByCriteriaRequest;
 import com.carrentalbackend.model.rest.request.create.CarCreateRequest;
 import com.carrentalbackend.model.rest.request.update.CarUpdateRequest;
 import com.carrentalbackend.model.rest.response.CarRentResponse;
-import com.carrentalbackend.model.rest.response.CarResponse;
+import com.carrentalbackend.model.rest.response.Response;
 import com.carrentalbackend.service.CarService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +27,7 @@ public class CarController extends CrudController<CarCreateRequest, CarUpdateReq
     }
 
     @GetMapping(params = "officeId")
-    public ResponseEntity<Set<CarResponse>> findByOfficeId(@RequestParam Long officeId) {
+    public ResponseEntity<Set<Response>> findByOfficeId(@RequestParam Long officeId) {
         return ResponseEntity.ok(service.findAllByOfficeId(officeId));
     }
 
