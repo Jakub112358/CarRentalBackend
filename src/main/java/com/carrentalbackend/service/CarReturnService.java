@@ -2,12 +2,12 @@ package com.carrentalbackend.service;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
 import com.carrentalbackend.model.entity.*;
-import com.carrentalbackend.model.mapper.CarReturnMapper;
+import com.carrentalbackend.model.rest.request.create.CarReturnCreateRequest;
 import com.carrentalbackend.model.rest.request.update.CarReturnUpdateRequest;
-import com.carrentalbackend.model.rest.request.update.UpdateRequest;
 import com.carrentalbackend.model.rest.response.CarReturnResponse;
 import com.carrentalbackend.model.rest.response.Response;
 import com.carrentalbackend.repository.*;
+import com.carrentalbackend.service.mapper.CarReturnMapper;
 import com.carrentalbackend.service.util.ServiceUtil;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class CarReturnService extends CrudService<CarReturn> {
+public class CarReturnService extends CrudService<CarReturn, CarReturnUpdateRequest, CarReturnCreateRequest> {
     private final CarReturnRepository carReturnRepository;
     private final FinancesRepository financesRepository;
     private final ReservationRepository reservationRepository;
@@ -49,26 +49,22 @@ public class CarReturnService extends CrudService<CarReturn> {
     }
 
     @Override
-    public CarReturnResponse update(Long id, UpdateRequest request) {
+    public CarReturnResponse update(Long id, CarReturnUpdateRequest request) {
 
         Response response = super.update(id, request);
 
         ServiceUtil.checkIfInstance(response, CarReturnResponse.class);
         CarReturnResponse carReturnResponse = (CarReturnResponse) response;
 
-        ServiceUtil.checkIfInstance(request, CarReturnUpdateRequest.class);
-        CarReturnUpdateRequest carReturnUpdateRequest = (CarReturnUpdateRequest) request;
+        saveExtraChargeAndMileage(carReturnResponse, request);
 
-        saveExtraChargeAndMileage(carReturnResponse, carReturnUpdateRequest);
-
-        carReturnResponse.setMileage(carReturnUpdateRequest.getMileage());
+        carReturnResponse.setMileage(request.getMileage());
 
         return carReturnResponse;
     }
 
+
     private void saveExtraChargeAndMileage(CarReturnResponse carReturnResponse, CarReturnUpdateRequest carReturnUpdateRequest) {
-
-
         saveExtraCharge(carReturnResponse);
         updateMileage(carReturnUpdateRequest, carReturnResponse.getCarId());
     }

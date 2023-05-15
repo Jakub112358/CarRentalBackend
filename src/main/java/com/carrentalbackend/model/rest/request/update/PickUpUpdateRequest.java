@@ -18,5 +18,5 @@ public class PickUpUpdateRequest implements UpdateRequest{
     private Long employeeId;
     private Long reservationId;
     private Long carId;
-    private Long branchOfficeId;
+    private Long officeId;
 }

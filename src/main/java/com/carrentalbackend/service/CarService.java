@@ -7,7 +7,9 @@ import com.carrentalbackend.model.entity.PriceList;
 import com.carrentalbackend.model.entity.Reservation;
 import com.carrentalbackend.model.enumeration.CarStatus;
 import com.carrentalbackend.model.enumeration.ReservationStatus;
-import com.carrentalbackend.model.mapper.CarMapper;
+import com.carrentalbackend.model.rest.request.create.CarCreateRequest;
+import com.carrentalbackend.model.rest.request.update.CarUpdateRequest;
+import com.carrentalbackend.service.mapper.CarMapper;
 import com.carrentalbackend.model.rest.request.CarSearchByCriteriaRequest;
 import com.carrentalbackend.model.rest.response.CarRentResponse;
 import com.carrentalbackend.model.rest.response.Response;
@@ -25,7 +27,7 @@ import java.util.stream.Collectors;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
-public class CarService extends CrudService<Car> {
+public class CarService extends CrudService<Car, CarUpdateRequest, CarCreateRequest> {
     private final CarRepository carRepository;
     private final ReservationRepository reservationRepository;
     private final PriceListRepository priceListRepository;

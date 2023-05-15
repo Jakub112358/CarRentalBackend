@@ -16,7 +16,7 @@ import java.util.Set;
 
 public abstract class CrudController<T extends CreateRequest, U extends UpdateRequest> {
     //TODO: refactor service!
-    protected final CrudService<?> service;
+    protected final CrudService<?, U, T> service;
 
     @PostMapping
     public ResponseEntity<Response> save(@RequestBody T createRequest) {

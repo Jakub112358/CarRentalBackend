@@ -1,4 +1,4 @@
-package com.carrentalbackend.model.mapper;
+package com.carrentalbackend.service.mapper;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
 import com.carrentalbackend.model.dto.updateDto.ReservationUpdateDto;
@@ -6,21 +6,19 @@ import com.carrentalbackend.model.dto.updateDto.UpdateDto;
 import com.carrentalbackend.model.entity.*;
 import com.carrentalbackend.model.enumeration.RentalActionStatus;
 import com.carrentalbackend.model.enumeration.ReservationStatus;
-import com.carrentalbackend.model.rest.request.create.CreateRequest;
 import com.carrentalbackend.model.rest.request.create.ReservationCreateRequest;
-import com.carrentalbackend.model.rest.request.update.UpdateRequest;
+import com.carrentalbackend.model.rest.request.update.ReservationUpdateRequest;
 import com.carrentalbackend.model.rest.response.ReservationClientResponse;
 import com.carrentalbackend.model.rest.response.ReservationResponse;
 import com.carrentalbackend.repository.CarRepository;
 import com.carrentalbackend.repository.ClientRepository;
 import com.carrentalbackend.repository.OfficeRepository;
-import com.carrentalbackend.service.util.ServiceUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ReservationMapper implements CrudMapper<Reservation> {
+public class ReservationMapper implements CrudMapper<Reservation, ReservationUpdateRequest, ReservationCreateRequest> {
     private final ClientRepository clientRepository;
     private final CarRepository carRepository;
     private final OfficeRepository officeRepository;
@@ -65,23 +63,21 @@ public class ReservationMapper implements CrudMapper<Reservation> {
     }
 
     @Override
-    public Reservation toNewEntity(CreateRequest request) {
-        ServiceUtil.checkIfInstance(request, ReservationCreateRequest.class);
-        ReservationCreateRequest reservationRequest = (ReservationCreateRequest) request;
+    public Reservation toNewEntity(ReservationCreateRequest request) {
 
         //TODO price should be recalculated!
-        Client client = clientRepository.findById(reservationRequest.getClientId()).orElseThrow(() -> new ResourceNotFoundException(reservationRequest.getClientId()));
-        Car car = carRepository.findById(reservationRequest.getCarId()).orElseThrow(() -> new ResourceNotFoundException(reservationRequest.getCarId()));
-        Office pickUpOffice = officeRepository.findById(reservationRequest.getPickUpOfficeId()).orElseThrow(() -> new ResourceNotFoundException(reservationRequest.getPickUpOfficeId()));
-        Office returnOffice = officeRepository.findById(reservationRequest.getReturnOfficeId()).orElseThrow(() -> new ResourceNotFoundException(reservationRequest.getReturnOfficeId()));
-        PickUp pickUp = createCarPickUp(reservationRequest, car, pickUpOffice);
-        CarReturn carReturn = createCarReturn(reservationRequest, car, returnOffice);
+        Client client = clientRepository.findById(request.getClientId()).orElseThrow(() -> new ResourceNotFoundException(request.getClientId()));
+        Car car = carRepository.findById(request.getCarId()).orElseThrow(() -> new ResourceNotFoundException(request.getCarId()));
+        Office pickUpOffice = officeRepository.findById(request.getPickUpOfficeId()).orElseThrow(() -> new ResourceNotFoundException(request.getPickUpOfficeId()));
+        Office returnOffice = officeRepository.findById(request.getReturnOfficeId()).orElseThrow(() -> new ResourceNotFoundException(request.getReturnOfficeId()));
+        PickUp pickUp = createCarPickUp(request, car, pickUpOffice);
+        CarReturn carReturn = createCarReturn(request, car, returnOffice);
 
         return Reservation.builder()
-                .reservationDate(reservationRequest.getReservationDate())
-                .price(reservationRequest.getPrice())
-                .dateFrom(reservationRequest.getDateFrom())
-                .dateTo(reservationRequest.getDateTo())
+                .reservationDate(request.getReservationDate())
+                .price(request.getPrice())
+                .dateFrom(request.getDateFrom())
+                .dateTo(request.getDateTo())
                 .status(ReservationStatus.PLANNED)
                 .client(client)
                 .car(car)
@@ -114,20 +110,18 @@ public class ReservationMapper implements CrudMapper<Reservation> {
     }
 
     @Override
-    public UpdateDto toUpdateDto(UpdateRequest request) {
-        ServiceUtil.checkIfInstance(request, ReservationCreateRequest.class);
-        ReservationCreateRequest reservationRequest = (ReservationCreateRequest) request;
+    public UpdateDto toUpdateDto(ReservationUpdateRequest request) {
 
-        Client client = reservationRequest.getClientId() != null ? clientRepository.findById(reservationRequest.getClientId()).orElse(null) : null;
-        Office pickUpOffice = reservationRequest.getPickUpOfficeId() != null ? officeRepository.findById(reservationRequest.getPickUpOfficeId()).orElse(null) : null;
-        Office returnOffice = reservationRequest.getReturnOfficeId() != null ? officeRepository.findById(reservationRequest.getReturnOfficeId()).orElse(null) : null;
+        Client client = request.getClientId() != null ? clientRepository.findById(request.getClientId()).orElse(null) : null;
+        Office pickUpOffice = request.getPickUpOfficeId() != null ? officeRepository.findById(request.getPickUpOfficeId()).orElse(null) : null;
+        Office returnOffice = request.getReturnOfficeId() != null ? officeRepository.findById(request.getReturnOfficeId()).orElse(null) : null;
         return ReservationUpdateDto.builder()
-                .dateFrom(reservationRequest.getDateFrom())
-                .dateTo(reservationRequest.getDateTo())
+                .dateFrom(request.getDateFrom())
+                .dateTo(request.getDateTo())
                 .client(client)
                 .pickUpOffice(pickUpOffice)
                 .returnOffice(returnOffice)
-                .status(reservationRequest.getStatus())
+                .status(request.getStatus())
                 .build();
     }
 }

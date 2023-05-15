@@ -1,25 +1,22 @@
-package com.carrentalbackend.model.mapper;
+package com.carrentalbackend.service.mapper;
 
 import com.carrentalbackend.model.dto.updateDto.CarReturnUpdateDto;
 import com.carrentalbackend.model.dto.updateDto.UpdateDto;
 import com.carrentalbackend.model.entity.*;
 import com.carrentalbackend.model.rest.request.create.CarReturnCreateRequest;
-import com.carrentalbackend.model.rest.request.create.CreateRequest;
 import com.carrentalbackend.model.rest.request.update.CarReturnUpdateRequest;
-import com.carrentalbackend.model.rest.request.update.UpdateRequest;
 import com.carrentalbackend.model.rest.response.CarReturnResponse;
 import com.carrentalbackend.model.rest.response.Response;
 import com.carrentalbackend.repository.CarRepository;
 import com.carrentalbackend.repository.EmployeeRepository;
 import com.carrentalbackend.repository.OfficeRepository;
 import com.carrentalbackend.repository.ReservationRepository;
-import com.carrentalbackend.service.util.ServiceUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class CarReturnMapper implements CrudMapper<CarReturn> {
+public class CarReturnMapper implements CrudMapper<CarReturn, CarReturnUpdateRequest, CarReturnCreateRequest> {
 
     private final EmployeeRepository employeeRepository;
     private final ReservationRepository reservationRepository;
@@ -27,21 +24,19 @@ public class CarReturnMapper implements CrudMapper<CarReturn> {
     private final OfficeRepository officeRepository;
 
     @Override
-    public CarReturn toNewEntity(CreateRequest request) {
-        ServiceUtil.checkIfInstance(request, CarReturnCreateRequest.class);
-        CarReturnCreateRequest carReturnRequest = (CarReturnCreateRequest) request;
+    public CarReturn toNewEntity(CarReturnCreateRequest request) {
 
-        Employee employee = carReturnRequest.getEmployeeId() != null ? employeeRepository.getReferenceById(carReturnRequest.getEmployeeId()) : null;
-        Reservation reservation = carReturnRequest.getReservationId() != null ? reservationRepository.getReferenceById(carReturnRequest.getReservationId()) : null;
-        Car car = carReturnRequest.getCarId() != null ? carRepository.getReferenceById(carReturnRequest.getCarId()) : null;
-        Office office = carReturnRequest.getBranchOfficeId() != null ? officeRepository.getReferenceById(carReturnRequest.getBranchOfficeId()) : null;
+        Employee employee = request.getEmployeeId() != null ? employeeRepository.getReferenceById(request.getEmployeeId()) : null;
+        Reservation reservation = request.getReservationId() != null ? reservationRepository.getReferenceById(request.getReservationId()) : null;
+        Car car = request.getCarId() != null ? carRepository.getReferenceById(request.getCarId()) : null;
+        Office office = request.getBranchOfficeId() != null ? officeRepository.getReferenceById(request.getBranchOfficeId()) : null;
 
         return CarReturn.builder()
-                .comments(carReturnRequest.getComments())
-                .extraCharge(carReturnRequest.getExtraCharge())
-                .returnDate(carReturnRequest.getReturnDate())
-                .plannedReturnDate(carReturnRequest.getPlannedReturnDate())
-                .status(carReturnRequest.getStatus())
+                .comments(request.getComments())
+                .extraCharge(request.getExtraCharge())
+                .returnDate(request.getReturnDate())
+                .plannedReturnDate(request.getPlannedReturnDate())
+                .status(request.getStatus())
                 .employee(employee)
                 .reservation(reservation)
                 .car(car)
@@ -72,16 +67,14 @@ public class CarReturnMapper implements CrudMapper<CarReturn> {
     }
 
     @Override
-    public UpdateDto toUpdateDto(UpdateRequest request) {
-        ServiceUtil.checkIfInstance(request, CarReturnUpdateRequest.class);
-        CarReturnUpdateRequest carUpdateRequest = (CarReturnUpdateRequest) request;
+    public UpdateDto toUpdateDto(CarReturnUpdateRequest request) {
 
-        Employee employee = carUpdateRequest.getEmployeeId() != null ? employeeRepository.getReferenceById(carUpdateRequest.getEmployeeId()) : null;
+        Employee employee = request.getEmployeeId() != null ? employeeRepository.getReferenceById(request.getEmployeeId()) : null;
         return CarReturnUpdateDto.builder()
-                .comments(carUpdateRequest.getComments())
-                .extraCharge(carUpdateRequest.getExtraCharge())
-                .returnDate(carUpdateRequest.getReturnDate())
-                .status(carUpdateRequest.getStatus())
+                .comments(request.getComments())
+                .extraCharge(request.getExtraCharge())
+                .returnDate(request.getReturnDate())
+                .status(request.getStatus())
                 .employee(employee)
                 .build();
     }

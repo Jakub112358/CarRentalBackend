@@ -3,7 +3,7 @@ package com.carrentalbackend.service;
 import com.carrentalbackend.exception.ResourceNotFoundException;
 import com.carrentalbackend.model.dto.updateDto.UpdateDto;
 import com.carrentalbackend.model.entity.CrudEntity;
-import com.carrentalbackend.model.mapper.CrudMapper;
+import com.carrentalbackend.service.mapper.CrudMapper;
 import com.carrentalbackend.model.rest.request.create.CreateRequest;
 import com.carrentalbackend.model.rest.request.update.UpdateRequest;
 import com.carrentalbackend.model.rest.response.Response;
@@ -18,11 +18,11 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional
-public abstract class CrudService<T extends CrudEntity> {
+public abstract class CrudService<T extends CrudEntity, U extends UpdateRequest, V extends CreateRequest> {
     protected final JpaRepository<T, Long> repository;
-    protected final CrudMapper<T> mapper;
+    protected final CrudMapper<T, U, V> mapper;
 
-    public Response save(CreateRequest request) {
+    public Response save(V request) {
         T entity = mapper.toNewEntity(request);
         repository.save(entity);
         return mapper.toResponse(entity);
@@ -36,7 +36,7 @@ public abstract class CrudService<T extends CrudEntity> {
         return mapper.toResponse(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id)));
     }
 
-    public Response update(Long id, UpdateRequest request) {
+    public Response update(Long id, U request) {
         T instance = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
         //mapping requestDto to updateDto, which has exactly same field names as corresponding entity
         UpdateDto updateDto = mapper.toUpdateDto(request);

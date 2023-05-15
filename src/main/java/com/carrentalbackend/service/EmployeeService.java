@@ -1,7 +1,9 @@
 package com.carrentalbackend.service;
 
 import com.carrentalbackend.model.entity.Employee;
-import com.carrentalbackend.model.mapper.EmployeeMapper;
+import com.carrentalbackend.model.rest.request.create.EmployeeCreateRequest;
+import com.carrentalbackend.model.rest.request.update.EmployeeUpdateRequest;
+import com.carrentalbackend.service.mapper.EmployeeMapper;
 import com.carrentalbackend.model.rest.response.Response;
 import com.carrentalbackend.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
@@ -10,7 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class EmployeeService extends CrudService<Employee> {
+public class EmployeeService extends CrudService<Employee, EmployeeUpdateRequest, EmployeeCreateRequest> {
     private final EmployeeRepository repository;
 
 

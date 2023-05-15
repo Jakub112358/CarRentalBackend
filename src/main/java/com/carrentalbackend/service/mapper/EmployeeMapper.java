@@ -1,17 +1,15 @@
-package com.carrentalbackend.model.mapper;
+package com.carrentalbackend.service.mapper;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
 import com.carrentalbackend.model.dto.updateDto.EmployeeUpdateDto;
 import com.carrentalbackend.model.dto.updateDto.UpdateDto;
 import com.carrentalbackend.model.entity.Employee;
 import com.carrentalbackend.model.entity.Office;
-import com.carrentalbackend.model.rest.request.create.CreateRequest;
 import com.carrentalbackend.model.rest.request.create.EmployeeCreateRequest;
-import com.carrentalbackend.model.rest.request.update.UpdateRequest;
+import com.carrentalbackend.model.rest.request.update.EmployeeUpdateRequest;
 import com.carrentalbackend.model.rest.response.EmployeeResponse;
 import com.carrentalbackend.model.rest.response.Response;
 import com.carrentalbackend.repository.OfficeRepository;
-import com.carrentalbackend.service.util.ServiceUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +17,7 @@ import java.util.ArrayList;
 
 @Component
 @RequiredArgsConstructor
-public class EmployeeMapper implements CrudMapper<Employee> {
+public class EmployeeMapper implements CrudMapper<Employee, EmployeeUpdateRequest, EmployeeCreateRequest> {
     private final OfficeRepository officeRepository;
 
     private Office findOfficeById(Long id) {
@@ -31,15 +29,13 @@ public class EmployeeMapper implements CrudMapper<Employee> {
     }
 
     @Override
-    public Employee toNewEntity(CreateRequest request) {
-        ServiceUtil.checkIfInstance(request, EmployeeCreateRequest.class);
-        EmployeeCreateRequest employeeRequest = (EmployeeCreateRequest) request;
+    public Employee toNewEntity(EmployeeCreateRequest request) {
 
-        Office office = findOfficeById(employeeRequest.getBranchOfficeId());
+        Office office = findOfficeById(request.getBranchOfficeId());
         return Employee.builder()
-                .firstName(employeeRequest.getFirstName())
-                .lastName(employeeRequest.getLastName())
-                .jobPosition(employeeRequest.getJobPosition())
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .jobPosition(request.getJobPosition())
                 .office(office)
                 .pickUps(new ArrayList<>())
                 .build();
@@ -58,15 +54,13 @@ public class EmployeeMapper implements CrudMapper<Employee> {
     }
 
     @Override
-    public UpdateDto toUpdateDto(UpdateRequest request) {
-        ServiceUtil.checkIfInstance(request, EmployeeCreateRequest.class);
-        EmployeeCreateRequest employeeRequest = (EmployeeCreateRequest) request;
+    public UpdateDto toUpdateDto(EmployeeUpdateRequest request) {
 
-        Office office = findOfficeById(employeeRequest.getBranchOfficeId());
+        Office office = findOfficeById(request.getBranchOfficeId());
         return EmployeeUpdateDto.builder()
-                .firstName(employeeRequest.getFirstName())
-                .lastName(employeeRequest.getLastName())
-                .jobPosition(employeeRequest.getJobPosition())
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .jobPosition(request.getJobPosition())
                 .office(office)
                 .build();
     }

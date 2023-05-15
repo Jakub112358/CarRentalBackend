@@ -2,12 +2,14 @@ package com.carrentalbackend.service;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
 import com.carrentalbackend.model.entity.Office;
-import com.carrentalbackend.model.mapper.OfficeMapper;
+import com.carrentalbackend.model.rest.request.create.OfficeCreateRequest;
+import com.carrentalbackend.model.rest.request.update.OfficeUpdateRequest;
+import com.carrentalbackend.service.mapper.OfficeMapper;
 import com.carrentalbackend.repository.OfficeRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OfficeService extends CrudService<Office> {
+public class OfficeService extends CrudService<Office, OfficeUpdateRequest, OfficeCreateRequest> {
     private final OfficeRepository officeRepository;
 
     public OfficeService(OfficeRepository repository, OfficeMapper officeMapper) {
