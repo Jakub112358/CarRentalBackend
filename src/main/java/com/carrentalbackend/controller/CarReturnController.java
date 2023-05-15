@@ -1,7 +1,8 @@
 package com.carrentalbackend.controller;
 
-import com.carrentalbackend.model.dto.crudDto.CarReturnDto;
-import com.carrentalbackend.model.entity.CarReturn;
+import com.carrentalbackend.model.rest.request.create.CarReturnCreateRequest;
+import com.carrentalbackend.model.rest.request.update.CarReturnUpdateRequest;
+import com.carrentalbackend.model.rest.response.Response;
 import com.carrentalbackend.service.CarReturnService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,7 @@ import static com.carrentalbackend.controller.ApiConstraints.CAR_RETURN;
 @RestController
 @CrossOrigin("http://localhost:4200")
 @RequestMapping(CAR_RETURN)
-public class CarReturnController extends CrudController<CarReturn, CarReturnDto> {
+public class CarReturnController extends CrudController<CarReturnCreateRequest, CarReturnUpdateRequest> {
     private final CarReturnService carReturnService;
 
     public CarReturnController(CarReturnService service) {
@@ -22,7 +23,7 @@ public class CarReturnController extends CrudController<CarReturn, CarReturnDto>
     }
 
     @GetMapping(params = "officeId")
-    public ResponseEntity<Set<CarReturnDto>> findAllByOfficeId(@RequestParam Long officeId) {
+    public ResponseEntity<Set<Response>> findAllByOfficeId(@RequestParam Long officeId) {
         return ResponseEntity.ok(carReturnService.findAllByOfficeId(officeId));
     }
 

@@ -1,17 +1,21 @@
 package com.carrentalbackend.service;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
-import com.carrentalbackend.model.dto.crudDto.CarReturnDto;
 import com.carrentalbackend.model.entity.*;
-import com.carrentalbackend.model.mapper.CarReturnMapper;
+import com.carrentalbackend.model.rest.request.create.CarReturnCreateRequest;
+import com.carrentalbackend.model.rest.request.update.CarReturnUpdateRequest;
+import com.carrentalbackend.model.rest.response.CarReturnResponse;
+import com.carrentalbackend.model.rest.response.Response;
 import com.carrentalbackend.repository.*;
+import com.carrentalbackend.service.mapper.CarReturnMapper;
+import com.carrentalbackend.service.util.ServiceUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class CarReturnService extends CrudService<CarReturn, CarReturnDto> {
+public class CarReturnService extends CrudService<CarReturn, CarReturnUpdateRequest, CarReturnCreateRequest> {
     private final CarReturnRepository carReturnRepository;
     private final FinancesRepository financesRepository;
     private final ReservationRepository reservationRepository;
@@ -37,36 +41,48 @@ public class CarReturnService extends CrudService<CarReturn, CarReturnDto> {
         //TODO: implement
     }
 
-    public Set<CarReturnDto> findAllByOfficeId(Long officeId) {
-        return carReturnRepository.findAllByBranchOffice_Id(officeId)
+    public Set<Response> findAllByOfficeId(Long officeId) {
+        return carReturnRepository.findAllByOffice_Id(officeId)
                 .stream()
-                .map(mapper::toDto)
+                .map(mapper::toResponse)
                 .collect(Collectors.toSet());
     }
 
     @Override
-    public CarReturnDto update(Long id, CarReturnDto requestDto) {
+    public CarReturnResponse update(Long id, CarReturnUpdateRequest request) {
 
-        CarReturnDto updatedCarDto = super.update(id, requestDto);
-        saveExtraCharge(updatedCarDto);
-        updateMileage(requestDto, updatedCarDto.getCarId());
-        updatedCarDto.setMileage(requestDto.getMileage());
+        Response response = super.update(id, request);
 
-        return updatedCarDto;
+        ServiceUtil.checkIfInstance(response, CarReturnResponse.class);
+        CarReturnResponse carReturnResponse = (CarReturnResponse) response;
+
+        saveExtraChargeAndMileage(carReturnResponse, request);
+
+        carReturnResponse.setMileage(request.getMileage());
+
+        return carReturnResponse;
     }
 
-    private void updateMileage(CarReturnDto carReturnDto, Long carId) {
-        Car car = carRepository.findById(carId).orElseThrow(()->new ResourceNotFoundException(carReturnDto.getCarId()));
-        car.setMileage(carReturnDto.getMileage());
+
+    private void saveExtraChargeAndMileage(CarReturnResponse carReturnResponse, CarReturnUpdateRequest carReturnUpdateRequest) {
+        saveExtraCharge(carReturnResponse);
+        updateMileage(carReturnUpdateRequest, carReturnResponse.getCarId());
     }
 
-    private void saveExtraCharge(CarReturnDto requestDto) {
-        Reservation reservation = requestDto.getReservationId() != null ? reservationRepository.getReferenceById(requestDto.getReservationId()) : null;
+
+    private void updateMileage(CarReturnUpdateRequest request, Long carId) {
+        Car car = carRepository.findById(carId).orElseThrow(() -> new ResourceNotFoundException(carId));
+        car.setMileage(request.getMileage());
+    }
+
+    private void saveExtraCharge(CarReturnResponse carReturnResponse) {
+
+        Reservation reservation = carReturnResponse.getReservationId() != null ? reservationRepository.getReferenceById(carReturnResponse.getReservationId()) : null;
         //TODO finances id from logged user data?
         Finances finances = financesRepository.getReferenceById(1L);
 
         Income income = Income.builder()
-                .incomeValue(requestDto.getExtraCharge())
+                .incomeValue(carReturnResponse.getExtraCharge())
                 .reservation(reservation)
                 .finances(finances)
                 .build();

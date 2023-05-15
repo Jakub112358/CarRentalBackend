@@ -21,7 +21,7 @@ public class Employee implements CrudEntity {
     @Enumerated(EnumType.STRING)
     private JobPosition jobPosition;
     @ManyToOne
-    private BranchOffice branchOffice;
+    private Office office;
     @OneToMany (mappedBy = "employee", cascade = CascadeType.PERSIST)
-    private List<CarPickUp> carPickUps;
+    private List<PickUp> pickUps;
 }

@@ -30,6 +30,6 @@ public class CarReturn implements CrudEntity{
     @ManyToOne
     private Car car;
     @ManyToOne
-    private BranchOffice branchOffice;
+    private Office office;
 
 }

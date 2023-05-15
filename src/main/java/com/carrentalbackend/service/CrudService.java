@@ -1,43 +1,45 @@
 package com.carrentalbackend.service;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
-import com.carrentalbackend.model.dto.crudDto.CrudDto;
 import com.carrentalbackend.model.dto.updateDto.UpdateDto;
 import com.carrentalbackend.model.entity.CrudEntity;
-import com.carrentalbackend.model.mapper.CrudMapper;
+import com.carrentalbackend.service.mapper.CrudMapper;
+import com.carrentalbackend.model.rest.request.create.CreateRequest;
+import com.carrentalbackend.model.rest.request.update.UpdateRequest;
+import com.carrentalbackend.model.rest.response.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional
-public abstract class CrudService<T extends CrudEntity, K extends CrudDto> {
+public abstract class CrudService<T extends CrudEntity, U extends UpdateRequest, V extends CreateRequest> {
     protected final JpaRepository<T, Long> repository;
-    protected final CrudMapper<T, K> mapper;
+    protected final CrudMapper<T, U, V> mapper;
 
-    public K save(K requestDto) {
-        T entity = mapper.toNewEntity(requestDto);
+    public Response save(V request) {
+        T entity = mapper.toNewEntity(request);
         repository.save(entity);
-        return mapper.toDto(entity);
+        return mapper.toResponse(entity);
     }
 
-    public List<K> findAll() {
-        return repository.findAll().stream().map(mapper::toDto).toList();
+    public Set<Response> findAll() {
+        return repository.findAll().stream().map(mapper::toResponse).collect(Collectors.toSet());
     }
 
-    //TODO use proper exception
-    public K findById(Long id) {
-        return mapper.toDto(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id)));
+    public Response findById(Long id) {
+        return mapper.toResponse(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id)));
     }
 
-    public K update(Long id, K requestDto) {
+    public Response update(Long id, U request) {
         T instance = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
         //mapping requestDto to updateDto, which has exactly same field names as corresponding entity
-        UpdateDto updateDto = mapper.toUpdateEntity(requestDto);
+        UpdateDto updateDto = mapper.toUpdateDto(request);
         //extracting fields of sent request using reflection
         Field[] fields = updateDto.getClass().getDeclaredFields();
         //extracting non-null field names from request and then updating corresponding fields in instance
@@ -48,7 +50,7 @@ public abstract class CrudService<T extends CrudEntity, K extends CrudDto> {
                 .map(Field::getName)
                 .forEach(name -> updateField(name, instance, updateDto));
 
-        return mapper.toDto(instance);
+        return mapper.toResponse(instance);
     }
 
     public abstract void deleteById(Long id);

@@ -1,7 +1,7 @@
 package com.carrentalbackend.controller;
 
-import com.carrentalbackend.model.dto.crudDto.CompanyDto;
-import com.carrentalbackend.model.entity.Company;
+import com.carrentalbackend.model.rest.request.create.CompanyCreateRequest;
+import com.carrentalbackend.model.rest.request.update.CompanyUpdateRequest;
 import com.carrentalbackend.service.CompanyService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,12 +12,10 @@ import static com.carrentalbackend.controller.ApiConstraints.COMPANY;
 @RestController
 @RequestMapping(COMPANY)
 @CrossOrigin(origins = "http://localhost:4200")
-public class CompanyController extends CrudController<Company, CompanyDto> {
-    private final CompanyService companyService;
+public class CompanyController extends CrudController<CompanyCreateRequest, CompanyUpdateRequest> {
 
     public CompanyController(CompanyService service) {
         super(service);
-        this.companyService = service;
     }
 
 

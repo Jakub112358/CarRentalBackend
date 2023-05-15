@@ -1,15 +1,16 @@
 package com.carrentalbackend.service;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
-import com.carrentalbackend.model.dto.crudDto.CompanyDto;
 import com.carrentalbackend.model.entity.Company;
-import com.carrentalbackend.model.mapper.CompanyMapper;
+import com.carrentalbackend.model.rest.request.create.CompanyCreateRequest;
+import com.carrentalbackend.model.rest.request.update.CompanyUpdateRequest;
+import com.carrentalbackend.service.mapper.CompanyMapper;
 import com.carrentalbackend.repository.CompanyRepository;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class CompanyService extends CrudService<Company, CompanyDto> {
+public class CompanyService extends CrudService<Company, CompanyUpdateRequest, CompanyCreateRequest> {
     private final CompanyRepository companyRepository;
 
     public CompanyService(CompanyRepository companyRepository, CompanyMapper companyMapper) {
@@ -26,7 +27,7 @@ public class CompanyService extends CrudService<Company, CompanyDto> {
     }
 
     private void nullBranchOffices(Company company) {
-        company.getBranchOffices().forEach((bo) -> bo.setCompany(null));
+        company.getOffices().forEach((bo) -> bo.setCompany(null));
     }
 
 }

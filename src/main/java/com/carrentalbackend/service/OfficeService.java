@@ -1,14 +1,15 @@
 package com.carrentalbackend.service;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
-import com.carrentalbackend.model.dto.crudDto.OfficeDto;
-import com.carrentalbackend.model.entity.BranchOffice;
-import com.carrentalbackend.model.mapper.OfficeMapper;
+import com.carrentalbackend.model.entity.Office;
+import com.carrentalbackend.model.rest.request.create.OfficeCreateRequest;
+import com.carrentalbackend.model.rest.request.update.OfficeUpdateRequest;
+import com.carrentalbackend.service.mapper.OfficeMapper;
 import com.carrentalbackend.repository.OfficeRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OfficeService extends CrudService<BranchOffice, OfficeDto> {
+public class OfficeService extends CrudService<Office, OfficeUpdateRequest, OfficeCreateRequest> {
     private final OfficeRepository officeRepository;
 
     public OfficeService(OfficeRepository repository, OfficeMapper officeMapper) {
@@ -17,10 +18,9 @@ public class OfficeService extends CrudService<BranchOffice, OfficeDto> {
     }
 
 
-
     @Override
     public void deleteById(Long id) {
-        BranchOffice office = officeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        Office office = officeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
         nullOfficeInEmployees(office);
         nullOfficeInCars(office);
         nullPickUpOfficeInReservations(office);
@@ -28,20 +28,20 @@ public class OfficeService extends CrudService<BranchOffice, OfficeDto> {
         officeRepository.deleteById(id);
     }
 
-    private void nullReturnOfficeInReservations(BranchOffice office) {
+    private void nullReturnOfficeInReservations(Office office) {
         office.getReturnReservations().forEach(r -> r.setReturnOffice(null));
     }
 
-    private void nullPickUpOfficeInReservations(BranchOffice office) {
+    private void nullPickUpOfficeInReservations(Office office) {
         office.getPickUpReservations().forEach(r -> r.setPickUpOffice(null));
     }
 
-    private void nullOfficeInCars(BranchOffice office) {
-        office.getAvailableCars().forEach(c -> c.setCurrentBranchOffice(null));
+    private void nullOfficeInCars(Office office) {
+        office.getAvailableCars().forEach(c -> c.setCurrentOffice(null));
     }
 
-    private void nullOfficeInEmployees(BranchOffice office) {
-        office.getEmployees().forEach(e -> e.setBranchOffice(null));
+    private void nullOfficeInEmployees(Office office) {
+        office.getEmployees().forEach(e -> e.setOffice(null));
     }
 
 }

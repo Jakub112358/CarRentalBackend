@@ -23,7 +23,7 @@ public class Company implements CrudEntity {
     @OneToOne (cascade = CascadeType.ALL)
     private Address address;
     @OneToMany (mappedBy = "company", cascade = CascadeType.PERSIST)
-    private List<BranchOffice> branchOffices;
+    private List<Office> offices;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Finances finances;
 

@@ -1,17 +1,18 @@
 package com.carrentalbackend.service;
 
-import com.carrentalbackend.model.dto.crudDto.ClientDto;
 import com.carrentalbackend.model.entity.Client;
-import com.carrentalbackend.model.mapper.ClientMapper;
+import com.carrentalbackend.model.rest.request.create.ClientCreateRequest;
+import com.carrentalbackend.model.rest.request.update.ClientUpdateRequest;
+import com.carrentalbackend.service.mapper.ClientMapper;
 import com.carrentalbackend.repository.ClientRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ClientService extends CrudService<Client, ClientDto> {
-    private final ClientRepository repository;
+public class ClientService extends CrudService<Client, ClientUpdateRequest, ClientCreateRequest> {
+
     public ClientService(ClientRepository repository, ClientMapper mapper) {
         super(repository, mapper);
-        this.repository = repository;
+
     }
 
     @Override
