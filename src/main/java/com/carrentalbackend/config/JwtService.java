@@ -2,6 +2,7 @@ package com.carrentalbackend.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,5 +40,17 @@ public class JwtService {
     private boolean isTokenExpired(String jwt) {
         final Date expiration = getAllClaims(jwt).getExpiration();
         return expiration.before(new Date());
+    }
+
+    public String generateToken(UserDetails user) {
+
+        //TODO: do i need to set extra claims?
+        return Jwts
+                .builder()
+                .setSubject(user.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .compact();
     }
 }
