@@ -30,6 +30,7 @@ public class DbPopulator {
     private final ClientService clientService;
     private final ReservationService reservationService;
     private final PriceListService pricelistService;
+
     private Address[] addresses;
     private int addressCounter = 0;
 
@@ -45,7 +46,7 @@ public class DbPopulator {
         addReservations();
     }
 
-        private void addPriceLists() {
+    private void addPriceLists() {
         List<PriceListCreateRequest> priceListCreateRequests = createPricelistDtos();
         priceListCreateRequests.forEach(pricelistService::save);
     }
@@ -71,28 +72,28 @@ public class DbPopulator {
                 LocalDate.of(2023, 5, 15),
                 BigDecimal.valueOf(300),
                 ReservationStatus.PLANNED,
-                1L, 1L, 1L, 1L));
+                4L, 1L, 1L, 1L));
         result.add(new ReservationCreateRequest(
                 LocalDateTime.now(),
                 LocalDate.of(2023, 5, 12),
                 LocalDate.of(2023, 5, 19),
                 BigDecimal.valueOf(500),
                 ReservationStatus.PLANNED,
-                2L, 2L, 1L, 3L));
+                5L, 2L, 1L, 3L));
         result.add(new ReservationCreateRequest(
                 LocalDateTime.now(),
                 LocalDate.of(2022, 5, 12),
                 LocalDate.of(2022, 5, 19),
                 BigDecimal.valueOf(500),
                 ReservationStatus.PLANNED,
-                2L, 2L, 1L, 3L));
+                5L, 2L, 1L, 3L));
         result.add(new ReservationCreateRequest(
                 LocalDateTime.now(),
                 LocalDate.of(2023, 5, 12),
                 LocalDate.of(2023, 5, 19),
                 BigDecimal.valueOf(500),
                 ReservationStatus.PLANNED,
-                1L, 2L, 1L, 3L));
+                4L, 2L, 1L, 3L));
 
 
         return result;
@@ -105,9 +106,9 @@ public class DbPopulator {
 
     private List<ClientCreateRequest> createClientList() {
         List<ClientCreateRequest> result = new ArrayList<>();
-        result.add(new ClientCreateRequest("Jaś", "Fasola", "jas@fasola.xyz", getAddress()));
-        result.add(new ClientCreateRequest("Johnny", "Bravo", "johny@buziaczek.pl", getAddress()));
-        result.add(new ClientCreateRequest("Bruce", "Dickinson", "bruce@im.com", getAddress()));
+        result.add(new ClientCreateRequest("Jaś", "Fasola", "jas@fasola.xyz", getAddress(), "123"));
+        result.add(new ClientCreateRequest("Johnny", "Bravo", "johny@buziaczek.pl", getAddress(), "123"));
+        result.add(new ClientCreateRequest("Bruce", "Dickinson", "bruce@im.com", getAddress(), "123"));
         return result;
     }
 
@@ -124,9 +125,9 @@ public class DbPopulator {
 
     private List<EmployeeCreateRequest> createEmployeeList() {
         List<EmployeeCreateRequest> employees = new ArrayList<>();
-        employees.add(EmployeeCreateRequest.builder().firstName("John").lastName("Smith").jobPosition(JobPosition.MANAGER).branchOfficeId(1L).build());
-        employees.add(EmployeeCreateRequest.builder().firstName("Bob").lastName("Budowniczy").jobPosition(JobPosition.MANAGER).branchOfficeId(2L).build());
-        employees.add(EmployeeCreateRequest.builder().firstName("Ania").lastName("Z Zielonego Wzgorza").jobPosition(JobPosition.SELLER).branchOfficeId(1L).build());
+        employees.add(EmployeeCreateRequest.builder().firstName("John").lastName("Smith").jobPosition(JobPosition.MANAGER).branchOfficeId(1L).email("test@mail.com").password("123").build());
+        employees.add(EmployeeCreateRequest.builder().firstName("Bob").lastName("Budowniczy").jobPosition(JobPosition.MANAGER).branchOfficeId(2L).email("test@mail.com").password("123").build());
+        employees.add(EmployeeCreateRequest.builder().firstName("Ania").lastName("Z Zielonego Wzgorza").jobPosition(JobPosition.SELLER).branchOfficeId(1L).email("test@mail.com").password("123").build());
         return employees;
     }
 

@@ -3,7 +3,6 @@ package com.carrentalbackend.model.entity;
 import com.carrentalbackend.model.enumeration.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,18 +14,19 @@ import java.util.List;
 
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED)
 @Entity
 //word "user" is restricted in some SQL dialects
-@Table(name="user_data")
+@Table(name = "_user")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String email;
     private String password;
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @Override

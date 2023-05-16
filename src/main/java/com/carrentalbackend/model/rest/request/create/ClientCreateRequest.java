@@ -8,9 +8,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ClientCreateRequest implements CreateRequest{
+public class ClientCreateRequest implements CreateRequest {
     private String firstName;
     private String lastName;
     private String email;
     private Address address;
+    private String password;
+
 }

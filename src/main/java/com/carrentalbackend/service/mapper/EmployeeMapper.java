@@ -5,12 +5,14 @@ import com.carrentalbackend.model.dto.updateDto.EmployeeUpdateDto;
 import com.carrentalbackend.model.dto.updateDto.UpdateDto;
 import com.carrentalbackend.model.entity.Employee;
 import com.carrentalbackend.model.entity.Office;
+import com.carrentalbackend.model.enumeration.Role;
 import com.carrentalbackend.model.rest.request.create.EmployeeCreateRequest;
 import com.carrentalbackend.model.rest.request.update.EmployeeUpdateRequest;
 import com.carrentalbackend.model.rest.response.EmployeeResponse;
 import com.carrentalbackend.model.rest.response.Response;
 import com.carrentalbackend.repository.OfficeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 public class EmployeeMapper implements CrudMapper<Employee, EmployeeUpdateRequest, EmployeeCreateRequest> {
     private final OfficeRepository officeRepository;
+    private final PasswordEncoder passwordEncoder;
 
     private Office findOfficeById(Long id) {
         if (id == null) {
@@ -38,6 +41,9 @@ public class EmployeeMapper implements CrudMapper<Employee, EmployeeUpdateReques
                 .jobPosition(request.getJobPosition())
                 .office(office)
                 .pickUps(new ArrayList<>())
+                .email(request.getEmail())
+                .role(Role.EMPLOYEE)
+                .password(passwordEncoder.encode(request.getPassword()))
                 .build();
     }
 

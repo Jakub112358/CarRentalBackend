@@ -1,6 +1,5 @@
 package com.carrentalbackend.config;
 
-import com.carrentalbackend.controller.ApiConstraints;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,15 +18,17 @@ public class SecurityConfiguration {
     private final AuthenticationProvider authenticationProvider;
 
     @Bean
-    public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers(ApiConstraints.AUTHENTICATION + "/**")
-                .permitAll()
+//                .requestMatchers(ApiConstraints.AUTHENTICATION + "/**")
+//                .permitAll()
+//                .anyRequest()
+//                .authenticated()
                 .anyRequest()
-                .authenticated()
+                .permitAll()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

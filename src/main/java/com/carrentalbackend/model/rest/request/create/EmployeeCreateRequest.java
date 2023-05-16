@@ -13,4 +13,6 @@ public class EmployeeCreateRequest implements CreateRequest{
     private String lastName;
     private JobPosition jobPosition;
     private Long branchOfficeId;
+    private String email;
+    private String password;
 }

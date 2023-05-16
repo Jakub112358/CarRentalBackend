@@ -1,7 +1,6 @@
 package com.carrentalbackend.controller;
 
 import com.carrentalbackend.model.rest.request.auth.AuthenticationRequest;
-import com.carrentalbackend.model.rest.request.auth.RegisterRequest;
 import com.carrentalbackend.model.rest.response.auth.AuthenticationResponse;
 import com.carrentalbackend.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
@@ -18,19 +17,12 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
-    @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody RegisterRequest request
-    ){
-        return ResponseEntity.ok(authenticationService.register(request));
-    }
-
 
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody AuthenticationRequest request
-    ){
+    ) {
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 }

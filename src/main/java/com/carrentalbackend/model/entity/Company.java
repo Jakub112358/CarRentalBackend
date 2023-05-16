@@ -18,6 +18,7 @@ public class Company implements CrudEntity {
     private String domain;
     private double differentOfficesExtraCharge;
     @Lob
+    @Column(length = 65_535)
     @Basic(fetch = FetchType.LAZY)
     private byte[] logotype;
     @OneToOne (cascade = CascadeType.ALL)
