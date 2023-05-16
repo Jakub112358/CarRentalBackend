@@ -5,11 +5,11 @@ import com.carrentalbackend.model.entity.Address;
 import com.carrentalbackend.model.enumeration.*;
 import com.carrentalbackend.model.rest.request.create.*;
 import com.carrentalbackend.service.*;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;

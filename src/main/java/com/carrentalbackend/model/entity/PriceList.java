@@ -1,8 +1,8 @@
 package com.carrentalbackend.model.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 import java.util.List;
 @Entity
 @Getter
@@ -17,6 +17,6 @@ public class PriceList implements CrudEntity{
     private double pricePerDay;
     private double pricePerWeek;
     private double pricePerMonth;
-    @OneToMany (mappedBy = "priceList", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "priceList", cascade = CascadeType.PERSIST)
     private List<Car> cars;
 }

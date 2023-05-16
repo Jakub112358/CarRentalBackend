@@ -1,8 +1,8 @@
 package com.carrentalbackend.model.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Client implements CrudEntity{
+public class Client implements CrudEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -20,6 +20,6 @@ public class Client implements CrudEntity{
     private String email;
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Address address;
-    @OneToMany (mappedBy = "client", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.PERSIST)
     private List<Reservation> reservations;
 }
