@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.Map;
 
 @Service
 public class JwtService {
@@ -42,11 +43,11 @@ public class JwtService {
         return expiration.before(new Date());
     }
 
-    public String generateToken(UserDetails user) {
+    public String generateToken(UserDetails user, Map<String, Object> extraClaims) {
 
-        //TODO: do i need to set extra claims?
         return Jwts
                 .builder()
+                .setClaims(extraClaims)
                 .setSubject(user.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))

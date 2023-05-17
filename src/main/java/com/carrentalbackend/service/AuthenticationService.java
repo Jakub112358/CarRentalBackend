@@ -11,6 +11,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -28,7 +31,9 @@ public class AuthenticationService {
         );
         //TODO: think about this exception
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException("user not found"));
-        String jwtToken = jwtService.generateToken(user);
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("rol", user.getRole());
+        String jwtToken = jwtService.generateToken(user, extraClaims);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
