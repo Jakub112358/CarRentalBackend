@@ -2,11 +2,11 @@ package com.carrentalbackend.controller;
 
 import com.carrentalbackend.features.generics.CrudController;
 import com.carrentalbackend.features.renting.CarSearchByCriteriaRequest;
-import com.carrentalbackend.model.rest.request.create.CarCreateRequest;
-import com.carrentalbackend.model.rest.request.update.CarUpdateRequest;
-import com.carrentalbackend.model.rest.response.CarRentResponse;
+import com.carrentalbackend.features.companyResources.car.CarCreateRequest;
+import com.carrentalbackend.features.companyResources.car.CarUpdateRequest;
+import com.carrentalbackend.features.renting.CarRentResponse;
 import com.carrentalbackend.features.generics.Response;
-import com.carrentalbackend.service.CarService;
+import com.carrentalbackend.features.companyResources.car.CarService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,8 +1,8 @@
 package com.carrentalbackend.controller;
 
 import com.carrentalbackend.model.enumeration.MsgRecipient;
-import com.carrentalbackend.model.temporary.Msg;
-import com.carrentalbackend.service.MsgService;
+import com.carrentalbackend.features.messages.Msg;
+import com.carrentalbackend.features.messages.MsgService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

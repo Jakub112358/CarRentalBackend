@@ -1,7 +1,5 @@
 package com.carrentalbackend.features.authentication;
 
-import com.carrentalbackend.model.rest.request.auth.AuthenticationRequest;
-import com.carrentalbackend.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,6 +1,5 @@
 package com.carrentalbackend.features.generics;
 
-import com.carrentalbackend.model.rest.request.update.UpdateRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

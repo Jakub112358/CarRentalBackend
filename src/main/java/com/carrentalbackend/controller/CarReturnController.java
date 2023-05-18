@@ -1,10 +1,10 @@
 package com.carrentalbackend.controller;
 
 import com.carrentalbackend.features.generics.CrudController;
-import com.carrentalbackend.model.rest.request.create.CarReturnCreateRequest;
-import com.carrentalbackend.model.rest.request.update.CarReturnUpdateRequest;
+import com.carrentalbackend.features.renting.carReturns.CarReturnCreateRequest;
+import com.carrentalbackend.features.renting.carReturns.CarReturnUpdateRequest;
 import com.carrentalbackend.features.generics.Response;
-import com.carrentalbackend.service.CarReturnService;
+import com.carrentalbackend.features.renting.carReturns.CarReturnService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

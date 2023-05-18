@@ -1,10 +1,10 @@
 package com.carrentalbackend.controller;
 
 import com.carrentalbackend.features.generics.CrudController;
-import com.carrentalbackend.model.rest.request.create.PickUpCreateRequest;
-import com.carrentalbackend.model.rest.request.update.PickUpUpdateRequest;
+import com.carrentalbackend.features.renting.pickUps.PickUpCreateRequest;
+import com.carrentalbackend.features.renting.pickUps.PickUpUpdateRequest;
 import com.carrentalbackend.features.generics.Response;
-import com.carrentalbackend.service.PickUpService;
+import com.carrentalbackend.features.renting.pickUps.PickUpService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

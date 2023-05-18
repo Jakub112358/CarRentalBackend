@@ -1,9 +1,7 @@
 package com.carrentalbackend.features.generics;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
-import com.carrentalbackend.model.dto.updateDto.UpdateDto;
 import com.carrentalbackend.model.entity.CrudEntity;
-import com.carrentalbackend.model.rest.request.update.UpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
