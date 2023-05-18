@@ -1,18 +1,20 @@
 package com.carrentalbackend.controller;
 
-import com.carrentalbackend.model.rest.request.create.PickUpCreateRequest;
-import com.carrentalbackend.model.rest.request.update.PickUpUpdateRequest;
-import com.carrentalbackend.model.rest.response.Response;
-import com.carrentalbackend.service.PickUpService;
+import com.carrentalbackend.features.generics.CrudController;
+import com.carrentalbackend.features.renting.pickUps.PickUpCreateRequest;
+import com.carrentalbackend.features.renting.pickUps.PickUpUpdateRequest;
+import com.carrentalbackend.features.generics.Response;
+import com.carrentalbackend.features.renting.pickUps.PickUpService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
-import static com.carrentalbackend.controller.ApiConstraints.PICK_UP;
+import static com.carrentalbackend.config.ApiConstraints.ORIGIN;
+import static com.carrentalbackend.config.ApiConstraints.PICK_UP;
 
 @RestController
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin(origins = ORIGIN)
 @RequestMapping(PICK_UP)
 public class PickUpController extends CrudController<PickUpCreateRequest, PickUpUpdateRequest> {
     private final PickUpService pickUpService;

@@ -1,8 +1,8 @@
 package com.carrentalbackend.model.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 import java.util.List;
 @Entity
 @Getter
@@ -18,6 +18,7 @@ public class Company implements CrudEntity {
     private String domain;
     private double differentOfficesExtraCharge;
     @Lob
+    @Column(length = 65_535)
     @Basic(fetch = FetchType.LAZY)
     private byte[] logotype;
     @OneToOne (cascade = CascadeType.ALL)

@@ -1,20 +1,22 @@
 package com.carrentalbackend.controller;
 
-import com.carrentalbackend.model.rest.request.create.EmployeeCreateRequest;
-import com.carrentalbackend.model.rest.request.update.EmployeeUpdateRequest;
-import com.carrentalbackend.model.rest.response.Response;
-import com.carrentalbackend.service.EmployeeService;
+import com.carrentalbackend.features.generics.CrudController;
+import com.carrentalbackend.features.companyResources.employee.EmployeeCreateRequest;
+import com.carrentalbackend.features.companyResources.employee.EmployeeUpdateRequest;
+import com.carrentalbackend.features.generics.Response;
+import com.carrentalbackend.features.companyResources.employee.EmployeeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
-import static com.carrentalbackend.controller.ApiConstraints.EMPLOYEE;
+import static com.carrentalbackend.config.ApiConstraints.EMPLOYEE;
+import static com.carrentalbackend.config.ApiConstraints.ORIGIN;
 
 
 @RestController
 @RequestMapping(EMPLOYEE)
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = ORIGIN)
 public class EmployeeController extends CrudController<EmployeeCreateRequest, EmployeeUpdateRequest> {
     private final EmployeeService service;
 

@@ -1,11 +1,12 @@
 package com.carrentalbackend.controller;
 
-import com.carrentalbackend.model.rest.request.CarSearchByCriteriaRequest;
-import com.carrentalbackend.model.rest.request.create.CarCreateRequest;
-import com.carrentalbackend.model.rest.request.update.CarUpdateRequest;
-import com.carrentalbackend.model.rest.response.CarRentResponse;
-import com.carrentalbackend.model.rest.response.Response;
-import com.carrentalbackend.service.CarService;
+import com.carrentalbackend.features.generics.CrudController;
+import com.carrentalbackend.features.renting.CarSearchByCriteriaRequest;
+import com.carrentalbackend.features.companyResources.car.CarCreateRequest;
+import com.carrentalbackend.features.companyResources.car.CarUpdateRequest;
+import com.carrentalbackend.features.renting.CarRentResponse;
+import com.carrentalbackend.features.generics.Response;
+import com.carrentalbackend.features.companyResources.car.CarService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.Set;
 
-import static com.carrentalbackend.controller.ApiConstraints.CAR;
+import static com.carrentalbackend.config.ApiConstraints.CAR;
+import static com.carrentalbackend.config.ApiConstraints.ORIGIN;
 
 @RestController
 @RequestMapping(CAR)
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = ORIGIN)
 public class CarController extends CrudController<CarCreateRequest, CarUpdateRequest> {
     private final CarService service;
 

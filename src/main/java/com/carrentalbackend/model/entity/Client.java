@@ -1,25 +1,38 @@
 package com.carrentalbackend.model.entity;
 
-import lombok.*;
+import com.carrentalbackend.model.enumeration.Role;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
-public class Client implements CrudEntity{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public class Client extends User implements CrudEntity {
+
+    @Builder
+    public Client(long id, String email, String password, Role role, String firstName, String lastName, Address address, List<Reservation> reservations) {
+        super(id, email, password, role);
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.reservations = reservations;
+    }
+
+
     private String firstName;
+
     private String lastName;
-    private String email;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Address address;
-    @OneToMany (mappedBy = "client", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.PERSIST)
     private List<Reservation> reservations;
 }

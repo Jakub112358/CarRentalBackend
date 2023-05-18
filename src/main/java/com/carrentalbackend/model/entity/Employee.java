@@ -1,21 +1,28 @@
 package com.carrentalbackend.model.entity;
 
 import com.carrentalbackend.model.enumeration.JobPosition;
+import com.carrentalbackend.model.enumeration.Role;
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
-public class Employee implements CrudEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public class Employee extends User implements CrudEntity {
+
+@Builder
+    public Employee(long id, String email, String password, Role role, String firstName, String lastName, JobPosition jobPosition, Office office, List<PickUp> pickUps) {
+        super(id, email, password, role);
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.jobPosition = jobPosition;
+        this.office = office;
+        this.pickUps = pickUps;
+    }
+
     private String firstName;
     private String lastName;
     @Enumerated(EnumType.STRING)

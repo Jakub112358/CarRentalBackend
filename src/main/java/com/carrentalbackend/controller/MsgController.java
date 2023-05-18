@@ -1,19 +1,20 @@
 package com.carrentalbackend.controller;
 
 import com.carrentalbackend.model.enumeration.MsgRecipient;
-import com.carrentalbackend.model.temporary.Msg;
-import com.carrentalbackend.service.MsgService;
+import com.carrentalbackend.features.messages.Msg;
+import com.carrentalbackend.features.messages.MsgService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.carrentalbackend.controller.ApiConstraints.MESSAGE;
+import static com.carrentalbackend.config.ApiConstraints.MESSAGE;
+import static com.carrentalbackend.config.ApiConstraints.ORIGIN;
 
 @RestController
 @RequestMapping(MESSAGE)
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = ORIGIN)
 @RequiredArgsConstructor
 public class MsgController {
     private final MsgService msgService;

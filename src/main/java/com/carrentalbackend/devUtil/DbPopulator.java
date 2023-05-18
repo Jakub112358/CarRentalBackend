@@ -1,15 +1,30 @@
 package com.carrentalbackend.devUtil;
 
 
+import com.carrentalbackend.features.clients.ClientService;
+import com.carrentalbackend.features.clients.register.ClientCreateRequest;
+import com.carrentalbackend.features.companyResources.car.CarCreateRequest;
+import com.carrentalbackend.features.companyResources.car.CarService;
+import com.carrentalbackend.features.companyResources.car.priceLists.PriceListCreateRequest;
+import com.carrentalbackend.features.companyResources.car.priceLists.PriceListService;
+import com.carrentalbackend.features.companyResources.company.CompanyCreateRequest;
+import com.carrentalbackend.features.companyResources.company.CompanyService;
+import com.carrentalbackend.features.companyResources.employee.EmployeeCreateRequest;
+import com.carrentalbackend.features.companyResources.employee.EmployeeService;
+import com.carrentalbackend.features.companyResources.office.OfficeCreateRequest;
+import com.carrentalbackend.features.companyResources.office.OfficeService;
+import com.carrentalbackend.features.renting.reservation.ReservationCreateRequest;
+import com.carrentalbackend.features.renting.reservation.ReservationService;
 import com.carrentalbackend.model.entity.Address;
+import com.carrentalbackend.model.entity.User;
 import com.carrentalbackend.model.enumeration.*;
-import com.carrentalbackend.model.rest.request.create.*;
-import com.carrentalbackend.service.*;
+import com.carrentalbackend.repository.UserRepository;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -30,6 +45,9 @@ public class DbPopulator {
     private final ClientService clientService;
     private final ReservationService reservationService;
     private final PriceListService pricelistService;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
     private Address[] addresses;
     private int addressCounter = 0;
 
@@ -42,10 +60,16 @@ public class DbPopulator {
         addCars();
         addEmployees();
         addClients();
+        addAdmin();
         addReservations();
     }
 
-        private void addPriceLists() {
+    private void addAdmin() {
+        User admin = new User(0L, "admin@mail.com", passwordEncoder.encode("123"), Role.ADMIN);
+        userRepository.save(admin);
+    }
+
+    private void addPriceLists() {
         List<PriceListCreateRequest> priceListCreateRequests = createPricelistDtos();
         priceListCreateRequests.forEach(pricelistService::save);
     }
@@ -71,28 +95,28 @@ public class DbPopulator {
                 LocalDate.of(2023, 5, 15),
                 BigDecimal.valueOf(300),
                 ReservationStatus.PLANNED,
-                1L, 1L, 1L, 1L));
+                4L, 1L, 1L, 1L));
         result.add(new ReservationCreateRequest(
                 LocalDateTime.now(),
                 LocalDate.of(2023, 5, 12),
                 LocalDate.of(2023, 5, 19),
                 BigDecimal.valueOf(500),
                 ReservationStatus.PLANNED,
-                2L, 2L, 1L, 3L));
+                5L, 2L, 1L, 3L));
         result.add(new ReservationCreateRequest(
                 LocalDateTime.now(),
                 LocalDate.of(2022, 5, 12),
                 LocalDate.of(2022, 5, 19),
                 BigDecimal.valueOf(500),
                 ReservationStatus.PLANNED,
-                2L, 2L, 1L, 3L));
+                5L, 2L, 1L, 3L));
         result.add(new ReservationCreateRequest(
                 LocalDateTime.now(),
                 LocalDate.of(2023, 5, 12),
                 LocalDate.of(2023, 5, 19),
                 BigDecimal.valueOf(500),
                 ReservationStatus.PLANNED,
-                1L, 2L, 1L, 3L));
+                4L, 2L, 1L, 3L));
 
 
         return result;
@@ -105,9 +129,9 @@ public class DbPopulator {
 
     private List<ClientCreateRequest> createClientList() {
         List<ClientCreateRequest> result = new ArrayList<>();
-        result.add(new ClientCreateRequest("Jaś", "Fasola", "jas@fasola.xyz", getAddress()));
-        result.add(new ClientCreateRequest("Johnny", "Bravo", "johny@buziaczek.pl", getAddress()));
-        result.add(new ClientCreateRequest("Bruce", "Dickinson", "bruce@im.com", getAddress()));
+        result.add(new ClientCreateRequest("Jaś", "Fasola", "client@mail.com", getAddress(), "123"));
+        result.add(new ClientCreateRequest("Johnny", "Bravo", "johny@buziaczek.pl", getAddress(), "123"));
+        result.add(new ClientCreateRequest("Bruce", "Dickinson", "bruce@im.com", getAddress(), "123"));
         return result;
     }
 
@@ -124,9 +148,9 @@ public class DbPopulator {
 
     private List<EmployeeCreateRequest> createEmployeeList() {
         List<EmployeeCreateRequest> employees = new ArrayList<>();
-        employees.add(EmployeeCreateRequest.builder().firstName("John").lastName("Smith").jobPosition(JobPosition.MANAGER).branchOfficeId(1L).build());
-        employees.add(EmployeeCreateRequest.builder().firstName("Bob").lastName("Budowniczy").jobPosition(JobPosition.MANAGER).branchOfficeId(2L).build());
-        employees.add(EmployeeCreateRequest.builder().firstName("Ania").lastName("Z Zielonego Wzgorza").jobPosition(JobPosition.SELLER).branchOfficeId(1L).build());
+        employees.add(EmployeeCreateRequest.builder().firstName("John").lastName("Smith").jobPosition(JobPosition.MANAGER).branchOfficeId(1L).email("employee@mail.com").password("123").build());
+        employees.add(EmployeeCreateRequest.builder().firstName("Bob").lastName("Budowniczy").jobPosition(JobPosition.MANAGER).branchOfficeId(2L).email("test2@mail.com").password("123").build());
+        employees.add(EmployeeCreateRequest.builder().firstName("Ania").lastName("Z Zielonego Wzgorza").jobPosition(JobPosition.SELLER).branchOfficeId(1L).email("test3@mail.com").password("123").build());
         return employees;
     }
 
