@@ -1,10 +1,11 @@
 package com.carrentalbackend.service;
 
+import com.carrentalbackend.features.generics.CrudService;
 import com.carrentalbackend.model.entity.Employee;
 import com.carrentalbackend.model.rest.request.create.EmployeeCreateRequest;
 import com.carrentalbackend.model.rest.request.update.EmployeeUpdateRequest;
 import com.carrentalbackend.service.mapper.EmployeeMapper;
-import com.carrentalbackend.model.rest.response.Response;
+import com.carrentalbackend.features.generics.Response;
 import com.carrentalbackend.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 

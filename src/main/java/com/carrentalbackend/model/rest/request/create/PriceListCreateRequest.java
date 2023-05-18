@@ -1,5 +1,6 @@
 package com.carrentalbackend.model.rest.request.create;
 
+import com.carrentalbackend.features.generics.CreateRequest;
 import lombok.*;
 
 @Getter
@@ -7,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PriceListCreateRequest implements CreateRequest{
+public class PriceListCreateRequest implements CreateRequest {
     private Double pricePerDay;
     private Double pricePerWeek;
     private Double pricePerMonth;

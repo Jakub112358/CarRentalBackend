@@ -1,12 +1,13 @@
 package com.carrentalbackend.service.mapper;
 
+import com.carrentalbackend.features.generics.CrudMapper;
 import com.carrentalbackend.model.dto.updateDto.PriceListUpdateDto;
 import com.carrentalbackend.model.dto.updateDto.UpdateDto;
 import com.carrentalbackend.model.entity.PriceList;
 import com.carrentalbackend.model.rest.request.create.PriceListCreateRequest;
 import com.carrentalbackend.model.rest.request.update.PriceListUpdateRequest;
 import com.carrentalbackend.model.rest.response.PriceListResponse;
-import com.carrentalbackend.model.rest.response.Response;
+import com.carrentalbackend.features.generics.Response;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

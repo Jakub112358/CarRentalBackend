@@ -1,7 +1,7 @@
 package com.carrentalbackend.service.validator;
 
 import com.carrentalbackend.exception.InvalidReservationDataException;
-import com.carrentalbackend.model.rest.request.create.CreateRequest;
+import com.carrentalbackend.features.generics.CreateRequest;
 import org.springframework.stereotype.Component;
 
 @Component

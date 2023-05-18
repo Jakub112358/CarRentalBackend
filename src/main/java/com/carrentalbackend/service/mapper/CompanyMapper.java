@@ -1,5 +1,6 @@
 package com.carrentalbackend.service.mapper;
 
+import com.carrentalbackend.features.generics.CrudMapper;
 import com.carrentalbackend.model.dto.updateDto.CompanyUpdateDto;
 import com.carrentalbackend.model.dto.updateDto.UpdateDto;
 import com.carrentalbackend.model.entity.Company;
@@ -7,7 +8,7 @@ import com.carrentalbackend.model.entity.Finances;
 import com.carrentalbackend.model.rest.request.create.CompanyCreateRequest;
 import com.carrentalbackend.model.rest.request.update.CompanyUpdateRequest;
 import com.carrentalbackend.model.rest.response.CompanyResponse;
-import com.carrentalbackend.model.rest.response.Response;
+import com.carrentalbackend.features.generics.Response;
 import org.springframework.stereotype.Component;
 
 @Component

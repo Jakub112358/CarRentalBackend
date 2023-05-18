@@ -1,17 +1,17 @@
-package com.carrentalbackend.controller;
+package com.carrentalbackend.features.authentication;
 
 import com.carrentalbackend.model.rest.request.auth.AuthenticationRequest;
-import com.carrentalbackend.model.rest.response.auth.AuthenticationResponse;
 import com.carrentalbackend.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static com.carrentalbackend.controller.ApiConstraints.AUTHENTICATION;
+import static com.carrentalbackend.config.ApiConstraints.AUTHENTICATION;
+import static com.carrentalbackend.config.ApiConstraints.ORIGIN;
 
 @RestController
 @RequestMapping(AUTHENTICATION)
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = ORIGIN)
 @RequiredArgsConstructor
 public class AuthenticationController {
 
@@ -19,7 +19,7 @@ public class AuthenticationController {
 
 
 
-    @PostMapping("/authenticate")
+    @PostMapping()
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody AuthenticationRequest request
     ) {

@@ -1,11 +1,12 @@
 package com.carrentalbackend.service;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
+import com.carrentalbackend.features.generics.CrudService;
 import com.carrentalbackend.model.entity.*;
 import com.carrentalbackend.model.rest.request.create.CarReturnCreateRequest;
 import com.carrentalbackend.model.rest.request.update.CarReturnUpdateRequest;
 import com.carrentalbackend.model.rest.response.CarReturnResponse;
-import com.carrentalbackend.model.rest.response.Response;
+import com.carrentalbackend.features.generics.Response;
 import com.carrentalbackend.repository.*;
 import com.carrentalbackend.service.mapper.CarReturnMapper;
 import com.carrentalbackend.service.util.ServiceUtil;

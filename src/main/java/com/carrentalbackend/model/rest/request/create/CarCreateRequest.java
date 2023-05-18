@@ -1,5 +1,6 @@
 package com.carrentalbackend.model.rest.request.create;
 
+import com.carrentalbackend.features.generics.CreateRequest;
 import com.carrentalbackend.model.enumeration.CarBodyType;
 import com.carrentalbackend.model.enumeration.CarStatus;
 import com.carrentalbackend.model.enumeration.Color;
@@ -10,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CarCreateRequest implements CreateRequest{
+public class CarCreateRequest implements CreateRequest {
     private String make;
     private String model;
     private Integer mileage;

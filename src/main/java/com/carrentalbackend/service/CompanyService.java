@@ -1,6 +1,7 @@
 package com.carrentalbackend.service;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
+import com.carrentalbackend.features.generics.CrudService;
 import com.carrentalbackend.model.entity.Company;
 import com.carrentalbackend.model.rest.request.create.CompanyCreateRequest;
 import com.carrentalbackend.model.rest.request.update.CompanyUpdateRequest;

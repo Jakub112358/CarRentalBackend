@@ -1,13 +1,14 @@
 package com.carrentalbackend.service.mapper;
 
+import com.carrentalbackend.features.generics.CrudMapper;
 import com.carrentalbackend.model.dto.updateDto.ClientUpdateDto;
 import com.carrentalbackend.model.dto.updateDto.UpdateDto;
 import com.carrentalbackend.model.entity.Client;
 import com.carrentalbackend.model.enumeration.Role;
-import com.carrentalbackend.model.rest.request.create.ClientCreateRequest;
+import com.carrentalbackend.features.clients.register.ClientCreateRequest;
 import com.carrentalbackend.model.rest.request.update.ClientUpdateRequest;
-import com.carrentalbackend.model.rest.response.ClientResponse;
-import com.carrentalbackend.model.rest.response.Response;
+import com.carrentalbackend.features.clients.ClientResponse;
+import com.carrentalbackend.features.generics.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

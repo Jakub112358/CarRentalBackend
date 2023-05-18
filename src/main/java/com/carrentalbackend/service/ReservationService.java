@@ -1,6 +1,7 @@
 package com.carrentalbackend.service;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
+import com.carrentalbackend.features.generics.CrudService;
 import com.carrentalbackend.model.entity.Finances;
 import com.carrentalbackend.model.entity.Income;
 import com.carrentalbackend.model.entity.Reservation;
@@ -9,7 +10,7 @@ import com.carrentalbackend.model.rest.request.create.ReservationCreateRequest;
 import com.carrentalbackend.model.rest.request.update.ReservationUpdateRequest;
 import com.carrentalbackend.model.rest.response.ReservationClientResponse;
 import com.carrentalbackend.model.rest.response.ReservationResponse;
-import com.carrentalbackend.model.rest.response.Response;
+import com.carrentalbackend.features.generics.Response;
 import com.carrentalbackend.repository.CompanyRepository;
 import com.carrentalbackend.repository.FinancesRepository;
 import com.carrentalbackend.repository.IncomeRepository;

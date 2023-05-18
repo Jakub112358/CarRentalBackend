@@ -1,5 +1,6 @@
 package com.carrentalbackend.model.rest.response;
 
+import com.carrentalbackend.features.generics.Response;
 import com.carrentalbackend.model.enumeration.RentalActionStatus;
 import lombok.*;
 
@@ -10,7 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PickUpResponse implements Response{
+public class PickUpResponse implements Response {
     private long id;
     private String comments;
     private LocalDate pickUpDate;

@@ -1,6 +1,7 @@
 package com.carrentalbackend.service.mapper;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
+import com.carrentalbackend.features.generics.CrudMapper;
 import com.carrentalbackend.model.dto.updateDto.EmployeeUpdateDto;
 import com.carrentalbackend.model.dto.updateDto.UpdateDto;
 import com.carrentalbackend.model.entity.Employee;
@@ -9,7 +10,7 @@ import com.carrentalbackend.model.enumeration.Role;
 import com.carrentalbackend.model.rest.request.create.EmployeeCreateRequest;
 import com.carrentalbackend.model.rest.request.update.EmployeeUpdateRequest;
 import com.carrentalbackend.model.rest.response.EmployeeResponse;
-import com.carrentalbackend.model.rest.response.Response;
+import com.carrentalbackend.features.generics.Response;
 import com.carrentalbackend.repository.OfficeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

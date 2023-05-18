@@ -1,5 +1,6 @@
 package com.carrentalbackend.service;
 
+import com.carrentalbackend.features.generics.CrudService;
 import com.carrentalbackend.model.entity.PriceList;
 import com.carrentalbackend.model.rest.request.create.PriceListCreateRequest;
 import com.carrentalbackend.model.rest.request.update.PriceListUpdateRequest;

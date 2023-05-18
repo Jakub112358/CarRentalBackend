@@ -1,5 +1,6 @@
 package com.carrentalbackend.model.rest.response;
 
+import com.carrentalbackend.features.generics.Response;
 import com.carrentalbackend.model.entity.Address;
 import lombok.*;
 

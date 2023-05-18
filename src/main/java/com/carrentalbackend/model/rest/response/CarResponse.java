@@ -1,5 +1,6 @@
 package com.carrentalbackend.model.rest.response;
 
+import com.carrentalbackend.features.generics.Response;
 import com.carrentalbackend.model.enumeration.CarBodyType;
 import com.carrentalbackend.model.enumeration.CarStatus;
 import com.carrentalbackend.model.enumeration.Color;
@@ -10,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CarResponse implements Response{
+public class CarResponse implements Response {
     private long id;
     private String make;
     private String model;

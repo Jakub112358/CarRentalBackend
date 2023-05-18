@@ -3,7 +3,7 @@ package com.carrentalbackend.service;
 import com.carrentalbackend.config.JwtService;
 import com.carrentalbackend.model.entity.User;
 import com.carrentalbackend.model.rest.request.auth.AuthenticationRequest;
-import com.carrentalbackend.model.rest.response.auth.AuthenticationResponse;
+import com.carrentalbackend.features.authentication.AuthenticationResponse;
 import com.carrentalbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

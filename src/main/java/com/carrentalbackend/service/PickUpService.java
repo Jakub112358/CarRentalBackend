@@ -1,10 +1,11 @@
 package com.carrentalbackend.service;
 
+import com.carrentalbackend.features.generics.CrudService;
 import com.carrentalbackend.model.entity.PickUp;
 import com.carrentalbackend.model.rest.request.create.PickUpCreateRequest;
 import com.carrentalbackend.model.rest.request.update.PickUpUpdateRequest;
 import com.carrentalbackend.service.mapper.PickUpMapper;
-import com.carrentalbackend.model.rest.response.Response;
+import com.carrentalbackend.features.generics.Response;
 import com.carrentalbackend.repository.PickUpRepository;
 import org.springframework.stereotype.Service;
 

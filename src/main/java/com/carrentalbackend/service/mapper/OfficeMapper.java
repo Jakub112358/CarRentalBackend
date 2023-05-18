@@ -1,6 +1,7 @@
 package com.carrentalbackend.service.mapper;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
+import com.carrentalbackend.features.generics.CrudMapper;
 import com.carrentalbackend.model.dto.updateDto.OfficeUpdateDto;
 import com.carrentalbackend.model.dto.updateDto.UpdateDto;
 import com.carrentalbackend.model.entity.Company;

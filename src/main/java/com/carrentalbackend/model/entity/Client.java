@@ -1,8 +1,14 @@
 package com.carrentalbackend.model.entity;
 
 import com.carrentalbackend.model.enumeration.Role;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -21,9 +27,11 @@ public class Client extends User implements CrudEntity {
         this.reservations = reservations;
     }
 
+
     private String firstName;
+
     private String lastName;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Address address;
     @OneToMany(mappedBy = "client", cascade = CascadeType.PERSIST)
     private List<Reservation> reservations;

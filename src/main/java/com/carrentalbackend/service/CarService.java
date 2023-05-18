@@ -1,6 +1,7 @@
 package com.carrentalbackend.service;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
+import com.carrentalbackend.features.generics.CrudService;
 import com.carrentalbackend.model.entity.Car;
 import com.carrentalbackend.model.entity.Office;
 import com.carrentalbackend.model.entity.PriceList;
@@ -10,9 +11,9 @@ import com.carrentalbackend.model.enumeration.ReservationStatus;
 import com.carrentalbackend.model.rest.request.create.CarCreateRequest;
 import com.carrentalbackend.model.rest.request.update.CarUpdateRequest;
 import com.carrentalbackend.service.mapper.CarMapper;
-import com.carrentalbackend.model.rest.request.CarSearchByCriteriaRequest;
+import com.carrentalbackend.features.renting.CarSearchByCriteriaRequest;
 import com.carrentalbackend.model.rest.response.CarRentResponse;
-import com.carrentalbackend.model.rest.response.Response;
+import com.carrentalbackend.features.generics.Response;
 import com.carrentalbackend.repository.CarRepository;
 import com.carrentalbackend.repository.CompanyRepository;
 import com.carrentalbackend.repository.PriceListRepository;

@@ -1,5 +1,6 @@
 package com.carrentalbackend.model.rest.response;
 
+import com.carrentalbackend.features.generics.Response;
 import com.carrentalbackend.model.enumeration.JobPosition;
 import lombok.*;
 
@@ -8,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EmployeeResponse implements Response{
+public class EmployeeResponse implements Response {
     private long id;
     private String firstName;
     private String lastName;

@@ -1,5 +1,6 @@
 package com.carrentalbackend.model.rest.request.create;
 
+import com.carrentalbackend.features.generics.CreateRequest;
 import com.carrentalbackend.model.enumeration.RentalActionStatus;
 import lombok.*;
 
@@ -11,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CarReturnCreateRequest implements CreateRequest{
+public class CarReturnCreateRequest implements CreateRequest {
 
     private String comments;
     private BigDecimal extraCharge;

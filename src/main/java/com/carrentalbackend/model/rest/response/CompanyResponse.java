@@ -1,5 +1,6 @@
 package com.carrentalbackend.model.rest.response;
 
+import com.carrentalbackend.features.generics.Response;
 import com.carrentalbackend.model.entity.Address;
 import lombok.*;
 
@@ -8,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CompanyResponse implements Response{
+public class CompanyResponse implements Response {
     private long id;
     private String name;
     private String domain;

@@ -1,12 +1,13 @@
 package com.carrentalbackend.service.mapper;
 
+import com.carrentalbackend.features.generics.CrudMapper;
 import com.carrentalbackend.model.dto.updateDto.CarReturnUpdateDto;
 import com.carrentalbackend.model.dto.updateDto.UpdateDto;
 import com.carrentalbackend.model.entity.*;
 import com.carrentalbackend.model.rest.request.create.CarReturnCreateRequest;
 import com.carrentalbackend.model.rest.request.update.CarReturnUpdateRequest;
 import com.carrentalbackend.model.rest.response.CarReturnResponse;
-import com.carrentalbackend.model.rest.response.Response;
+import com.carrentalbackend.features.generics.Response;
 import com.carrentalbackend.repository.CarRepository;
 import com.carrentalbackend.repository.EmployeeRepository;
 import com.carrentalbackend.repository.OfficeRepository;

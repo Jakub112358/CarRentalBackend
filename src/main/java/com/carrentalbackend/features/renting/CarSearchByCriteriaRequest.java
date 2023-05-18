@@ -1,4 +1,4 @@
-package com.carrentalbackend.model.rest.request;
+package com.carrentalbackend.features.renting;
 
 import com.carrentalbackend.model.enumeration.Color;
 import lombok.*;

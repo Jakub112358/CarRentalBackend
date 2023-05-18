@@ -1,5 +1,6 @@
 package com.carrentalbackend.model.rest.request.create;
 
+import com.carrentalbackend.features.generics.CreateRequest;
 import com.carrentalbackend.model.enumeration.JobPosition;
 import lombok.*;
 
@@ -8,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EmployeeCreateRequest implements CreateRequest{
+public class EmployeeCreateRequest implements CreateRequest {
     private String firstName;
     private String lastName;
     private JobPosition jobPosition;

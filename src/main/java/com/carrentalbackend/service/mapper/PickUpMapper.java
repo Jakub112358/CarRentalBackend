@@ -1,13 +1,14 @@
 package com.carrentalbackend.service.mapper;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
+import com.carrentalbackend.features.generics.CrudMapper;
 import com.carrentalbackend.model.dto.updateDto.PickUpUpdateDto;
 import com.carrentalbackend.model.dto.updateDto.UpdateDto;
 import com.carrentalbackend.model.entity.*;
 import com.carrentalbackend.model.rest.request.create.PickUpCreateRequest;
 import com.carrentalbackend.model.rest.request.update.PickUpUpdateRequest;
 import com.carrentalbackend.model.rest.response.PickUpResponse;
-import com.carrentalbackend.model.rest.response.Response;
+import com.carrentalbackend.features.generics.Response;
 import com.carrentalbackend.repository.CarRepository;
 import com.carrentalbackend.repository.EmployeeRepository;
 import com.carrentalbackend.repository.OfficeRepository;

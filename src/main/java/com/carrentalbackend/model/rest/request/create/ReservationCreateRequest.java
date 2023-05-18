@@ -1,5 +1,6 @@
 package com.carrentalbackend.model.rest.request.create;
 
+import com.carrentalbackend.features.generics.CreateRequest;
 import com.carrentalbackend.model.enumeration.ReservationStatus;
 import lombok.*;
 
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ReservationCreateRequest implements CreateRequest{
+public class ReservationCreateRequest implements CreateRequest {
     private LocalDateTime reservationDate;
     private LocalDate dateFrom;
     private LocalDate dateTo;

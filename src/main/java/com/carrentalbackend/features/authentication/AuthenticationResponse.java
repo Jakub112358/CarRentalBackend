@@ -1,4 +1,4 @@
-package com.carrentalbackend.model.rest.response.auth;
+package com.carrentalbackend.features.authentication;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

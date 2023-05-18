@@ -9,11 +9,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.carrentalbackend.controller.ApiConstraints.MESSAGE;
+import static com.carrentalbackend.config.ApiConstraints.MESSAGE;
+import static com.carrentalbackend.config.ApiConstraints.ORIGIN;
 
 @RestController
 @RequestMapping(MESSAGE)
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = ORIGIN)
 @RequiredArgsConstructor
 public class MsgController {
     private final MsgService msgService;

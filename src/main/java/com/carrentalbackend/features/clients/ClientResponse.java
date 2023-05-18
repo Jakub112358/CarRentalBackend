@@ -1,6 +1,7 @@
-package com.carrentalbackend.model.rest.request.create;
+package com.carrentalbackend.features.clients;
 
 import com.carrentalbackend.model.entity.Address;
+import com.carrentalbackend.features.generics.Response;
 import lombok.*;
 
 @Getter
@@ -8,11 +9,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ClientCreateRequest implements CreateRequest {
+public class ClientResponse implements Response {
+    private long id;
     private String firstName;
     private String lastName;
     private String email;
     private Address address;
-    private String password;
-
 }

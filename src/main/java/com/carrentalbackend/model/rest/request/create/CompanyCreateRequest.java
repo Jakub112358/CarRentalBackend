@@ -1,5 +1,6 @@
 package com.carrentalbackend.model.rest.request.create;
 
+import com.carrentalbackend.features.generics.CreateRequest;
 import com.carrentalbackend.model.entity.Address;
 import lombok.*;
 
@@ -8,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CompanyCreateRequest implements CreateRequest{
+public class CompanyCreateRequest implements CreateRequest {
     private String name;
     private String domain;
     private byte[] logotype;

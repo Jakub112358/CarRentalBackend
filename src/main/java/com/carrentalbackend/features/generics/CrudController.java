@@ -1,9 +1,7 @@
-package com.carrentalbackend.controller;
+package com.carrentalbackend.features.generics;
 
-import com.carrentalbackend.model.rest.request.create.CreateRequest;
 import com.carrentalbackend.model.rest.request.update.UpdateRequest;
-import com.carrentalbackend.model.rest.response.Response;
-import com.carrentalbackend.service.CrudService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +17,7 @@ public abstract class CrudController<T extends CreateRequest, U extends UpdateRe
     protected final CrudService<?, U, T> service;
 
     @PostMapping
-    public ResponseEntity<Response> save(@RequestBody T createRequest) {
+    public ResponseEntity<Response> save(@Valid @RequestBody T createRequest) {
         Response response = service.save(createRequest);
         URI newResourceLocation = getNewResourceLocation(response.getId());
         return ResponseEntity.created(newResourceLocation).body(response);
