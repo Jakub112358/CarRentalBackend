@@ -1,10 +1,7 @@
-package com.carrentalbackend.controller;
+package com.carrentalbackend.features.companyResources.employee;
 
 import com.carrentalbackend.features.generics.CrudController;
-import com.carrentalbackend.features.companyResources.employee.EmployeeCreateRequest;
-import com.carrentalbackend.features.companyResources.employee.EmployeeUpdateRequest;
 import com.carrentalbackend.features.generics.Response;
-import com.carrentalbackend.features.companyResources.employee.EmployeeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
