@@ -1,5 +1,6 @@
 package com.carrentalbackend.config;
 
+import com.carrentalbackend.model.enumeration.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -20,6 +21,10 @@ public class JwtService {
         return getAllClaims(jwt).getSubject();
     }
 
+    public Role extractRole(String jwt){
+        return Role.valueOf(getAllClaims(jwt).get("rol", String.class));
+    }
+
     private Claims getAllClaims(String jwt) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
@@ -34,12 +39,12 @@ public class JwtService {
     }
 
     public boolean isTokenValid(String jwt, UserDetails userDetails) {
-        final String username = extractUsername(jwt);
+        String username = extractUsername(jwt);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(jwt);
     }
 
     private boolean isTokenExpired(String jwt) {
-        final Date expiration = getAllClaims(jwt).getExpiration();
+        Date expiration = getAllClaims(jwt).getExpiration();
         return expiration.before(new Date());
     }
 

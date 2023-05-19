@@ -3,7 +3,7 @@
 # Local profile in application-dev.yml
 spring:
   profiles:
-    active: test
+    active: dev
 
   jpa:
     open-in-view: false
