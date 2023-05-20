@@ -2,8 +2,6 @@ package com.carrentalbackend.features.authentication;
 
 import com.carrentalbackend.config.JwtService;
 import com.carrentalbackend.model.entity.User;
-import com.carrentalbackend.features.authentication.AuthenticationRequest;
-import com.carrentalbackend.features.authentication.AuthenticationResponse;
 import com.carrentalbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,19 +21,18 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
-        //TODO: think about this exception
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException("user not found"));
-        Map<String, Object> extraClaims = new HashMap<>();
-        extraClaims.put("rol", user.getRole());
-        String jwtToken = jwtService.generateToken(user, extraClaims);
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
+        authenticationManager.authenticate(authenticationToken);
+        String jwtToken = generateToken(request);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
+    }
+
+    private String generateToken(AuthenticationRequest request) {
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException("user not found"));
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("rol", user.getRole());
+        return jwtService.generateToken(user, extraClaims);
     }
 }

@@ -1,8 +1,6 @@
-package com.carrentalbackend.controller;
+package com.carrentalbackend.features.messages;
 
 import com.carrentalbackend.model.enumeration.MsgRecipient;
-import com.carrentalbackend.features.messages.Msg;
-import com.carrentalbackend.features.messages.MsgService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +18,7 @@ public class MsgController {
     private final MsgService msgService;
 
     @GetMapping(params = "recipient")
-    public ResponseEntity<List<Msg>> getAllByRecipient (@RequestParam MsgRecipient recipient){
+    public ResponseEntity<List<Msg>> getAllByRecipient(@RequestParam MsgRecipient recipient) {
         return ResponseEntity.ok(msgService.getAllByRecipient(recipient));
     }
 }

@@ -21,6 +21,7 @@ import com.carrentalbackend.model.enumeration.*;
 import com.carrentalbackend.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +38,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 @Transactional
+@Profile("dev")
 public class DbPopulator {
     private final CompanyService companyService;
     private final OfficeService officeService;

@@ -1,9 +1,6 @@
-package com.carrentalbackend.controller;
+package com.carrentalbackend.features.companyResources.company;
 
 import com.carrentalbackend.features.generics.CrudController;
-import com.carrentalbackend.features.companyResources.company.CompanyCreateRequest;
-import com.carrentalbackend.features.companyResources.company.CompanyUpdateRequest;
-import com.carrentalbackend.features.companyResources.company.CompanyService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

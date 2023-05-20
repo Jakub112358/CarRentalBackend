@@ -1,10 +1,6 @@
-package com.carrentalbackend.controller;
+package com.carrentalbackend.features.renting.reservation;
 
 import com.carrentalbackend.features.generics.CrudController;
-import com.carrentalbackend.features.renting.reservation.ReservationCreateRequest;
-import com.carrentalbackend.features.renting.reservation.ReservationUpdateRequest;
-import com.carrentalbackend.features.renting.reservation.ReservationClientResponse;
-import com.carrentalbackend.features.renting.reservation.ReservationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

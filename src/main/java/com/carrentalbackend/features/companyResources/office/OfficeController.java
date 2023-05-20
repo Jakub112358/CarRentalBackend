@@ -1,9 +1,6 @@
-package com.carrentalbackend.controller;
+package com.carrentalbackend.features.companyResources.office;
 
 import com.carrentalbackend.features.generics.CrudController;
-import com.carrentalbackend.features.companyResources.office.OfficeCreateRequest;
-import com.carrentalbackend.features.companyResources.office.OfficeUpdateRequest;
-import com.carrentalbackend.features.companyResources.office.OfficeService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
