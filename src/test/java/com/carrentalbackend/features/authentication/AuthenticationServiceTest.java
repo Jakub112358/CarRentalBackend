@@ -44,8 +44,7 @@ public class AuthenticationServiceTest {
         ArgumentCaptor<UsernamePasswordAuthenticationToken> tokenCaptor = ArgumentCaptor.forClass(UsernamePasswordAuthenticationToken.class);
 
         //and
-        when(userRepository.findByEmail(UserFactory.simpleUserEmail)).thenReturn(Optional.of(UserFactory.simpleUser()));
-        when(jwtService.generateToken(any(User.class), anyMap())).thenReturn(AuthFactory.simpleFakeToken);
+        setMocks_correctResponse();
 
         //when
         var result = authenticationService.authenticate(request);
@@ -54,7 +53,7 @@ public class AuthenticationServiceTest {
         verify(authenticationManager).authenticate(tokenCaptor.capture());
 
         //and
-        assertEquals(result.getToken(), AuthFactory.simpleFakeToken);
+        assertEquals(AuthFactory.emptyToken, result.getToken());
     }
 
     @Test
@@ -63,11 +62,23 @@ public class AuthenticationServiceTest {
         AuthenticationRequest request = getSimpleUserAuthenticationRequest();
 
         //and
-        when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenThrow(new BadCredentialsException(""));
+        setMocks_wrongResponse();
+
 
         //when and then
         assertThrows(BadCredentialsException.class,
                 () -> authenticationService.authenticate(request));
+    }
+
+
+
+    private void setMocks_wrongResponse() {
+        when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenThrow(new BadCredentialsException(""));
+    }
+
+    private void setMocks_correctResponse() {
+        when(userRepository.findByEmail(UserFactory.simpleUserEmail)).thenReturn(Optional.of(UserFactory.simpleUser()));
+        when(jwtService.generateToken(any(User.class), anyMap())).thenReturn(AuthFactory.emptyToken);
     }
 
     private AuthenticationRequest getSimpleUserAuthenticationRequest() {

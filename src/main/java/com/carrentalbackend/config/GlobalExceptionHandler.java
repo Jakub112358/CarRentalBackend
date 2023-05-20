@@ -1,5 +1,6 @@
 package com.carrentalbackend.config;
 
+import com.carrentalbackend.exception.MissingTokenClaimException;
 import com.carrentalbackend.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,5 +18,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> handleMethodArgumentNotValidException(Exception e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(MissingTokenClaimException.class)
+    public ResponseEntity<String> handleMissingTokenClaimException (RuntimeException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

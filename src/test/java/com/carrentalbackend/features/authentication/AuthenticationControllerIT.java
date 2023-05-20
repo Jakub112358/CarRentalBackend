@@ -37,8 +37,8 @@ public class AuthenticationControllerIT extends BaseIT {
 
         //and
         String token = extractToken(result);
-        assertEquals(jwtService.extractUsername(token), UserFactory.simpleUserEmail);
-        assertEquals(jwtService.extractRole(token), UserFactory.simpleUserRole);
+        assertEquals(UserFactory.simpleUserEmail, jwtService.extractUsername(token));
+        assertEquals(UserFactory.simpleUserRole, jwtService.extractRole(token));
     }
 
     @ParameterizedTest

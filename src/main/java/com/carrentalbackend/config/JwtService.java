@@ -1,5 +1,6 @@
 package com.carrentalbackend.config;
 
+import com.carrentalbackend.exception.MissingTokenClaimException;
 import com.carrentalbackend.model.enumeration.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -18,11 +19,21 @@ public class JwtService {
     private static final String SECRET_KEY = "462D4A614E645266556A586E3272357538782F413F4428472B4B625065536856";
 
     public String extractUsername(String jwt) {
-        return getAllClaims(jwt).getSubject();
+        String subjectClaim = getAllClaims(jwt).getSubject();
+        if(subjectClaim == null){
+            throw new MissingTokenClaimException("subject");
+        } else {
+            return subjectClaim;
+        }
     }
 
     public Role extractRole(String jwt){
-        return Role.valueOf(getAllClaims(jwt).get("rol", String.class));
+        String roleClaim = getAllClaims(jwt).get("rol", String.class);
+        if(roleClaim == null){
+            throw new MissingTokenClaimException("role");
+        } else{
+            return Role.valueOf(roleClaim);
+        }
     }
 
     public boolean isTokenValid(String jwt, UserDetails userDetails) {
@@ -56,6 +67,9 @@ public class JwtService {
 
     private boolean isTokenExpired(String jwt) {
         Date expiration = getAllClaims(jwt).getExpiration();
+        if(expiration == null){
+            return true;
+        }
         return expiration.before(new Date());
     }
 }
