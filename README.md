@@ -37,16 +37,17 @@ Angular application with PrimeNG library.
 
 **As Admin:**
 
+- login to the system
 - configuring company details
 - crud operations on branch offices
 - managing employees
 - managing cars
 - managing company finances (system is auto-updated with each reservation, cancellation or extra fee)
-- browsing statistics about cars, employees, incomes, cancellations, popular routes
-
 
  **As Client:**
  
+- register an account
+- login to the system
 - making reservations
   - selecting available cars,
   - selecting pick-up and return dates 
@@ -56,6 +57,7 @@ Angular application with PrimeNG library.
 
 **As Employee**
 
+- login to the system
 - confirming pick-ups and returns
 - charging additional fees
 
