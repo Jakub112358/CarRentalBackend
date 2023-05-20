@@ -15,6 +15,7 @@ The solution will be to create a personalized web application.
 Spring Boot REST application. The application meets all the requirements of level 2 of the Richardson Maturity Model. 
 I use tools such as e.g. Lombok. I focus on creating clean code and using appropriate design patters.
 
+
 **Frontend:**
 Angular application with PrimeNG library.
 
@@ -22,10 +23,12 @@ Angular application with PrimeNG library.
 **Backend:**
 - Java 17
 - Spring Boot 3
-- JUnit 5
+- Persistance: Java Persistence API (JPA), Hibernate
+- Security: Spring Security 6 + Json Web Tokens (JWT)
+- Testing: Unit and integration tests using JUnit + Mockito
 
 **DataBase:**
-- H2 for development
+- MySQL for development and testing
 
 **Frontend:**
 - Angular 15
