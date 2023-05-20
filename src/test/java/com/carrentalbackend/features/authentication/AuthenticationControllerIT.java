@@ -15,7 +15,6 @@ import java.util.stream.Stream;
 
 import static com.carrentalbackend.config.ApiConstraints.AUTHENTICATION;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -25,7 +24,7 @@ public class AuthenticationControllerIT extends BaseIT {
     @Test
     public void whenAuthenticate_thenCorrectResponse() throws Exception {
         //given
-        addSimpleUserToDB();
+        dbOperations.addSimpleUserToDB();
 
         //and
         var requestContentJson = getRequestContentJson(UserFactory.simpleUserEmail, UserFactory.simpleUserPassword);
@@ -46,7 +45,7 @@ public class AuthenticationControllerIT extends BaseIT {
     @MethodSource("authenticateParams")
     public void whenAuthenticate_thenForbiddenResponse(String email, String password) throws Exception {
         //given
-        addSimpleUserToDB();
+        dbOperations.addSimpleUserToDB();
 
         //and
         var requestContentJson = getRequestContentJson(email, password);
@@ -71,11 +70,6 @@ public class AuthenticationControllerIT extends BaseIT {
         return toJsonString(authenticationRequest);
     }
 
-    private void addSimpleUserToDB() {
-        var user = UserFactory.simpleUser();
-        userRepository.save(user);
-        assertTrue(userRepository.existsByEmail(user.getEmail()));
-    }
 
     private static Stream<Arguments> authenticateParams() {
         return Stream.of(

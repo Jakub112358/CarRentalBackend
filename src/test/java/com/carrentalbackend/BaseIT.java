@@ -2,6 +2,7 @@ package com.carrentalbackend;
 
 import com.carrentalbackend.config.JwtService;
 import com.carrentalbackend.repository.UserRepository;
+import com.carrentalbackend.util.DBOperations;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ public class BaseIT {
     protected PasswordEncoder passwordEncoder;
     @Autowired
     protected JwtService jwtService;
+    @Autowired
+    protected DBOperations dbOperations;
 
     @SneakyThrows
     protected <T> String toJsonString(T obj) {
