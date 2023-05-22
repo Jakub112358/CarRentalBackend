@@ -11,7 +11,7 @@ public class UserFactory {
     public static String simpleUserPassword = "simple password";
     public static Role simpleUserRole = Role.ADMIN;
 
-    public static User simpleUser() {
+    public static User getSimpleUser() {
         return new User(0L, simpleUserEmail, passwordEncoder.encode(simpleUserPassword), simpleUserRole);
     }
 }
