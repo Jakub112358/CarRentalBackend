@@ -3,6 +3,7 @@ package com.carrentalbackend.features.generics;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -28,7 +29,7 @@ public abstract class CrudController<T extends CreateRequest, U extends UpdateRe
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Response> findById(@PathVariable Long id) {
+    public ResponseEntity<Response> findById(@PathVariable Long id, Authentication auth) {
         return ResponseEntity.ok(service.findById(id));
     }
 

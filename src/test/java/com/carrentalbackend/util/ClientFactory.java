@@ -11,10 +11,10 @@ import static com.carrentalbackend.features.clients.register.ClientCreateRequest
 
 public class ClientFactory {
      private final static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-     public static String simpleFirstName = "Jan";
-     public static String simpleLastName = "Kowalski";
-     public static String simpleEmail = "client@mail.com";
-     public static String simplePassword = "password";
+     public final static String simpleFirstName = "Jan";
+     public final static String simpleLastName = "Kowalski";
+     public final static String simpleEmail = "client@mail.com";
+     public final static String simplePassword = "password";
      public static ClientCreateRequestBuilder getSimpleClientCreateRequestBuilder(){
           return ClientCreateRequest.builder()
                   .firstName(simpleFirstName)

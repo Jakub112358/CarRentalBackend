@@ -1,6 +1,7 @@
 package com.carrentalbackend;
 
 import com.carrentalbackend.config.JwtService;
+import com.carrentalbackend.repository.ClientRepository;
 import com.carrentalbackend.repository.UserRepository;
 import com.carrentalbackend.util.DBOperations;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +20,8 @@ public class BaseIT {
     @Autowired
     protected UserRepository userRepository;
     @Autowired
+    protected ClientRepository clientRepository;
+    @Autowired
     protected MockMvc mockMvc;
     @Autowired
     protected ObjectMapper objectMapper;
@@ -33,4 +36,5 @@ public class BaseIT {
     protected <T> String toJsonString(T obj) {
         return objectMapper.writeValueAsString(obj);
     }
+
 }
