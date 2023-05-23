@@ -1,9 +1,11 @@
-package com.carrentalbackend.features.renting.pickUps;
+package com.carrentalbackend.features.renting.carReturns;
 
+import com.carrentalbackend.features.generics.Request;
 import com.carrentalbackend.model.enumeration.RentalActionStatus;
 import com.carrentalbackend.features.generics.UpdateRequest;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
@@ -11,13 +13,15 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PickUpUpdateRequest implements UpdateRequest {
+public class CarReturnRequest implements Request, UpdateRequest {
     private String comments;
-    private LocalDate pickUpDate;
-    private LocalDate plannedPickUpDate;
+    private BigDecimal extraCharge;
+    private LocalDate returnDate;
+    private LocalDate plannedReturnDate;
     private RentalActionStatus status;
     private Long employeeId;
     private Long reservationId;
     private Long carId;
-    private Long officeId;
+    private Long branchOfficeId;
+    private int mileage;
 }

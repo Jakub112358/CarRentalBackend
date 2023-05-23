@@ -1,4 +1,4 @@
-package com.carrentalbackend.features.clients.register.validation;
+package com.carrentalbackend.features.clients.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

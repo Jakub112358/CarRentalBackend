@@ -4,15 +4,9 @@ import com.carrentalbackend.exception.ResourceNotFoundException;
 import com.carrentalbackend.features.companyResources.car.CarMapper;
 import com.carrentalbackend.features.companyResources.office.OfficeMapper;
 import com.carrentalbackend.features.generics.CrudMapper;
-import com.carrentalbackend.features.renting.reservation.ReservationUpdateDto;
-import com.carrentalbackend.features.generics.UpdateDto;
 import com.carrentalbackend.model.entity.*;
 import com.carrentalbackend.model.enumeration.RentalActionStatus;
 import com.carrentalbackend.model.enumeration.ReservationStatus;
-import com.carrentalbackend.features.renting.reservation.ReservationCreateRequest;
-import com.carrentalbackend.features.renting.reservation.ReservationUpdateRequest;
-import com.carrentalbackend.features.renting.reservation.ReservationClientResponse;
-import com.carrentalbackend.features.renting.reservation.ReservationResponse;
 import com.carrentalbackend.repository.CarRepository;
 import com.carrentalbackend.repository.ClientRepository;
 import com.carrentalbackend.repository.OfficeRepository;
@@ -21,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ReservationMapper implements CrudMapper<Reservation, ReservationUpdateRequest, ReservationCreateRequest> {
+public class ReservationMapper implements CrudMapper<Reservation, ReservationRequest> {
     private final ClientRepository clientRepository;
     private final CarRepository carRepository;
     private final OfficeRepository officeRepository;
@@ -29,7 +23,7 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationUpd
     private final OfficeMapper officeMapper;
 
 
-    private CarReturn createCarReturn(ReservationCreateRequest request, Car car, Office office) {
+    private CarReturn createCarReturn(ReservationRequest request, Car car, Office office) {
         return CarReturn.builder()
                 .plannedReturnDate(request.getDateTo())
                 .status(RentalActionStatus.PLANNED)
@@ -38,7 +32,7 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationUpd
                 .build();
     }
 
-    private PickUp createCarPickUp(ReservationCreateRequest request, Car car, Office office) {
+    private PickUp createCarPickUp(ReservationRequest request, Car car, Office office) {
         return PickUp.builder()
                 .plannedPickUpDate(request.getDateFrom())
                 .status(RentalActionStatus.PLANNED)
@@ -66,7 +60,7 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationUpd
     }
 
     @Override
-    public Reservation toNewEntity(ReservationCreateRequest request) {
+    public Reservation toNewEntity(ReservationRequest request) {
 
         //TODO price should be recalculated!
         Client client = clientRepository.findById(request.getClientId()).orElseThrow(() -> new ResourceNotFoundException(request.getClientId()));
@@ -112,19 +106,4 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationUpd
                 .build();
     }
 
-    @Override
-    public UpdateDto toUpdateDto(ReservationUpdateRequest request) {
-
-        Client client = request.getClientId() != null ? clientRepository.findById(request.getClientId()).orElse(null) : null;
-        Office pickUpOffice = request.getPickUpOfficeId() != null ? officeRepository.findById(request.getPickUpOfficeId()).orElse(null) : null;
-        Office returnOffice = request.getReturnOfficeId() != null ? officeRepository.findById(request.getReturnOfficeId()).orElse(null) : null;
-        return ReservationUpdateDto.builder()
-                .dateFrom(request.getDateFrom())
-                .dateTo(request.getDateTo())
-                .client(client)
-                .pickUpOffice(pickUpOffice)
-                .returnOffice(returnOffice)
-                .status(request.getStatus())
-                .build();
-    }
 }

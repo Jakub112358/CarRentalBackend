@@ -2,13 +2,8 @@ package com.carrentalbackend.features.renting.pickUps;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
 import com.carrentalbackend.features.generics.CrudMapper;
-import com.carrentalbackend.features.renting.pickUps.PickUpUpdateDto;
-import com.carrentalbackend.features.generics.UpdateDto;
-import com.carrentalbackend.model.entity.*;
-import com.carrentalbackend.features.renting.pickUps.PickUpCreateRequest;
-import com.carrentalbackend.features.renting.pickUps.PickUpUpdateRequest;
-import com.carrentalbackend.features.renting.pickUps.PickUpResponse;
 import com.carrentalbackend.features.generics.Response;
+import com.carrentalbackend.model.entity.*;
 import com.carrentalbackend.repository.CarRepository;
 import com.carrentalbackend.repository.EmployeeRepository;
 import com.carrentalbackend.repository.OfficeRepository;
@@ -18,14 +13,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class PickUpMapper implements CrudMapper<PickUp, PickUpUpdateRequest, PickUpCreateRequest> {
+public class PickUpMapper implements CrudMapper<PickUp, PickUpRequest> {
     private final EmployeeRepository employeeRepository;
     private final CarRepository carRepository;
     private final ReservationRepository reservationRepository;
     private final OfficeRepository officeRepository;
 
     @Override
-    public PickUp toNewEntity(PickUpCreateRequest request) {
+    public PickUp toNewEntity(PickUpRequest request) {
 
         Employee employee = findEmployeeById(request.getEmployeeId());
         Reservation reservation = findReservationById(request.getReservationId());
@@ -60,26 +55,6 @@ public class PickUpMapper implements CrudMapper<PickUp, PickUpUpdateRequest, Pic
                 .reservationId(reservationId)
                 .carId(carId)
                 .branchOfficeId(branchOfficeId)
-                .build();
-    }
-
-    @Override
-    public UpdateDto toUpdateDto(PickUpUpdateRequest request) {
-
-        Employee employee = request.getEmployeeId() != null ? employeeRepository.getReferenceById(request.getEmployeeId()) : null;
-        Reservation reservation = request.getReservationId() != null ? reservationRepository.getReferenceById(request.getReservationId()) : null;
-        Car car = request.getCarId() != null ? carRepository.getReferenceById(request.getCarId()) : null;
-        Office office = request.getOfficeId() != null ? officeRepository.getReferenceById(request.getOfficeId()) : null;
-
-        return PickUpUpdateDto.builder()
-                .comments(request.getComments())
-                .pickUpDate(request.getPickUpDate())
-                .plannedPickUpDate(request.getPlannedPickUpDate())
-                .status(request.getStatus())
-                .employee(employee)
-                .reservation(reservation)
-                .car(car)
-                .office(office)
                 .build();
     }
 

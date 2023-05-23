@@ -1,6 +1,7 @@
 package com.carrentalbackend.features.companyResources.car.priceLists;
 
-import com.carrentalbackend.features.generics.UpdateDto;
+import com.carrentalbackend.features.generics.Request;
+import com.carrentalbackend.features.generics.UpdateRequest;
 import lombok.*;
 
 @Getter
@@ -8,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PriceListUpdateDto implements UpdateDto {
+public class PriceListRequest implements Request, UpdateRequest {
     private Double pricePerDay;
     private Double pricePerWeek;
     private Double pricePerMonth;

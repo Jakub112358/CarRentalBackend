@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class CarReturnService extends CrudService<CarReturn, CarReturnUpdateRequest, CarReturnCreateRequest> {
+public class CarReturnService extends CrudService<CarReturn, CarReturnRequest> {
     private final CarReturnRepository carReturnRepository;
     private final FinancesRepository financesRepository;
     private final ReservationRepository reservationRepository;
@@ -24,8 +24,9 @@ public class CarReturnService extends CrudService<CarReturn, CarReturnUpdateRequ
                             FinancesRepository financesRepository,
                             ReservationRepository reservationRepository,
                             IncomeRepository incomeRepository,
-                            CarRepository carRepository) {
-        super(carReturnRepository, mapper);
+                            CarRepository carRepository,
+                            CarReturnUpdateTool updateTool) {
+        super(carReturnRepository, mapper, updateTool);
         this.carReturnRepository = carReturnRepository;
         this.financesRepository = financesRepository;
         this.reservationRepository = reservationRepository;
@@ -46,7 +47,7 @@ public class CarReturnService extends CrudService<CarReturn, CarReturnUpdateRequ
     }
 
     @Override
-    public CarReturnResponse update(Long id, CarReturnUpdateRequest request) {
+    public CarReturnResponse update(Long id, CarReturnRequest request) {
 
         Response response = super.update(id, request);
 
@@ -61,13 +62,13 @@ public class CarReturnService extends CrudService<CarReturn, CarReturnUpdateRequ
     }
 
 
-    private void saveExtraChargeAndMileage(CarReturnResponse carReturnResponse, CarReturnUpdateRequest carReturnUpdateRequest) {
+    private void saveExtraChargeAndMileage(CarReturnResponse carReturnResponse, CarReturnRequest carReturnUpdateRequest) {
         saveExtraCharge(carReturnResponse);
         updateMileage(carReturnUpdateRequest, carReturnResponse.getCarId());
     }
 
 
-    private void updateMileage(CarReturnUpdateRequest request, Long carId) {
+    private void updateMileage(CarReturnRequest request, Long carId) {
         Car car = carRepository.findById(carId).orElseThrow(() -> new ResourceNotFoundException(carId));
         car.setMileage(request.getMileage());
     }

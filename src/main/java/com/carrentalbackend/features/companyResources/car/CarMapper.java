@@ -2,15 +2,10 @@ package com.carrentalbackend.features.companyResources.car;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
 import com.carrentalbackend.features.generics.CrudMapper;
-import com.carrentalbackend.features.companyResources.car.CarUpdateDto;
-import com.carrentalbackend.features.generics.UpdateDto;
+import com.carrentalbackend.features.renting.CarRentResponse;
 import com.carrentalbackend.model.entity.Car;
 import com.carrentalbackend.model.entity.Office;
 import com.carrentalbackend.model.entity.PriceList;
-import com.carrentalbackend.features.companyResources.car.CarCreateRequest;
-import com.carrentalbackend.features.companyResources.car.CarUpdateRequest;
-import com.carrentalbackend.features.renting.CarRentResponse;
-import com.carrentalbackend.features.companyResources.car.CarResponse;
 import com.carrentalbackend.repository.OfficeRepository;
 import com.carrentalbackend.repository.PriceListRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,32 +13,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class CarMapper implements CrudMapper<Car, CarUpdateRequest, CarCreateRequest> {
+public class CarMapper implements CrudMapper<Car, CarRequest> {
 
     private final OfficeRepository officeRepository;
     private final PriceListRepository pricelistRepository;
 
     @Override
-    public UpdateDto toUpdateDto(CarUpdateRequest request) {
-
-        Office office = findOfficeById(request.getCurrentBranchOfficeId());
-        PriceList pricelist = findPriceListById(request.getPriceListId());
-        return CarUpdateDto.builder()
-                .make(request.getMake())
-                .model(request.getModel())
-                .mileage(request.getMileage())
-                .minRentalTime(request.getMinRentalTime())
-                .yearOfManufacture(request.getYearOfManufacture())
-                .bodyType(request.getBodyType())
-                .color(request.getColor())
-                .status(request.getStatus())
-                .priceList(pricelist)
-                .currentOffice(office)
-                .build();
-    }
-
-    @Override
-    public Car toNewEntity(CarCreateRequest request) {
+    public Car toNewEntity(CarRequest request) {
 
         Office office = findOfficeById(request.getCurrentOfficeId());
         PriceList pricelist = findPriceListById(request.getPriceListId());

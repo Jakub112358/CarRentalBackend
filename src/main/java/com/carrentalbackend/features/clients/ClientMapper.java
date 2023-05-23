@@ -1,9 +1,7 @@
 package com.carrentalbackend.features.clients;
 
-import com.carrentalbackend.features.clients.register.ClientCreateRequest;
 import com.carrentalbackend.features.generics.CrudMapper;
 import com.carrentalbackend.features.generics.Response;
-import com.carrentalbackend.features.generics.UpdateDto;
 import com.carrentalbackend.model.entity.Client;
 import com.carrentalbackend.model.enumeration.Role;
 import lombok.RequiredArgsConstructor;
@@ -14,12 +12,12 @@ import java.util.ArrayList;
 
 @Component
 @RequiredArgsConstructor
-public class ClientMapper implements CrudMapper<Client, ClientUpdateRequest, ClientCreateRequest> {
+public class ClientMapper implements CrudMapper<Client, ClientRequest> {
 
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public Client toNewEntity(ClientCreateRequest request) {
+    public Client toNewEntity(ClientRequest request) {
 
         return Client.builder()
                 .firstName(request.getFirstName())
@@ -40,16 +38,6 @@ public class ClientMapper implements CrudMapper<Client, ClientUpdateRequest, Cli
                 .lastName(entity.getLastName())
                 .email(entity.getEmail())
                 .address(entity.getAddress())
-                .build();
-    }
-
-    @Override
-    public UpdateDto toUpdateDto(ClientUpdateRequest request) {
-        return ClientUpdateDto.builder()
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
-                .email(request.getEmail())
-                .address(request.getAddress())
                 .build();
     }
 }

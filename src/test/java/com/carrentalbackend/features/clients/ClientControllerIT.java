@@ -1,7 +1,6 @@
 package com.carrentalbackend.features.clients;
 
 import com.carrentalbackend.BaseIT;
-import com.carrentalbackend.features.clients.register.ClientCreateRequest;
 import com.carrentalbackend.model.entity.Address;
 import com.carrentalbackend.model.entity.Client;
 import com.carrentalbackend.util.AddressFactory;
@@ -31,11 +30,11 @@ public class ClientControllerIT extends BaseIT {
     @Test
     public void whenSaveClient_thenResponseCreated() throws Exception {
         //given
-        ClientCreateRequest clientCreateRequest = ClientFactory.getSimpleClientCreateRequestBuilder().build();
-        String clientCreateRequestJson = toJsonString(clientCreateRequest);
+        ClientRequest clientRequest = ClientFactory.getSimpleClientRequestBuilder().build();
+        String clientRequestJson = toJsonString(clientRequest);
 
         //when
-        var result = sendPostRequest(clientCreateRequestJson);
+        var result = sendPostRequest(clientRequestJson);
 
         //then
         result.andExpect(status().isCreated())
@@ -58,14 +57,14 @@ public class ClientControllerIT extends BaseIT {
     @Test
     public void whenSaveClientWithAlreadyRegisteredEmail_thenValidationFailed() throws Exception {
         //given
-        var request = ClientFactory.getSimpleClientCreateRequestBuilder().build();
-        var simpleClientCreateRequestJson = toJsonString(request);
+        var request = ClientFactory.getSimpleClientRequestBuilder().build();
+        var simpleClientRequestJson = toJsonString(request);
 
         //and
         dbOperations.addSimpleClientToDB();
 
         //when
-        var result = sendPostRequest(simpleClientCreateRequestJson);
+        var result = sendPostRequest(simpleClientRequestJson);
 
         //then
         result.andExpect(status().isForbidden());
@@ -85,12 +84,12 @@ public class ClientControllerIT extends BaseIT {
 
     @ParameterizedTest
     @MethodSource("saveIncorrectParameters")
-    public void whenSaveClient_thenValidationFailed(ClientCreateRequest request) throws Exception {
+    public void whenSaveClient_thenValidationFailed(ClientRequest request) throws Exception {
         //given
-        String clientCreateRequestJson = toJsonString(request);
+        String clientRequestJson = toJsonString(request);
 
         //when
-        var result = sendPostRequest(clientCreateRequestJson);
+        var result = sendPostRequest(clientRequestJson);
 
         //then
         result.andExpect(status().isForbidden());
@@ -188,11 +187,11 @@ public class ClientControllerIT extends BaseIT {
 
     private static Stream<Arguments> saveIncorrectParameters() {
         return Stream.of(
-                Arguments.of(ClientFactory.getSimpleClientCreateRequestBuilder().firstName("    ").build()),
-                Arguments.of(ClientFactory.getSimpleClientCreateRequestBuilder().lastName(null).build()),
-                Arguments.of(ClientFactory.getSimpleClientCreateRequestBuilder().email("wrong@formatted@email").build()),
-                Arguments.of(ClientFactory.getSimpleClientCreateRequestBuilder().address(new Address()).build()),
-                Arguments.of(ClientFactory.getSimpleClientCreateRequestBuilder().password("").build())
+                Arguments.of(ClientFactory.getSimpleClientRequestBuilder().firstName("    ").build()),
+                Arguments.of(ClientFactory.getSimpleClientRequestBuilder().lastName(null).build()),
+                Arguments.of(ClientFactory.getSimpleClientRequestBuilder().email("wrong@formatted@email").build()),
+                Arguments.of(ClientFactory.getSimpleClientRequestBuilder().address(new Address()).build()),
+                Arguments.of(ClientFactory.getSimpleClientRequestBuilder().password("").build())
         );
     }
 }

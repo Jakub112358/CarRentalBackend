@@ -10,12 +10,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class EmployeeService extends CrudService<Employee, EmployeeUpdateRequest, EmployeeCreateRequest> {
+public class EmployeeService extends CrudService<Employee, EmployeeRequest> {
     private final EmployeeRepository repository;
 
 
-    public EmployeeService(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper) {
-        super(employeeRepository, employeeMapper);
+    public EmployeeService(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper, EmployeeUpdateTool updateTool) {
+        super(employeeRepository, employeeMapper, updateTool);
         this.repository = employeeRepository;
     }
 

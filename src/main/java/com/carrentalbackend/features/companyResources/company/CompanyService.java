@@ -8,11 +8,12 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class CompanyService extends CrudService<Company, CompanyUpdateRequest, CompanyCreateRequest> {
+public class CompanyService extends CrudService<Company, CompanyRequest> {
     private final CompanyRepository companyRepository;
 
-    public CompanyService(CompanyRepository companyRepository, CompanyMapper companyMapper) {
-        super(companyRepository, companyMapper);
+
+    public CompanyService(CompanyRepository companyRepository, CompanyMapper companyMapper, CompanyUpdateTool companyUpdateTool) {
+        super(companyRepository, companyMapper, companyUpdateTool);
         this.companyRepository = companyRepository;
     }
 

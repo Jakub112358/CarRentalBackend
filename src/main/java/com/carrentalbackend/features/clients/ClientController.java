@@ -1,6 +1,5 @@
 package com.carrentalbackend.features.clients;
 
-import com.carrentalbackend.features.clients.register.ClientCreateRequest;
 import com.carrentalbackend.features.generics.CrudController;
 import com.carrentalbackend.features.generics.Response;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +13,7 @@ import static com.carrentalbackend.config.ApiConstraints.ORIGIN;
 @RestController
 @RequestMapping(CLIENT)
 @CrossOrigin(origins = ORIGIN)
-public class ClientController extends CrudController<ClientCreateRequest, ClientUpdateRequest> {
+public class ClientController extends CrudController<ClientRequest> {
     private final ClientService clientService;
 
     public ClientController(ClientService service) {

@@ -12,7 +12,7 @@ import static com.carrentalbackend.config.ApiConstraints.RESERVATION;
 @RestController
 @CrossOrigin(origins = ORIGIN)
 @RequestMapping(RESERVATION)
-public class ReservationController extends CrudController<ReservationCreateRequest, ReservationUpdateRequest> {
+public class ReservationController extends CrudController<ReservationRequest> {
     private final ReservationService reservationService;
 
     public ReservationController(ReservationService service) {

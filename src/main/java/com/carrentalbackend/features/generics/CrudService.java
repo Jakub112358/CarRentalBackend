@@ -6,18 +6,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional
-public abstract class CrudService<T extends CrudEntity, U extends UpdateRequest, V extends CreateRequest> {
+public abstract class CrudService<T extends CrudEntity, U extends Request> {
     protected final JpaRepository<T, Long> repository;
-    protected final CrudMapper<T, U, V> mapper;
+    protected final CrudMapper<T, U> mapper;
+    protected final UpdateTool<T, U> updateTool;
 
-    public Response save(V request) {
+    public Response save(U request) {
         T entity = mapper.toNewEntity(request);
         repository.save(entity);
         return mapper.toResponse(entity);
@@ -33,48 +32,13 @@ public abstract class CrudService<T extends CrudEntity, U extends UpdateRequest,
 
     public Response update(Long id, U request) {
         T instance = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
-        //mapping requestDto to updateDto, which has exactly same field names as corresponding entity
-        UpdateDto updateDto = mapper.toUpdateDto(request);
-        //extracting fields of sent request using reflection
-        Field[] fields = updateDto.getClass().getDeclaredFields();
-        //extracting non-null field names from request and then updating corresponding fields in instance
-        Arrays.stream(fields)
-                .filter(f -> !f.getName().equals("id"))
-                .peek(f -> f.setAccessible(true))
-                .filter(f -> checkIfNotNull(f, updateDto))
-                .map(Field::getName)
-                .forEach(name -> updateField(name, instance, updateDto));
+
+        updateTool.updateEntity(instance, request);
 
         return mapper.toResponse(instance);
     }
 
     public abstract void deleteById(Long id);
-
-    private void updateField(String name, T instance, UpdateDto updateDto) {
-        try {
-            //extracting field with new data from request
-            Field requestField = updateDto.getClass().getDeclaredField(name);
-            requestField.setAccessible(true);
-            //declaring an object transferring new data
-            Object value = requestField.get(updateDto);
-            //extracting field to update
-            Field instanceField = instance.getClass().getDeclaredField(name);
-            instanceField.setAccessible(true);
-            //setting new value
-            instanceField.set(instance, value);
-        } catch (IllegalAccessException | NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    private boolean checkIfNotNull(Field f, UpdateDto updateDto) {
-        try {
-            return f.get(updateDto) != null;
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
 
 }
