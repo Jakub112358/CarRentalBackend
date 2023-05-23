@@ -77,7 +77,7 @@ public class AuthenticationServiceTest {
     }
 
     private void setMocks_correctResponse() {
-        when(userRepository.findByEmail(UserFactory.simpleUserEmail)).thenReturn(Optional.of(UserFactory.simpleUser()));
+        when(userRepository.findByEmail(UserFactory.simpleUserEmail)).thenReturn(Optional.of(UserFactory.getSimpleUser()));
         when(jwtService.generateToken(any(User.class), anyMap())).thenReturn(AuthFactory.emptyToken);
     }
 

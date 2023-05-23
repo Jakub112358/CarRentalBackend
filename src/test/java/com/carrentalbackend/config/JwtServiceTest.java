@@ -29,7 +29,7 @@ public class JwtServiceTest {
     public void whenIsTokenValid_thenTrue() {
         //given
         String token = AuthFactory.getSimpleUserToken();
-        User user = UserFactory.simpleUser();
+        User user = UserFactory.getSimpleUser();
 
         //when
         var result = jwtService.isTokenValid(token, user);
@@ -44,7 +44,7 @@ public class JwtServiceTest {
         String token = generateToken("invalid subject", new Date(System.currentTimeMillis() + 1000 * 60 * 60), UserFactory.simpleUserRole);
 
         //and
-        User user = UserFactory.simpleUser();
+        User user = UserFactory.getSimpleUser();
 
         //when
         var result = jwtService.isTokenValid(token, user);
@@ -59,7 +59,7 @@ public class JwtServiceTest {
         String token = generateToken(UserFactory.simpleUserEmail, new Date(System.currentTimeMillis() - 1000), UserFactory.simpleUserRole);
 
         //and
-        User user = UserFactory.simpleUser();
+        User user = UserFactory.getSimpleUser();
 
         //when and then
         assertThrows(ExpiredJwtException.class, () -> jwtService.isTokenValid(token, user));
