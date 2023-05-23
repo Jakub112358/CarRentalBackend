@@ -7,7 +7,7 @@ import com.carrentalbackend.repository.OfficeRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OfficeService extends CrudService<Office, OfficeCreateUpdateRequest, OfficeCreateUpdateRequest> {
+public class OfficeService extends CrudService<Office, OfficeRequest> {
     private final OfficeRepository officeRepository;
 
     public OfficeService(OfficeRepository repository, OfficeMapper officeMapper, OfficeUpdateTool updateTool) {

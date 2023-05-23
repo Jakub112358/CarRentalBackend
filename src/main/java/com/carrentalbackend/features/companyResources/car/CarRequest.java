@@ -1,6 +1,6 @@
 package com.carrentalbackend.features.companyResources.car;
 
-import com.carrentalbackend.features.generics.CreateRequest;
+import com.carrentalbackend.features.generics.Request;
 import com.carrentalbackend.features.generics.UpdateRequest;
 import com.carrentalbackend.model.enumeration.CarBodyType;
 import com.carrentalbackend.model.enumeration.CarStatus;
@@ -15,7 +15,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CarCreateUpdateRequest implements CreateRequest, UpdateRequest {
+public class CarRequest implements Request, UpdateRequest {
     @NotEmpty
     private String make;
     @NotEmpty

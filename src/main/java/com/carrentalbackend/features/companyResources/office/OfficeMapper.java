@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class OfficeMapper implements CrudMapper<Office, OfficeCreateUpdateRequest, OfficeCreateUpdateRequest> {
+public class OfficeMapper implements CrudMapper<Office, OfficeRequest> {
     private final CompanyRepository companyRepository;
 
     private Company findCompanyById(Long id) {
@@ -22,7 +22,7 @@ public class OfficeMapper implements CrudMapper<Office, OfficeCreateUpdateReques
     }
 
     @Override
-    public Office toNewEntity(OfficeCreateUpdateRequest request) {
+    public Office toNewEntity(OfficeRequest request) {
 
         Company company = findCompanyById(request.getCompanyId());
         return Office.builder()

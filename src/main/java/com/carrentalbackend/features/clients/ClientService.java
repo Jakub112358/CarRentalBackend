@@ -8,7 +8,7 @@ import com.carrentalbackend.repository.ClientRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ClientService extends CrudService<Client, ClientCreateUpdateRequest, ClientCreateUpdateRequest> {
+public class ClientService extends CrudService<Client, ClientRequest> {
     private final ClientRepository clientRepository;
 
     public ClientService(ClientRepository repository, ClientMapper mapper, ClientUpdateTool updateTool) {

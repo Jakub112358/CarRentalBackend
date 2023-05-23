@@ -5,9 +5,9 @@ import com.carrentalbackend.model.entity.PickUp;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PickUpUpdateTool implements UpdateTool <PickUp, PickUpCreateUpdateRequest> {
+public class PickUpUpdateTool implements UpdateTool <PickUp, PickUpRequest> {
     @Override
-    public void updateEntity(PickUp entity, PickUpCreateUpdateRequest updateRequest) {
+    public void updateEntity(PickUp entity, PickUpRequest updateRequest) {
 
     }
 }

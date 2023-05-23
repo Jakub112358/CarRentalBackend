@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class CarReturnService extends CrudService<CarReturn, CarReturnCreateUpdateRequest, CarReturnCreateUpdateRequest> {
+public class CarReturnService extends CrudService<CarReturn, CarReturnRequest> {
     private final CarReturnRepository carReturnRepository;
     private final FinancesRepository financesRepository;
     private final ReservationRepository reservationRepository;
@@ -47,7 +47,7 @@ public class CarReturnService extends CrudService<CarReturn, CarReturnCreateUpda
     }
 
     @Override
-    public CarReturnResponse update(Long id, CarReturnCreateUpdateRequest request) {
+    public CarReturnResponse update(Long id, CarReturnRequest request) {
 
         Response response = super.update(id, request);
 
@@ -62,13 +62,13 @@ public class CarReturnService extends CrudService<CarReturn, CarReturnCreateUpda
     }
 
 
-    private void saveExtraChargeAndMileage(CarReturnResponse carReturnResponse, CarReturnCreateUpdateRequest carReturnUpdateRequest) {
+    private void saveExtraChargeAndMileage(CarReturnResponse carReturnResponse, CarReturnRequest carReturnUpdateRequest) {
         saveExtraCharge(carReturnResponse);
         updateMileage(carReturnUpdateRequest, carReturnResponse.getCarId());
     }
 
 
-    private void updateMileage(CarReturnCreateUpdateRequest request, Long carId) {
+    private void updateMileage(CarReturnRequest request, Long carId) {
         Car car = carRepository.findById(carId).orElseThrow(() -> new ResourceNotFoundException(carId));
         car.setMileage(request.getMileage());
     }

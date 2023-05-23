@@ -11,7 +11,7 @@ import static com.carrentalbackend.config.ApiConstraints.ORIGIN;
 @RestController
 @RequestMapping(COMPANY)
 @CrossOrigin(origins = ORIGIN)
-public class CompanyController extends CrudController<CompanyCreateUpdateRequest, CompanyCreateUpdateRequest> {
+public class CompanyController extends CrudController<CompanyRequest> {
 
     public CompanyController(CompanyService service) {
         super(service);

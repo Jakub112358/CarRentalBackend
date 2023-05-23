@@ -30,7 +30,7 @@ public class ClientControllerIT extends BaseIT {
     @Test
     public void whenSaveClient_thenResponseCreated() throws Exception {
         //given
-        ClientCreateUpdateRequest clientRequest = ClientFactory.getSimpleClientRequestBuilder().build();
+        ClientRequest clientRequest = ClientFactory.getSimpleClientRequestBuilder().build();
         String clientRequestJson = toJsonString(clientRequest);
 
         //when
@@ -84,7 +84,7 @@ public class ClientControllerIT extends BaseIT {
 
     @ParameterizedTest
     @MethodSource("saveIncorrectParameters")
-    public void whenSaveClient_thenValidationFailed(ClientCreateUpdateRequest request) throws Exception {
+    public void whenSaveClient_thenValidationFailed(ClientRequest request) throws Exception {
         //given
         String clientRequestJson = toJsonString(request);
 

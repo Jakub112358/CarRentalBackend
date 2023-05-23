@@ -5,9 +5,9 @@ import com.carrentalbackend.model.entity.CarReturn;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CarReturnUpdateTool implements UpdateTool <CarReturn, CarReturnCreateUpdateRequest> {
+public class CarReturnUpdateTool implements UpdateTool <CarReturn, CarReturnRequest> {
     @Override
-    public void updateEntity(CarReturn entity, CarReturnCreateUpdateRequest updateRequest) {
+    public void updateEntity(CarReturn entity, CarReturnRequest updateRequest) {
         //TODO: implement
     }
 }

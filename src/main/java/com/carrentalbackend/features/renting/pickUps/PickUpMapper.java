@@ -13,14 +13,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class PickUpMapper implements CrudMapper<PickUp, PickUpCreateUpdateRequest, PickUpCreateUpdateRequest> {
+public class PickUpMapper implements CrudMapper<PickUp, PickUpRequest> {
     private final EmployeeRepository employeeRepository;
     private final CarRepository carRepository;
     private final ReservationRepository reservationRepository;
     private final OfficeRepository officeRepository;
 
     @Override
-    public PickUp toNewEntity(PickUpCreateUpdateRequest request) {
+    public PickUp toNewEntity(PickUpRequest request) {
 
         Employee employee = findEmployeeById(request.getEmployeeId());
         Reservation reservation = findReservationById(request.getReservationId());

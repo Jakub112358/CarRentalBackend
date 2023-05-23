@@ -7,10 +7,10 @@ import com.carrentalbackend.model.entity.Finances;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CompanyMapper implements CrudMapper<Company, CompanyCreateUpdateRequest, CompanyCreateUpdateRequest> {
+public class CompanyMapper implements CrudMapper<Company, CompanyRequest> {
 
     @Override
-    public Company toNewEntity(CompanyCreateUpdateRequest request) {
+    public Company toNewEntity(CompanyRequest request) {
 
         return Company.builder()
                 .name(request.getName())

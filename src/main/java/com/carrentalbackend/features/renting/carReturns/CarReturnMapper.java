@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class CarReturnMapper implements CrudMapper<CarReturn, CarReturnCreateUpdateRequest, CarReturnCreateUpdateRequest> {
+public class CarReturnMapper implements CrudMapper<CarReturn, CarReturnRequest> {
 
     private final EmployeeRepository employeeRepository;
     private final ReservationRepository reservationRepository;
@@ -20,7 +20,7 @@ public class CarReturnMapper implements CrudMapper<CarReturn, CarReturnCreateUpd
     private final OfficeRepository officeRepository;
 
     @Override
-    public CarReturn toNewEntity(CarReturnCreateUpdateRequest request) {
+    public CarReturn toNewEntity(CarReturnRequest request) {
 
         Employee employee = request.getEmployeeId() != null ? employeeRepository.getReferenceById(request.getEmployeeId()) : null;
         Reservation reservation = request.getReservationId() != null ? reservationRepository.getReferenceById(request.getReservationId()) : null;

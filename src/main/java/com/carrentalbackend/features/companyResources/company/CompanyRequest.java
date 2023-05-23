@@ -1,6 +1,7 @@
 package com.carrentalbackend.features.companyResources.company;
 
-import com.carrentalbackend.features.generics.UpdateDto;
+import com.carrentalbackend.features.generics.Request;
+import com.carrentalbackend.features.generics.UpdateRequest;
 import com.carrentalbackend.model.entity.Address;
 import lombok.*;
 
@@ -9,9 +10,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CompanyUpdateDto implements UpdateDto {
+public class CompanyRequest implements Request, UpdateRequest {
     private String name;
     private String domain;
     private byte[] logotype;
     private Address address;
+    private double differentOfficesExtraCharge;
 }

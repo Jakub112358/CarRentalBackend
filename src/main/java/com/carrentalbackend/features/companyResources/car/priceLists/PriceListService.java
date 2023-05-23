@@ -6,7 +6,7 @@ import com.carrentalbackend.repository.PriceListRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PriceListService extends CrudService<PriceList, PriceListCreateUpdateRequest, PriceListCreateUpdateRequest> {
+public class PriceListService extends CrudService<PriceList, PriceListRequest> {
     public PriceListService(PriceListRepository repository, PriceListMapper mapper, PriceListUpdateTool updateTool) {
         super(repository, mapper, updateTool);
     }

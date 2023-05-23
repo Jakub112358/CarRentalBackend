@@ -13,7 +13,7 @@ import static com.carrentalbackend.config.ApiConstraints.ORIGIN;
 @RestController
 @RequestMapping(CLIENT)
 @CrossOrigin(origins = ORIGIN)
-public class ClientController extends CrudController<ClientCreateUpdateRequest, ClientCreateUpdateRequest> {
+public class ClientController extends CrudController<ClientRequest> {
     private final ClientService clientService;
 
     public ClientController(ClientService service) {

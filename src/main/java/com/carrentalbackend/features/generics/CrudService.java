@@ -11,12 +11,12 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional
-public abstract class CrudService<T extends CrudEntity, U extends UpdateRequest, V extends CreateRequest> {
+public abstract class CrudService<T extends CrudEntity, U extends Request> {
     protected final JpaRepository<T, Long> repository;
-    protected final CrudMapper<T, U, V> mapper;
+    protected final CrudMapper<T, U> mapper;
     protected final UpdateTool<T, U> updateTool;
 
-    public Response save(V request) {
+    public Response save(U request) {
         T entity = mapper.toNewEntity(request);
         repository.save(entity);
         return mapper.toResponse(entity);

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 @Component
 @RequiredArgsConstructor
-public class EmployeeMapper implements CrudMapper<Employee, EmployeeCreateUpdateRequest, EmployeeCreateUpdateRequest> {
+public class EmployeeMapper implements CrudMapper<Employee, EmployeeRequest> {
     private final OfficeRepository officeRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -28,7 +28,7 @@ public class EmployeeMapper implements CrudMapper<Employee, EmployeeCreateUpdate
     }
 
     @Override
-    public Employee toNewEntity(EmployeeCreateUpdateRequest request) {
+    public Employee toNewEntity(EmployeeRequest request) {
 
         Office office = findOfficeById(request.getBranchOfficeId());
         return Employee.builder()

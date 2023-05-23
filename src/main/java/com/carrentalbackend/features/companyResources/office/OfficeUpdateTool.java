@@ -5,9 +5,9 @@ import com.carrentalbackend.model.entity.Office;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OfficeUpdateTool implements UpdateTool<Office, OfficeCreateUpdateRequest> {
+public class OfficeUpdateTool implements UpdateTool<Office, OfficeRequest> {
     @Override
-    public void updateEntity(Office entity, OfficeCreateUpdateRequest updateRequest) {
+    public void updateEntity(Office entity, OfficeRequest updateRequest) {
         //TODO: implement
     }
 }

@@ -12,11 +12,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class CarUpdateTool implements UpdateTool<Car, CarCreateUpdateRequest> {
+public class CarUpdateTool implements UpdateTool<Car, CarRequest> {
     private final OfficeRepository officeRepository;
     private final PriceListRepository priceListRepository;
     @Override
-    public void updateEntity(Car entity, CarCreateUpdateRequest request) {
+    public void updateEntity(Car entity, CarRequest request) {
         Office office = findOfficeById(request.getCurrentOfficeId());
         PriceList pricelist = findPriceListById(request.getPriceListId());
 

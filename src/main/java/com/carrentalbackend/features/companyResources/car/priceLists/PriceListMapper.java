@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 
 @Component
-public class PriceListMapper implements CrudMapper<PriceList, PriceListCreateUpdateRequest, PriceListCreateUpdateRequest> {
+public class PriceListMapper implements CrudMapper<PriceList, PriceListRequest> {
 
     @Override
-    public PriceList toNewEntity(PriceListCreateUpdateRequest request) {
+    public PriceList toNewEntity(PriceListRequest request) {
 
         return PriceList.builder()
                 .pricePerDay(request.getPricePerDay())

@@ -1,6 +1,6 @@
 package com.carrentalbackend.features.renting.pickUps;
 
-import com.carrentalbackend.features.generics.CreateRequest;
+import com.carrentalbackend.features.generics.Request;
 import com.carrentalbackend.features.generics.UpdateRequest;
 import com.carrentalbackend.model.enumeration.RentalActionStatus;
 import lombok.*;
@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PickUpCreateUpdateRequest implements CreateRequest, UpdateRequest {
+public class PickUpRequest implements Request, UpdateRequest {
     private String comments;
     private LocalDate pickUpDate;
     private LocalDate plannedPickUpDate;

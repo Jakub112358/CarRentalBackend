@@ -5,9 +5,9 @@ import com.carrentalbackend.model.entity.Client;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ClientUpdateTool implements UpdateTool <Client, ClientCreateUpdateRequest> {
+public class ClientUpdateTool implements UpdateTool <Client, ClientRequest> {
     @Override
-    public void updateEntity(Client entity, ClientCreateUpdateRequest updateRequest) {
+    public void updateEntity(Client entity, ClientRequest updateRequest) {
         entity.setFirstName(updateRequest.getFirstName());
         entity.setLastName(updateRequest.getLastName());
         entity.setEmail(updateRequest.getEmail());

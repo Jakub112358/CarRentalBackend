@@ -12,12 +12,12 @@ import java.util.ArrayList;
 
 @Component
 @RequiredArgsConstructor
-public class ClientMapper implements CrudMapper<Client, ClientCreateUpdateRequest, ClientCreateUpdateRequest> {
+public class ClientMapper implements CrudMapper<Client, ClientRequest> {
 
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public Client toNewEntity(ClientCreateUpdateRequest request) {
+    public Client toNewEntity(ClientRequest request) {
 
         return Client.builder()
                 .firstName(request.getFirstName())

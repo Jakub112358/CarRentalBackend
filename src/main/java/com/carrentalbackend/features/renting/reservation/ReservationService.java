@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
-public class ReservationService extends CrudService<Reservation, ReservationCreateUpdateRequest, ReservationCreateUpdateRequest> {
+public class ReservationService extends CrudService<Reservation, ReservationRequest> {
     private final ReservationValidator reservationValidator;
     private final IncomeRepository incomeRepository;
     private final ReservationRepository reservationRepository;
@@ -50,7 +50,7 @@ public class ReservationService extends CrudService<Reservation, ReservationCrea
 
 
     @Override
-    public Response save(ReservationCreateUpdateRequest request) {
+    public Response save(ReservationRequest request) {
         reservationValidator.validate(request);
         Response response = super.save(request);
         addIncome(response);
@@ -88,14 +88,14 @@ public class ReservationService extends CrudService<Reservation, ReservationCrea
     }
 
     @Override
-    public Response update(Long id, ReservationCreateUpdateRequest request) {
+    public Response update(Long id, ReservationRequest request) {
         //TODO: should check for request sender and add extra charge only if user cancel his reservation
         performFinancialOperations(id, request);
         return super.update(id, request);
     }
 
 
-    private void performFinancialOperations(Long id, ReservationCreateUpdateRequest request) {
+    private void performFinancialOperations(Long id, ReservationRequest request) {
 
         Reservation reservationBefore = reservationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
         ReservationStatus statusBefore = reservationBefore.getStatus();

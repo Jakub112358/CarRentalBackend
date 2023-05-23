@@ -13,13 +13,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class CarMapper implements CrudMapper<Car, CarCreateUpdateRequest, CarCreateUpdateRequest> {
+public class CarMapper implements CrudMapper<Car, CarRequest> {
 
     private final OfficeRepository officeRepository;
     private final PriceListRepository pricelistRepository;
 
     @Override
-    public Car toNewEntity(CarCreateUpdateRequest request) {
+    public Car toNewEntity(CarRequest request) {
 
         Office office = findOfficeById(request.getCurrentOfficeId());
         PriceList pricelist = findPriceListById(request.getPriceListId());

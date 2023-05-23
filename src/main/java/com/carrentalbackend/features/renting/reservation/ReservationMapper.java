@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ReservationMapper implements CrudMapper<Reservation, ReservationCreateUpdateRequest, ReservationCreateUpdateRequest> {
+public class ReservationMapper implements CrudMapper<Reservation, ReservationRequest> {
     private final ClientRepository clientRepository;
     private final CarRepository carRepository;
     private final OfficeRepository officeRepository;
@@ -23,7 +23,7 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationCre
     private final OfficeMapper officeMapper;
 
 
-    private CarReturn createCarReturn(ReservationCreateUpdateRequest request, Car car, Office office) {
+    private CarReturn createCarReturn(ReservationRequest request, Car car, Office office) {
         return CarReturn.builder()
                 .plannedReturnDate(request.getDateTo())
                 .status(RentalActionStatus.PLANNED)
@@ -32,7 +32,7 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationCre
                 .build();
     }
 
-    private PickUp createCarPickUp(ReservationCreateUpdateRequest request, Car car, Office office) {
+    private PickUp createCarPickUp(ReservationRequest request, Car car, Office office) {
         return PickUp.builder()
                 .plannedPickUpDate(request.getDateFrom())
                 .status(RentalActionStatus.PLANNED)
@@ -60,7 +60,7 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationCre
     }
 
     @Override
-    public Reservation toNewEntity(ReservationCreateUpdateRequest request) {
+    public Reservation toNewEntity(ReservationRequest request) {
 
         //TODO price should be recalculated!
         Client client = clientRepository.findById(request.getClientId()).orElseThrow(() -> new ResourceNotFoundException(request.getClientId()));

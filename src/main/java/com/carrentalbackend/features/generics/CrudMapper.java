@@ -2,9 +2,9 @@ package com.carrentalbackend.features.generics;
 
 import com.carrentalbackend.model.entity.CrudEntity;
 
-public interface CrudMapper<T extends CrudEntity, U extends UpdateRequest, V extends CreateRequest> {
+public interface CrudMapper<T extends CrudEntity, U extends Request> {
 
-    T toNewEntity(V request);
+    T toNewEntity(U request);
 
     Response toResponse(T entity);
 
