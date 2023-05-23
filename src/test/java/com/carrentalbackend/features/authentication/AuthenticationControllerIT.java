@@ -1,6 +1,7 @@
 package com.carrentalbackend.features.authentication;
 
 import com.carrentalbackend.BaseIT;
+import com.carrentalbackend.features.authentication.rest.AuthenticationRequest;
 import com.carrentalbackend.util.UserFactory;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Test;

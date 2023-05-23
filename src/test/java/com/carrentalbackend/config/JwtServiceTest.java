@@ -1,5 +1,6 @@
 package com.carrentalbackend.config;
 
+import com.carrentalbackend.config.security.JwtService;
 import com.carrentalbackend.exception.MissingTokenClaimException;
 import com.carrentalbackend.model.entity.User;
 import com.carrentalbackend.model.enumeration.Role;

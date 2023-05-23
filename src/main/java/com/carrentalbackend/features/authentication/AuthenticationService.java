@@ -1,6 +1,8 @@
 package com.carrentalbackend.features.authentication;
 
-import com.carrentalbackend.config.JwtService;
+import com.carrentalbackend.config.security.JwtService;
+import com.carrentalbackend.features.authentication.rest.AuthenticationRequest;
+import com.carrentalbackend.features.authentication.rest.AuthenticationResponse;
 import com.carrentalbackend.model.entity.User;
 import com.carrentalbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
