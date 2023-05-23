@@ -2,13 +2,12 @@ package com.carrentalbackend.features.authentication;
 
 import com.carrentalbackend.BaseIT;
 import com.carrentalbackend.features.authentication.rest.AuthenticationRequest;
-import com.carrentalbackend.util.UserFactory;
+import com.carrentalbackend.util.factories.UserFactory;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.io.UnsupportedEncodingException;
@@ -16,7 +15,6 @@ import java.util.stream.Stream;
 
 import static com.carrentalbackend.config.ApiConstraints.AUTHENTICATION;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -31,7 +29,7 @@ public class AuthenticationControllerIT extends BaseIT {
         var requestContentJson = getRequestContentJson(UserFactory.simpleUserEmail, UserFactory.simpleUserPassword);
 
         //when
-        var result = sendRequest(requestContentJson);
+        var result = requestTool.sendPostRequest(AUTHENTICATION, requestContentJson);
 
         //then
         result.andExpect(status().isOk());
@@ -52,7 +50,7 @@ public class AuthenticationControllerIT extends BaseIT {
         var requestContentJson = getRequestContentJson(email, password);
 
         //when
-        var result = sendRequest(requestContentJson);
+        var result = requestTool.sendPostRequest(AUTHENTICATION, requestContentJson);
 
         //then
         result.andExpect(status().isForbidden());
@@ -62,15 +60,10 @@ public class AuthenticationControllerIT extends BaseIT {
         return JsonPath.read(result.andReturn().getResponse().getContentAsString(), "$.token");
     }
 
-    private ResultActions sendRequest(String requestContentJson) throws Exception {
-        return mockMvc.perform(post(AUTHENTICATION).contentType(MediaType.APPLICATION_JSON_VALUE).content(requestContentJson));
-    }
-
     private String getRequestContentJson(String email, String password) {
         var authenticationRequest = new AuthenticationRequest(email, password);
         return toJsonString(authenticationRequest);
     }
-
 
     private static Stream<Arguments> authenticateParams() {
         return Stream.of(

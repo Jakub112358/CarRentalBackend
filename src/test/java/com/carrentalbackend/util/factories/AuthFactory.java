@@ -1,4 +1,4 @@
-package com.carrentalbackend.util;
+package com.carrentalbackend.util.factories;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

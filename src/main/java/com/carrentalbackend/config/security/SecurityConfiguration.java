@@ -27,6 +27,7 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers(ApiConstraints.AUTHENTICATION + "/**").permitAll()
                 .requestMatchers(HttpMethod.POST, ApiConstraints.CLIENT).permitAll()
+                .requestMatchers(HttpMethod.GET, ApiConstraints.COMPANY ).permitAll()
                 .requestMatchers(HttpMethod.GET, ApiConstraints.CLIENT + "/{id}").authenticated()
                 .requestMatchers(HttpMethod.PATCH, ApiConstraints.CLIENT + "/{id}").authenticated()
                 .anyRequest().hasRole("ADMIN")

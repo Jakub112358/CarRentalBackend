@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Getter
@@ -23,6 +24,7 @@ public class ClientRequest implements Request {
     @UniqueEmail
     private String email;
     @Valid
+    @NotNull
     private Address address;
     @NotEmpty
     private String password;
