@@ -31,6 +31,7 @@ public class CompanyService {
     }
 
     private Company getCompanyFromDB() {
-        return companyRepository.findFirst().orElseThrow(() -> new ResourceNotFoundException(1L));
+        return companyRepository.findFirstByIdIsNotNull().orElseThrow(() -> new ResourceNotFoundException(1L));
     }
+
 }

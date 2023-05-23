@@ -5,6 +5,7 @@ import com.carrentalbackend.repository.ClientRepository;
 import com.carrentalbackend.repository.ReservationRepository;
 import com.carrentalbackend.repository.UserRepository;
 import com.carrentalbackend.util.DBOperations;
+import com.carrentalbackend.util.RequestTool;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,8 @@ public class BaseIT {
     protected JwtService jwtService;
     @Autowired
     protected DBOperations dbOperations;
+    @Autowired
+    protected RequestTool requestTool;
 
     @SneakyThrows
     protected <T> String toJsonString(T obj) {

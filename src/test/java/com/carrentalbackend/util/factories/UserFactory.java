@@ -1,4 +1,4 @@
-package com.carrentalbackend.util;
+package com.carrentalbackend.util.factories;
 
 import com.carrentalbackend.model.entity.User;
 import com.carrentalbackend.model.enumeration.Role;

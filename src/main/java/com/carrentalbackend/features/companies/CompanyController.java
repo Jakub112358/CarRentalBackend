@@ -18,7 +18,7 @@ public class CompanyController {
     private final CompanyService companyService;
 
     @GetMapping
-    public ResponseEntity<Response> findAll() {
+    public ResponseEntity<Response> findCompany() {
         return ResponseEntity.ok(companyService.findCompany());
     }
 

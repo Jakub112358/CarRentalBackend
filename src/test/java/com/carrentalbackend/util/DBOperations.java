@@ -2,9 +2,14 @@ package com.carrentalbackend.util;
 
 
 import com.carrentalbackend.model.entity.Client;
+import com.carrentalbackend.model.entity.Company;
 import com.carrentalbackend.model.entity.User;
 import com.carrentalbackend.repository.ClientRepository;
+import com.carrentalbackend.repository.CompanyRepository;
 import com.carrentalbackend.repository.UserRepository;
+import com.carrentalbackend.util.factories.ClientFactory;
+import com.carrentalbackend.util.factories.CompanyFactory;
+import com.carrentalbackend.util.factories.UserFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +21,9 @@ public class DBOperations {
     private UserRepository userRepository;
     @Autowired
     private ClientRepository clientRepository;
+    @Autowired
+    private CompanyRepository companyRepository;
+
 
     public User addSimpleUserToDB() {
         var user = UserFactory.getSimpleUser();
@@ -30,4 +38,20 @@ public class DBOperations {
         assertTrue(clientRepository.existsByEmail(ClientFactory.simpleEmail));
         return client;
     }
+
+    public Company addSimpleCompanyToDB() {
+        var company = CompanyFactory.getSimpleCompanyBuilder().build();
+        companyRepository.save(company);
+        return company;
+    }
+
+    public void cleanClientsTable(){
+        clientRepository.deleteAll();
+    }
+
+    public void cleanCompaniesTable(){
+        companyRepository.deleteAll();
+    }
+
+
 }

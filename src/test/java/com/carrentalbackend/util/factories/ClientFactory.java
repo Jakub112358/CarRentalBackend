@@ -1,4 +1,4 @@
-package com.carrentalbackend.util;
+package com.carrentalbackend.util.factories;
 
 import com.carrentalbackend.features.clients.rest.ClientRequest;
 import com.carrentalbackend.model.entity.Client;

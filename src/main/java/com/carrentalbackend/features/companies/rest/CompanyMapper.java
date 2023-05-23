@@ -29,6 +29,7 @@ public class CompanyMapper implements CrudMapper<Company, CompanyRequest> {
                 .domain(entity.getDomain())
                 .logotype(entity.getLogotype())
                 .address(entity.getAddress())
+                .differentOfficesExtraCharge(entity.getDifferentOfficesExtraCharge())
                 .build();
     }
 

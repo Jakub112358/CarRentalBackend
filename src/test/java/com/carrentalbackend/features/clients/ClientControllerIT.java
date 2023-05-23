@@ -4,8 +4,8 @@ import com.carrentalbackend.BaseIT;
 import com.carrentalbackend.features.clients.rest.ClientRequest;
 import com.carrentalbackend.model.entity.Address;
 import com.carrentalbackend.model.entity.Client;
-import com.carrentalbackend.util.AddressFactory;
-import com.carrentalbackend.util.ClientFactory;
+import com.carrentalbackend.util.factories.AddressFactory;
+import com.carrentalbackend.util.factories.ClientFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -23,7 +22,7 @@ import java.util.stream.Stream;
 import static com.carrentalbackend.config.ApiConstraints.CLIENT;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -31,8 +30,7 @@ public class ClientControllerIT extends BaseIT {
 
     @BeforeEach
     void setUp() {
-        reservationRepository.deleteAll();
-        clientRepository.deleteAll();
+        dbOperations.cleanClientsTable();
     }
 
 
@@ -43,7 +41,7 @@ public class ClientControllerIT extends BaseIT {
         String clientRequestJson = toJsonString(clientRequest);
 
         //when
-        var result = sendPostRequest(clientRequestJson);
+        var result = requestTool.sendPostRequest(CLIENT, clientRequestJson);
 
         //then
         result.andExpect(status().isCreated())
@@ -63,7 +61,7 @@ public class ClientControllerIT extends BaseIT {
         dbOperations.addSimpleClientToDB();
 
         //when
-        var result = sendPostRequest(simpleClientRequestJson);
+        var result = requestTool.sendPostRequest(CLIENT, simpleClientRequestJson);
 
         //then
         result.andExpect(status().isForbidden());
@@ -75,7 +73,7 @@ public class ClientControllerIT extends BaseIT {
         var request = new Object();
 
         //when
-        var result = sendPostRequest(request.toString());
+        var result = requestTool.sendPostRequest(CLIENT, request.toString());
 
         //then
         result.andExpect(status().isBadRequest());
@@ -88,7 +86,7 @@ public class ClientControllerIT extends BaseIT {
         String clientRequestJson = toJsonString(request);
 
         //when
-        var result = sendPostRequest(clientRequestJson);
+        var result = requestTool.sendPostRequest(CLIENT, clientRequestJson);
 
         //then
         result.andExpect(status().isForbidden());
@@ -102,7 +100,7 @@ public class ClientControllerIT extends BaseIT {
         var path = CLIENT + "/" + id;
 
         //when
-        var result = sendGetRequest(path);
+        var result = requestTool.sendGetRequest(path);
 
         //then
         result.andExpect(status().isOk())
@@ -117,7 +115,7 @@ public class ClientControllerIT extends BaseIT {
         var path = CLIENT + "/" + id;
 
         //when
-        var result = sendGetRequest(path);
+        var result = requestTool.sendGetRequest(path);
 
         //then
         result.andExpect(status().isForbidden());
@@ -131,7 +129,7 @@ public class ClientControllerIT extends BaseIT {
         var path = CLIENT + "/" + id;
 
         //when
-        var result = sendGetRequest(path);
+        var result = requestTool.sendGetRequest(path);
 
         //then
         result.andExpect(status().isOk())
@@ -145,7 +143,7 @@ public class ClientControllerIT extends BaseIT {
         dbOperations.addSimpleClientToDB();
 
         //when
-        var result = sendGetRequest(CLIENT);
+        var result = requestTool.sendGetRequest(CLIENT);
 
         //then
         result.andExpect(status().isOk());
@@ -164,7 +162,7 @@ public class ClientControllerIT extends BaseIT {
         dbOperations.addSimpleClientToDB();
 
         //when
-        var result = sendGetRequest(CLIENT);
+        var result = requestTool.sendGetRequest(CLIENT);
 
         //then
         result.andExpect(status().isForbidden());
@@ -184,7 +182,7 @@ public class ClientControllerIT extends BaseIT {
                 .build();
 
         //when
-        var result = sendPatchRequest(path, toJsonString(updateRequest));
+        var result = requestTool.sendPatchRequest(path, toJsonString(updateRequest));
 
         //then
         result.andExpect(status().isOk())
@@ -202,7 +200,7 @@ public class ClientControllerIT extends BaseIT {
         var path = CLIENT + "/" + client.getId();
 
         //when
-        var result = sendPatchRequest(path, toJsonString(updateRequest));
+        var result = requestTool.sendPatchRequest(path, toJsonString(updateRequest));
 
         //then
         result.andExpect(status().isForbidden());
@@ -222,7 +220,7 @@ public class ClientControllerIT extends BaseIT {
                 .build();
 
         //when
-        var result = sendPatchRequest(path, toJsonString(updateRequest));
+        var result = requestTool.sendPatchRequest(path, toJsonString(updateRequest));
 
         //then
         result.andExpect(status().isForbidden());
@@ -242,7 +240,7 @@ public class ClientControllerIT extends BaseIT {
                 .build();
 
         //when
-        var result = sendPatchRequest(path, toJsonString(updateRequest));
+        var result = requestTool.sendPatchRequest(path, toJsonString(updateRequest));
 
         //then
         result.andExpect(status().isOk())
@@ -316,19 +314,6 @@ public class ClientControllerIT extends BaseIT {
                 .andExpect(jsonPath("$.address.town").value(AddressFactory.simpleTown))
                 .andExpect(jsonPath("$.address.street").value(AddressFactory.simpleStreet))
                 .andExpect(jsonPath("$.address.houseNumber").value(AddressFactory.simpleHouseNumber));
-    }
-
-    private ResultActions sendPatchRequest(String path, String request) throws Exception {
-        return mockMvc.perform(patch(path).contentType(MediaType.APPLICATION_JSON_VALUE).content(request));
-    }
-
-
-    private ResultActions sendPostRequest(String request) throws Exception {
-        return mockMvc.perform(post(CLIENT).contentType(MediaType.APPLICATION_JSON_VALUE).content(request));
-    }
-
-    private ResultActions sendGetRequest(String path) throws Exception {
-        return mockMvc.perform(get(path));
     }
 
     private static Stream<Arguments> clientRequestIncorrectParameters() {

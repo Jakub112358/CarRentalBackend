@@ -1,23 +1,25 @@
 package com.carrentalbackend.devUtil;
 
 
-import com.carrentalbackend.features.clients.rest.ClientRequest;
-import com.carrentalbackend.features.clients.ClientService;
-import com.carrentalbackend.features.cars.rest.CarRequest;
 import com.carrentalbackend.features.cars.CarService;
-import com.carrentalbackend.features.priceLists.rest.PriceListRequest;
-import com.carrentalbackend.features.priceLists.PriceListService;
+import com.carrentalbackend.features.cars.rest.CarRequest;
+import com.carrentalbackend.features.clients.ClientService;
+import com.carrentalbackend.features.clients.rest.ClientRequest;
+import com.carrentalbackend.features.companies.rest.CompanyMapper;
 import com.carrentalbackend.features.companies.rest.CompanyRequest;
-import com.carrentalbackend.features.companies.CompanyService;
-import com.carrentalbackend.features.employees.rest.EmployeeRequest;
 import com.carrentalbackend.features.employees.EmployeeService;
-import com.carrentalbackend.features.offices.rest.OfficeRequest;
+import com.carrentalbackend.features.employees.rest.EmployeeRequest;
 import com.carrentalbackend.features.offices.OfficeService;
-import com.carrentalbackend.features.renting.reservations.rest.ReservationRequest;
+import com.carrentalbackend.features.offices.rest.OfficeRequest;
+import com.carrentalbackend.features.priceLists.PriceListService;
+import com.carrentalbackend.features.priceLists.rest.PriceListRequest;
 import com.carrentalbackend.features.renting.reservations.ReservationService;
+import com.carrentalbackend.features.renting.reservations.rest.ReservationRequest;
 import com.carrentalbackend.model.entity.Address;
+import com.carrentalbackend.model.entity.Company;
 import com.carrentalbackend.model.entity.User;
 import com.carrentalbackend.model.enumeration.*;
+import com.carrentalbackend.repository.CompanyRepository;
 import com.carrentalbackend.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +42,8 @@ import java.util.List;
 @Transactional
 @Profile("dev")
 public class DbPopulator {
-    private final CompanyService companyService;
+    private final CompanyRepository companyRepository;
+    private final CompanyMapper companyMapper;
     private final OfficeService officeService;
     private final CarService carService;
     private final EmployeeService employeeService;
@@ -179,13 +182,15 @@ public class DbPopulator {
     }
 
     private void addCompany() throws IOException {
-        companyService.save(CompanyRequest.builder()
+
+        Company company = companyMapper.toNewEntity(CompanyRequest.builder()
                 .name("Car Rental Company")
                 .domain("www.company.com")
                 .logotype(getPicture())
                 .address(getAddress())
                 .differentOfficesExtraCharge(50.0)
                 .build());
+        companyRepository.save(company);
     }
 
     //
