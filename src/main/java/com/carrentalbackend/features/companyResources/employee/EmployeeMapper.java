@@ -2,15 +2,10 @@ package com.carrentalbackend.features.companyResources.employee;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
 import com.carrentalbackend.features.generics.CrudMapper;
-import com.carrentalbackend.features.companyResources.employee.EmployeeUpdateDto;
-import com.carrentalbackend.features.generics.UpdateDto;
+import com.carrentalbackend.features.generics.Response;
 import com.carrentalbackend.model.entity.Employee;
 import com.carrentalbackend.model.entity.Office;
 import com.carrentalbackend.model.enumeration.Role;
-import com.carrentalbackend.features.companyResources.employee.EmployeeCreateRequest;
-import com.carrentalbackend.features.companyResources.employee.EmployeeUpdateRequest;
-import com.carrentalbackend.features.companyResources.employee.EmployeeResponse;
-import com.carrentalbackend.features.generics.Response;
 import com.carrentalbackend.repository.OfficeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,7 +15,7 @@ import java.util.ArrayList;
 
 @Component
 @RequiredArgsConstructor
-public class EmployeeMapper implements CrudMapper<Employee, EmployeeUpdateRequest, EmployeeCreateRequest> {
+public class EmployeeMapper implements CrudMapper<Employee, EmployeeCreateUpdateRequest, EmployeeCreateUpdateRequest> {
     private final OfficeRepository officeRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -33,7 +28,7 @@ public class EmployeeMapper implements CrudMapper<Employee, EmployeeUpdateReques
     }
 
     @Override
-    public Employee toNewEntity(EmployeeCreateRequest request) {
+    public Employee toNewEntity(EmployeeCreateUpdateRequest request) {
 
         Office office = findOfficeById(request.getBranchOfficeId());
         return Employee.builder()
@@ -60,15 +55,4 @@ public class EmployeeMapper implements CrudMapper<Employee, EmployeeUpdateReques
                 .build();
     }
 
-    @Override
-    public UpdateDto toUpdateDto(EmployeeUpdateRequest request) {
-
-        Office office = findOfficeById(request.getBranchOfficeId());
-        return EmployeeUpdateDto.builder()
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
-                .jobPosition(request.getJobPosition())
-                .office(office)
-                .build();
-    }
 }

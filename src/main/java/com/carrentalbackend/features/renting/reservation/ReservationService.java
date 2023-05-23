@@ -2,6 +2,7 @@ package com.carrentalbackend.features.renting.reservation;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
 import com.carrentalbackend.features.generics.CrudService;
+import com.carrentalbackend.features.renting.reservation.validation.ReservationValidator;
 import com.carrentalbackend.model.entity.Finances;
 import com.carrentalbackend.model.entity.Income;
 import com.carrentalbackend.model.entity.Reservation;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
-public class ReservationService extends CrudService<Reservation, ReservationUpdateRequest, ReservationCreateRequest> {
+public class ReservationService extends CrudService<Reservation, ReservationCreateUpdateRequest, ReservationCreateUpdateRequest> {
     private final ReservationValidator reservationValidator;
     private final IncomeRepository incomeRepository;
     private final ReservationRepository reservationRepository;
@@ -36,8 +37,9 @@ public class ReservationService extends CrudService<Reservation, ReservationUpda
                               IncomeRepository incomeRepository,
                               ReservationRepository reservationRepository,
                               CompanyRepository companyRepository,
-                              FinancesRepository financesRepository) {
-        super(repository, mapper);
+                              FinancesRepository financesRepository,
+                              ReservationUpdateTool updateTool) {
+        super(repository, mapper, updateTool);
         this.reservationValidator = reservationValidator;
         this.incomeRepository = incomeRepository;
         this.reservationRepository = reservationRepository;
@@ -48,7 +50,7 @@ public class ReservationService extends CrudService<Reservation, ReservationUpda
 
 
     @Override
-    public Response save(ReservationCreateRequest request) {
+    public Response save(ReservationCreateUpdateRequest request) {
         reservationValidator.validate(request);
         Response response = super.save(request);
         addIncome(response);
@@ -86,14 +88,14 @@ public class ReservationService extends CrudService<Reservation, ReservationUpda
     }
 
     @Override
-    public Response update(Long id, ReservationUpdateRequest request) {
+    public Response update(Long id, ReservationCreateUpdateRequest request) {
         //TODO: should check for request sender and add extra charge only if user cancel his reservation
         performFinancialOperations(id, request);
         return super.update(id, request);
     }
 
 
-    private void performFinancialOperations(Long id, ReservationUpdateRequest request) {
+    private void performFinancialOperations(Long id, ReservationCreateUpdateRequest request) {
 
         Reservation reservationBefore = reservationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
         ReservationStatus statusBefore = reservationBefore.getStatus();

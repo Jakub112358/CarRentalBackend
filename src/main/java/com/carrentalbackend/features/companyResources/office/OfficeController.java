@@ -12,7 +12,7 @@ import static com.carrentalbackend.config.ApiConstraints.ORIGIN;
 @RequestMapping(OFFICE)
 @CrossOrigin(origins = ORIGIN)
 
-public class OfficeController extends CrudController<OfficeCreateRequest, OfficeUpdateRequest> {
+public class OfficeController extends CrudController<OfficeCreateUpdateRequest, OfficeCreateUpdateRequest> {
 
     public OfficeController(OfficeService service) {
         super(service);

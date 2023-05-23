@@ -1,4 +1,4 @@
-package com.carrentalbackend.features.renting.reservation;
+package com.carrentalbackend.features.renting.reservation.validation;
 
 import com.carrentalbackend.exception.InvalidReservationDataException;
 import com.carrentalbackend.features.generics.CreateRequest;

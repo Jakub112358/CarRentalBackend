@@ -6,8 +6,6 @@ public interface CrudMapper<T extends CrudEntity, U extends UpdateRequest, V ext
 
     T toNewEntity(V request);
 
-    UpdateDto toUpdateDto(U request);
-
     Response toResponse(T entity);
 
 

@@ -1,6 +1,7 @@
 package com.carrentalbackend.features.companyResources.office;
 
 import com.carrentalbackend.features.generics.CreateRequest;
+import com.carrentalbackend.features.generics.UpdateRequest;
 import com.carrentalbackend.model.entity.Address;
 import lombok.*;
 
@@ -9,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OfficeCreateRequest implements CreateRequest {
+public class OfficeCreateUpdateRequest implements CreateRequest, UpdateRequest {
     private Address address;
     private Long companyId;
 }

@@ -1,13 +1,8 @@
 package com.carrentalbackend.features.renting.carReturns;
 
 import com.carrentalbackend.features.generics.CrudMapper;
-import com.carrentalbackend.features.renting.carReturns.CarReturnUpdateDto;
-import com.carrentalbackend.features.generics.UpdateDto;
-import com.carrentalbackend.model.entity.*;
-import com.carrentalbackend.features.renting.carReturns.CarReturnCreateRequest;
-import com.carrentalbackend.features.renting.carReturns.CarReturnUpdateRequest;
-import com.carrentalbackend.features.renting.carReturns.CarReturnResponse;
 import com.carrentalbackend.features.generics.Response;
+import com.carrentalbackend.model.entity.*;
 import com.carrentalbackend.repository.CarRepository;
 import com.carrentalbackend.repository.EmployeeRepository;
 import com.carrentalbackend.repository.OfficeRepository;
@@ -17,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class CarReturnMapper implements CrudMapper<CarReturn, CarReturnUpdateRequest, CarReturnCreateRequest> {
+public class CarReturnMapper implements CrudMapper<CarReturn, CarReturnCreateUpdateRequest, CarReturnCreateUpdateRequest> {
 
     private final EmployeeRepository employeeRepository;
     private final ReservationRepository reservationRepository;
@@ -25,7 +20,7 @@ public class CarReturnMapper implements CrudMapper<CarReturn, CarReturnUpdateReq
     private final OfficeRepository officeRepository;
 
     @Override
-    public CarReturn toNewEntity(CarReturnCreateRequest request) {
+    public CarReturn toNewEntity(CarReturnCreateUpdateRequest request) {
 
         Employee employee = request.getEmployeeId() != null ? employeeRepository.getReferenceById(request.getEmployeeId()) : null;
         Reservation reservation = request.getReservationId() != null ? reservationRepository.getReferenceById(request.getReservationId()) : null;
@@ -64,19 +59,6 @@ public class CarReturnMapper implements CrudMapper<CarReturn, CarReturnUpdateReq
                 .carId(carId)
                 .branchOfficeId(branchOfficeId)
                 .mileage(carMileage)
-                .build();
-    }
-
-    @Override
-    public UpdateDto toUpdateDto(CarReturnUpdateRequest request) {
-
-        Employee employee = request.getEmployeeId() != null ? employeeRepository.getReferenceById(request.getEmployeeId()) : null;
-        return CarReturnUpdateDto.builder()
-                .comments(request.getComments())
-                .extraCharge(request.getExtraCharge())
-                .returnDate(request.getReturnDate())
-                .status(request.getStatus())
-                .employee(employee)
                 .build();
     }
 }

@@ -1,8 +1,9 @@
-package com.carrentalbackend.features.clients.register;
+package com.carrentalbackend.features.clients;
 
-import com.carrentalbackend.model.entity.Address;
+import com.carrentalbackend.features.clients.validation.UniqueEmail;
 import com.carrentalbackend.features.generics.CreateRequest;
-import com.carrentalbackend.features.clients.register.validation.UniqueEmail;
+import com.carrentalbackend.model.entity.Address;
+import com.carrentalbackend.features.generics.UpdateRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -14,16 +15,16 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ClientCreateRequest implements CreateRequest {
+public class ClientCreateUpdateRequest implements UpdateRequest, CreateRequest {
     @NotBlank
     private String firstName;
     @NotBlank
     private String lastName;
-    @Email @UniqueEmail
+    @Email
+    @UniqueEmail
     private String email;
     @Valid
     private Address address;
     @NotEmpty
     private String password;
-
 }

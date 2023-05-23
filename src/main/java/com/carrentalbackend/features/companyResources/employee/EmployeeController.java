@@ -14,7 +14,7 @@ import static com.carrentalbackend.config.ApiConstraints.ORIGIN;
 @RestController
 @RequestMapping(EMPLOYEE)
 @CrossOrigin(origins = ORIGIN)
-public class EmployeeController extends CrudController<EmployeeCreateRequest, EmployeeUpdateRequest> {
+public class EmployeeController extends CrudController<EmployeeCreateUpdateRequest, EmployeeCreateUpdateRequest> {
     private final EmployeeService service;
 
     public EmployeeController(EmployeeService service) {
