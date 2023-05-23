@@ -39,21 +39,21 @@ public class ClientService extends CrudService<Client, ClientRequest> {
         clientRepository.deleteById(id);
     }
 
-    private void nullClientInReservations(Long id) {
-        List<Reservation> reservations = this.reservationRepository.findAllByClient_Id(id);
-        reservations.forEach(r -> r.setClient(null));
+    public void throwIfNotPermitted(Long id, Authentication auth) {
+        //user with role CLIENT is restricted only to read/update his own data, users with other roles can perform all FindById requests
+        if (authHasRole(auth, "ROLE_CLIENT"))
+            throwIfIdDoesntMatchUser(id, auth.getName());
     }
 
-    public void checkIfIdMatchesUser(Long id, String name) {
+    private void throwIfIdDoesntMatchUser(Long id, String name) {
         Client client = clientRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
         if (!client.getEmail().equals(name))
             throw new ForbiddenResourceException("client", id);
     }
 
-    public void throwIfNotPermitted(Long id, Authentication auth) {
-        //user with role CLIENT is restricted only to read/update his own data, users with other roles can perform all FindById requests
-        if (authHasRole(auth, "ROLE_CLIENT"))
-            checkIfIdMatchesUser(id, auth.getName());
+    private void nullClientInReservations(Long id) {
+        List<Reservation> reservations = this.reservationRepository.findAllByClient_Id(id);
+        reservations.forEach(r -> r.setClient(null));
     }
 
     private boolean authHasRole(Authentication auth, String role) {

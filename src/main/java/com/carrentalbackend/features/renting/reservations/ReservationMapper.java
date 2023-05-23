@@ -1,8 +1,8 @@
 package com.carrentalbackend.features.renting.reservations;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
-import com.carrentalbackend.features.companyResources.cars.rest.CarMapper;
-import com.carrentalbackend.features.companyResources.offices.rest.OfficeMapper;
+import com.carrentalbackend.features.cars.rest.CarMapper;
+import com.carrentalbackend.features.offices.rest.OfficeMapper;
 import com.carrentalbackend.features.generics.CrudMapper;
 import com.carrentalbackend.features.renting.reservations.rest.ReservationRequest;
 import com.carrentalbackend.features.renting.reservations.rest.ReservationResponse;

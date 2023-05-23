@@ -1,7 +1,7 @@
 package com.carrentalbackend.features.renting.reservations;
 
-import com.carrentalbackend.features.companyResources.cars.rest.CarResponse;
-import com.carrentalbackend.features.companyResources.offices.rest.OfficeResponse;
+import com.carrentalbackend.features.cars.rest.CarResponse;
+import com.carrentalbackend.features.offices.rest.OfficeResponse;
 import com.carrentalbackend.model.enumeration.ReservationStatus;
 import lombok.*;
 
