@@ -1,20 +1,20 @@
 package com.carrentalbackend.devUtil;
 
 
-import com.carrentalbackend.features.clients.ClientRequest;
+import com.carrentalbackend.features.clients.rest.ClientRequest;
 import com.carrentalbackend.features.clients.ClientService;
-import com.carrentalbackend.features.companyResources.car.CarRequest;
-import com.carrentalbackend.features.companyResources.car.CarService;
-import com.carrentalbackend.features.companyResources.car.priceLists.PriceListRequest;
-import com.carrentalbackend.features.companyResources.car.priceLists.PriceListService;
-import com.carrentalbackend.features.companyResources.company.CompanyRequest;
-import com.carrentalbackend.features.companyResources.company.CompanyService;
-import com.carrentalbackend.features.companyResources.employee.EmployeeRequest;
-import com.carrentalbackend.features.companyResources.employee.EmployeeService;
-import com.carrentalbackend.features.companyResources.office.OfficeRequest;
-import com.carrentalbackend.features.companyResources.office.OfficeService;
-import com.carrentalbackend.features.renting.reservation.ReservationRequest;
-import com.carrentalbackend.features.renting.reservation.ReservationService;
+import com.carrentalbackend.features.companyResources.cars.rest.CarRequest;
+import com.carrentalbackend.features.companyResources.cars.CarService;
+import com.carrentalbackend.features.companyResources.priceLists.rest.PriceListRequest;
+import com.carrentalbackend.features.companyResources.priceLists.PriceListService;
+import com.carrentalbackend.features.companyResources.companies.rest.CompanyRequest;
+import com.carrentalbackend.features.companyResources.companies.CompanyService;
+import com.carrentalbackend.features.companyResources.employees.rest.EmployeeRequest;
+import com.carrentalbackend.features.companyResources.employees.EmployeeService;
+import com.carrentalbackend.features.companyResources.offices.rest.OfficeRequest;
+import com.carrentalbackend.features.companyResources.offices.OfficeService;
+import com.carrentalbackend.features.renting.reservations.rest.ReservationRequest;
+import com.carrentalbackend.features.renting.reservations.ReservationService;
 import com.carrentalbackend.model.entity.Address;
 import com.carrentalbackend.model.entity.User;
 import com.carrentalbackend.model.enumeration.*;

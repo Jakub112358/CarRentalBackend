@@ -2,6 +2,9 @@ package com.carrentalbackend.features.clients;
 
 import com.carrentalbackend.exception.ForbiddenResourceException;
 import com.carrentalbackend.exception.ResourceNotFoundException;
+import com.carrentalbackend.features.clients.rest.ClientMapper;
+import com.carrentalbackend.features.clients.rest.ClientRequest;
+import com.carrentalbackend.features.clients.rest.ClientUpdateTool;
 import com.carrentalbackend.model.entity.Client;
 import com.carrentalbackend.features.generics.CrudService;
 import com.carrentalbackend.model.entity.Reservation;

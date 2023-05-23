@@ -1,13 +1,13 @@
 package com.carrentalbackend.util;
 
-import com.carrentalbackend.features.clients.ClientRequest;
+import com.carrentalbackend.features.clients.rest.ClientRequest;
 import com.carrentalbackend.model.entity.Client;
 import com.carrentalbackend.model.enumeration.Role;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 
-import static com.carrentalbackend.features.clients.ClientRequest.ClientRequestBuilder;
+import static com.carrentalbackend.features.clients.rest.ClientRequest.ClientRequestBuilder;
 
 public class ClientFactory {
      private final static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

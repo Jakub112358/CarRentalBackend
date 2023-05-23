@@ -1,5 +1,6 @@
 package com.carrentalbackend.features.clients;
 
+import com.carrentalbackend.features.clients.rest.ClientRequest;
 import com.carrentalbackend.features.generics.CrudController;
 import com.carrentalbackend.features.generics.Response;
 import jakarta.validation.Valid;

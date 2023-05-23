@@ -1,6 +1,7 @@
 package com.carrentalbackend.features.clients;
 
 import com.carrentalbackend.BaseIT;
+import com.carrentalbackend.features.clients.rest.ClientRequest;
 import com.carrentalbackend.model.entity.Address;
 import com.carrentalbackend.model.entity.Client;
 import com.carrentalbackend.util.AddressFactory;

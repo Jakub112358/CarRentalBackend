@@ -40,5 +40,4 @@ public abstract class CrudService<T extends CrudEntity, U extends Request> {
 
     public abstract void deleteById(Long id);
 
-
 }

@@ -2,6 +2,7 @@ package com.carrentalbackend.features.renting.pickUps;
 
 import com.carrentalbackend.features.generics.CrudController;
 import com.carrentalbackend.features.generics.Response;
+import com.carrentalbackend.features.renting.pickUps.rest.PickUpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

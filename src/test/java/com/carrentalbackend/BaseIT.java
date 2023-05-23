@@ -1,6 +1,6 @@
 package com.carrentalbackend;
 
-import com.carrentalbackend.config.JwtService;
+import com.carrentalbackend.config.security.JwtService;
 import com.carrentalbackend.repository.ClientRepository;
 import com.carrentalbackend.repository.ReservationRepository;
 import com.carrentalbackend.repository.UserRepository;
