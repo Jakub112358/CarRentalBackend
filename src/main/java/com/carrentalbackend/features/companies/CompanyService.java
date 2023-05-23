@@ -4,32 +4,33 @@ import com.carrentalbackend.exception.ResourceNotFoundException;
 import com.carrentalbackend.features.companies.rest.CompanyMapper;
 import com.carrentalbackend.features.companies.rest.CompanyRequest;
 import com.carrentalbackend.features.companies.rest.CompanyUpdateTool;
-import com.carrentalbackend.features.generics.CrudService;
+import com.carrentalbackend.features.generics.Response;
 import com.carrentalbackend.model.entity.Company;
 import com.carrentalbackend.repository.CompanyRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class CompanyService extends CrudService<Company, CompanyRequest> {
+@RequiredArgsConstructor
+public class CompanyService {
     private final CompanyRepository companyRepository;
+    private final CompanyMapper companyMapper;
+    private final CompanyUpdateTool updateTool;
 
 
-    public CompanyService(CompanyRepository companyRepository, CompanyMapper companyMapper, CompanyUpdateTool companyUpdateTool) {
-        super(companyRepository, companyMapper, companyUpdateTool);
-        this.companyRepository = companyRepository;
+    public Response findCompany() {
+        Company company = getCompanyFromDB();
+        return companyMapper.toResponse(company);
     }
 
-
-    @Override
-    public void deleteById(Long id) {
-        Company company = companyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
-        nullBranchOffices(company);
-        companyRepository.deleteById(id);
+    public Response update(CompanyRequest request) {
+        Company company = getCompanyFromDB();
+        updateTool.updateEntity(company, request);
+        return companyMapper.toResponse(company);
     }
 
-    private void nullBranchOffices(Company company) {
-        company.getOffices().forEach((bo) -> bo.setCompany(null));
+    private Company getCompanyFromDB() {
+        return companyRepository.findFirst().orElseThrow(() -> new ResourceNotFoundException(1L));
     }
-
 }

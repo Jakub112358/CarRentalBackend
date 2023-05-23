@@ -11,7 +11,6 @@ public class CompanyMapper implements CrudMapper<Company, CompanyRequest> {
 
     @Override
     public Company toNewEntity(CompanyRequest request) {
-
         return Company.builder()
                 .name(request.getName())
                 .domain(request.getDomain())
