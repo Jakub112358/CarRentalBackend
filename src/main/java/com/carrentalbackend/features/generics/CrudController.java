@@ -13,7 +13,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 
 public abstract class CrudController<T extends Request> {
-    //TODO: refactor service!
+
     protected final CrudService<?, T> service;
 
     @PostMapping
@@ -34,7 +34,7 @@ public abstract class CrudController<T extends Request> {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Response> update(@PathVariable Long id, @RequestBody T updateRequest) {
+    public ResponseEntity<Response> update(@PathVariable Long id, @Valid @RequestBody T updateRequest, Authentication auth) {
         return ResponseEntity.ok(service.update(id, updateRequest));
     }
 

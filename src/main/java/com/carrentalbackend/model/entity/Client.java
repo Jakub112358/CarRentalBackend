@@ -31,7 +31,7 @@ public class Client extends User implements CrudEntity {
     private String firstName;
 
     private String lastName;
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
     @OneToMany(mappedBy = "client", cascade = CascadeType.PERSIST)
     private List<Reservation> reservations;

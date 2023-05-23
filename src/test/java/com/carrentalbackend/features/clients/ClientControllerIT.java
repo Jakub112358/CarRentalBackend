@@ -7,7 +7,7 @@ import com.carrentalbackend.util.AddressFactory;
 import com.carrentalbackend.util.ClientFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -20,11 +20,19 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import static com.carrentalbackend.config.ApiConstraints.CLIENT;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class ClientControllerIT extends BaseIT {
+
+    @BeforeEach
+    void setUp() {
+        reservationRepository.deleteAll();
+        clientRepository.deleteAll();
+    }
 
 
     @Test
@@ -43,16 +51,6 @@ public class ClientControllerIT extends BaseIT {
         expectSimpleClient(result);
     }
 
-    private void expectSimpleClient(ResultActions result) throws Exception {
-        result.andExpect(jsonPath("$.firstName").value(ClientFactory.simpleFirstName))
-                .andExpect(jsonPath("$.lastName").value(ClientFactory.simpleLastName))
-                .andExpect(jsonPath("$.email").value(ClientFactory.simpleEmail))
-                .andExpect(jsonPath("$.address.id").value(Matchers.greaterThan(0)))
-                .andExpect(jsonPath("$.address.zipCode").value(AddressFactory.simpleZipCode))
-                .andExpect(jsonPath("$.address.town").value(AddressFactory.simpleTown))
-                .andExpect(jsonPath("$.address.street").value(AddressFactory.simpleStreet))
-                .andExpect(jsonPath("$.address.houseNumber").value(AddressFactory.simpleHouseNumber));
-    }
 
     @Test
     public void whenSaveClientWithAlreadyRegisteredEmail_thenValidationFailed() throws Exception {
@@ -83,7 +81,7 @@ public class ClientControllerIT extends BaseIT {
     }
 
     @ParameterizedTest
-    @MethodSource("saveIncorrectParameters")
+    @MethodSource("clientRequestIncorrectParameters")
     public void whenSaveClient_thenValidationFailed(ClientRequest request) throws Exception {
         //given
         String clientRequestJson = toJsonString(request);
@@ -155,7 +153,7 @@ public class ClientControllerIT extends BaseIT {
         var responseJson = result.andReturn().getResponse().getContentAsString();
         Set<Client> clients = objectMapper.readValue(responseJson, new TypeReference<>() {
         });
-        Assertions.assertTrue(clients.size() > 0);
+        assertTrue(clients.size() > 0);
     }
 
     @Test
@@ -171,6 +169,153 @@ public class ClientControllerIT extends BaseIT {
         result.andExpect(status().isForbidden());
     }
 
+    @Test
+    @WithMockUser(roles = "CLIENT", username = ClientFactory.simpleEmail)
+    public void whenClientUpdate_thenCorrectAnswer() throws Exception {
+        //given
+        var client = dbOperations.addSimpleClientToDB();
+        var path = CLIENT + "/" + client.getId();
+
+        //and
+        var changedEmail = "changed@mail.com";
+        var updateRequest = ClientFactory.getSimpleClientRequestBuilder()
+                .email(changedEmail)
+                .build();
+
+        //when
+        var result = sendPatchRequest(path, toJsonString(updateRequest));
+
+        //then
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(client.getId()))
+                .andExpect(jsonPath("$.firstName").value(client.getFirstName()))
+                .andExpect(jsonPath("$.email").value(changedEmail));
+    }
+
+    @ParameterizedTest
+    @MethodSource("clientRequestIncorrectParameters")
+    @WithMockUser(roles = "CLIENT", username = ClientFactory.simpleEmail)
+    public void whenClientUpdate_thenValidationFailed(ClientRequest updateRequest) throws Exception {
+        //given
+        var client = dbOperations.addSimpleClientToDB();
+        var path = CLIENT + "/" + client.getId();
+
+        //when
+        var result = sendPatchRequest(path, toJsonString(updateRequest));
+
+        //then
+        result.andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "CLIENT", username = "incorrect@username.com")
+    public void whenClientUpdate_thenForbidden() throws Exception {
+        //given
+        var client = dbOperations.addSimpleClientToDB();
+        var path = CLIENT + "/" + client.getId();
+
+        //and
+        var changedEmail = "changed@mail.com";
+        var updateRequest = ClientFactory.getSimpleClientRequestBuilder()
+                .email(changedEmail)
+                .build();
+
+        //when
+        var result = sendPatchRequest(path, toJsonString(updateRequest));
+
+        //then
+        result.andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    public void whenClientUpdate_ByAdmin_thenCorrectAnswer() throws Exception {
+        //given
+        var client = dbOperations.addSimpleClientToDB();
+        var path = CLIENT + "/" + client.getId();
+
+        //and
+        var changedEmail = "changed@mail.com";
+        var updateRequest = ClientFactory.getSimpleClientRequestBuilder()
+                .email(changedEmail)
+                .build();
+
+        //when
+        var result = sendPatchRequest(path, toJsonString(updateRequest));
+
+        //then
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(client.getId()))
+                .andExpect(jsonPath("$.firstName").value(client.getFirstName()))
+                .andExpect(jsonPath("$.email").value(changedEmail));
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    public void whenDeleteClient_ByAdmin_thenCorrectAnswer() throws Exception {
+        //given
+        var client = dbOperations.addSimpleClientToDB();
+        var path = CLIENT + "/" + client.getId();
+
+        //and
+        assertTrue(clientRepository.existsByEmail(client.getEmail()));
+
+        //when
+        var result = sendDeleteRequest(path);
+
+        //then
+        result.andExpect(status().isNoContent());
+
+        //and
+        assertFalse(clientRepository.existsByEmail(client.getEmail()));
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    public void whenDeleteClient_ByAdmin_thenNotFound() throws Exception {
+        //given
+        long id = Long.MAX_VALUE;
+        var path = CLIENT + "/" + id;
+
+        //when
+        var result = sendDeleteRequest(path);
+
+        //then
+        result.andExpect(status().isNotFound());
+    }
+
+    @Test
+    @WithMockUser(roles = "CLIENT")
+    public void whenDeleteClient_ByClient_thenForbidden() throws Exception {
+        //given
+        var client = dbOperations.addSimpleClientToDB();
+        var path = CLIENT + "/" + client.getId();
+
+        //and
+        assertTrue(clientRepository.existsByEmail(client.getEmail()));
+
+        //when
+        var result = sendDeleteRequest(path);
+
+        //then
+        result.andExpect(status().isForbidden());
+    }
+
+    private ResultActions sendDeleteRequest(String path) throws Exception {
+        return mockMvc.perform(delete(path));
+    }
+
+
+    private void expectSimpleClient(ResultActions result) throws Exception {
+        result.andExpect(jsonPath("$.firstName").value(ClientFactory.simpleFirstName))
+                .andExpect(jsonPath("$.lastName").value(ClientFactory.simpleLastName))
+                .andExpect(jsonPath("$.email").value(ClientFactory.simpleEmail))
+                .andExpect(jsonPath("$.address.id").value(Matchers.greaterThan(0)))
+                .andExpect(jsonPath("$.address.zipCode").value(AddressFactory.simpleZipCode))
+                .andExpect(jsonPath("$.address.town").value(AddressFactory.simpleTown))
+                .andExpect(jsonPath("$.address.street").value(AddressFactory.simpleStreet))
+                .andExpect(jsonPath("$.address.houseNumber").value(AddressFactory.simpleHouseNumber));
+    }
 
     private ResultActions sendPatchRequest(String path, String request) throws Exception {
         return mockMvc.perform(patch(path).contentType(MediaType.APPLICATION_JSON_VALUE).content(request));
@@ -185,7 +330,7 @@ public class ClientControllerIT extends BaseIT {
         return mockMvc.perform(get(path));
     }
 
-    private static Stream<Arguments> saveIncorrectParameters() {
+    private static Stream<Arguments> clientRequestIncorrectParameters() {
         return Stream.of(
                 Arguments.of(ClientFactory.getSimpleClientRequestBuilder().firstName("    ").build()),
                 Arguments.of(ClientFactory.getSimpleClientRequestBuilder().lastName(null).build()),
