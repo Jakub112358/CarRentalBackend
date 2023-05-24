@@ -23,7 +23,7 @@ public class CompanyControllerIT extends BaseIT {
 
     @BeforeEach
     void setUp() {
-        dbOperations.cleanCompaniesTable();
+        dbOperations.cleanCompanyTable();
     }
 
     @Test

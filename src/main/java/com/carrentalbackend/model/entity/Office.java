@@ -21,8 +21,6 @@ public class Office implements CrudEntity{
     private List<Employee> employees;
     @OneToMany (mappedBy = "currentOffice", cascade = CascadeType.PERSIST)
     private List<Car> availableCars;
-    @ManyToOne
-    private Company company;
     @OneToMany (mappedBy = "pickUpOffice", cascade = CascadeType.PERSIST)
     private List<Reservation> pickUpReservations;
     @OneToMany (mappedBy = "returnOffice", cascade = CascadeType.PERSIST)

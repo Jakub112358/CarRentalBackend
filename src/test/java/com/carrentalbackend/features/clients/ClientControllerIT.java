@@ -20,8 +20,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import static com.carrentalbackend.config.ApiConstraints.CLIENT;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,9 +29,8 @@ public class ClientControllerIT extends BaseIT {
 
     @BeforeEach
     void setUp() {
-        dbOperations.cleanClientsTable();
+        dbOperations.cleanUserTable();
     }
-
 
     @Test
     public void whenSaveClient_thenResponseCreated() throws Exception {
@@ -152,7 +150,7 @@ public class ClientControllerIT extends BaseIT {
         var responseJson = result.andReturn().getResponse().getContentAsString();
         Set<Client> clients = objectMapper.readValue(responseJson, new TypeReference<>() {
         });
-        assertTrue(clients.size() > 0);
+        assertEquals(1, clients.size());
     }
 
     @Test

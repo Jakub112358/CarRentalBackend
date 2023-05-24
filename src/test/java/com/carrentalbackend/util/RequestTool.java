@@ -24,4 +24,5 @@ public class RequestTool {
     public ResultActions sendPostRequest(String path, String request) throws Exception {
         return mockMvc.perform(post(path).contentType(MediaType.APPLICATION_JSON_VALUE).content(request));
     }
+
 }

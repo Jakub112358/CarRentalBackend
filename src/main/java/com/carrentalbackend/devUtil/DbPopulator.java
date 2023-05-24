@@ -177,7 +177,7 @@ public class DbPopulator {
 
     private void addOffices() {
         for (int i = 0; i < 3; i++) {
-            officeService.save(OfficeRequest.builder().address(getAddress()).companyId(1L).build());
+            officeService.save(OfficeRequest.builder().address(getAddress()).build());
         }
     }
 

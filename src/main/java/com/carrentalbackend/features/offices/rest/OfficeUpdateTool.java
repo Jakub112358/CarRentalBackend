@@ -8,6 +8,6 @@ import org.springframework.stereotype.Component;
 public class OfficeUpdateTool implements UpdateTool<Office, OfficeRequest> {
     @Override
     public void updateEntity(Office entity, OfficeRequest updateRequest) {
-        //TODO: implement
+        entity.setAddress(updateRequest.getAddress());
     }
 }

@@ -3,7 +3,6 @@ package com.carrentalbackend.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
 @Entity
 @Getter
 @Setter
@@ -21,13 +20,10 @@ public class Company implements CrudEntity {
     @Column(length = 65_535)
     @Basic(fetch = FetchType.LAZY)
     private byte[] logotype;
-    @OneToOne (cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
-    @OneToMany (mappedBy = "company", cascade = CascadeType.PERSIST)
-    private List<Office> offices;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Finances finances;
-
 
 
 }
