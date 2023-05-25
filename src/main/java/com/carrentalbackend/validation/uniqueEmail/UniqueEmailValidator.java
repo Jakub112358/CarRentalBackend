@@ -1,4 +1,4 @@
-package com.carrentalbackend.features.clients.validation;
+package com.carrentalbackend.validation.uniqueEmail;
 
 import com.carrentalbackend.repository.UserRepository;
 import jakarta.validation.ConstraintValidator;
