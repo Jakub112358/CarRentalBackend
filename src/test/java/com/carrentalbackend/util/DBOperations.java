@@ -1,20 +1,12 @@
 package com.carrentalbackend.util;
 
 
-import com.carrentalbackend.model.entity.Client;
-import com.carrentalbackend.model.entity.Company;
-import com.carrentalbackend.model.entity.Office;
-import com.carrentalbackend.model.entity.User;
+import com.carrentalbackend.model.entity.*;
 import com.carrentalbackend.repository.*;
-import com.carrentalbackend.util.factories.ClientFactory;
-import com.carrentalbackend.util.factories.CompanyFactory;
-import com.carrentalbackend.util.factories.OfficeFactory;
-import com.carrentalbackend.util.factories.UserFactory;
+import com.carrentalbackend.util.factories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Component
 @Transactional
@@ -39,19 +31,19 @@ public class DBOperations {
     private PickUpRepository pickUpRepository;
     @Autowired
     private CarReturnRepository carReturnRepository;
+    @Autowired
+    private PriceListRepository priceListRepository;
 
 
     public User addSimpleUserToDB() {
         var user = UserFactory.getSimpleUser();
         userRepository.save(user);
-        assertTrue(userRepository.existsByEmail(user.getEmail()));
         return user;
     }
 
     public Client addSimpleClientToDB() {
         var client = ClientFactory.getSimpleClient();
         clientRepository.save(client);
-        assertTrue(clientRepository.existsByEmail(ClientFactory.simpleEmail));
         return client;
     }
 
@@ -67,7 +59,43 @@ public class DBOperations {
         return office;
     }
 
-    public void cleanClientTable(){
+    public Employee addSimpleEmployeeToDB(Office office) {
+        var employee = EmployeeFactory.getSimpleEmployeeBuilder()
+                .office(office)
+                .build();
+        employeeRepository.save(employee);
+        return employee;
+    }
+
+    public Car addSimpleCarToDb(Office currentOffice, PriceList priceList) {
+        var car = CarFactory.getSimpleCarBuilder()
+                .priceList(priceList)
+                .currentOffice(currentOffice)
+                .build();
+        carRepository.save(car);
+        return car;
+    }
+
+    public PriceList addSimplePriceListToDb() {
+        var priceList = PriceListFactory.getSimplePriceListBuilder().build();
+        priceListRepository.save(priceList);
+        return priceList;
+    }
+
+    public Reservation addSimpleReservationToDB(Car car, Office pickUpOffice, Office returnOffice) {
+        var client = addSimpleClientToDB();
+
+        var reservation = ReservationFactory.getSimpleReservationBuilder()
+                .client(client)
+                .car(car)
+                .pickUpOffice(pickUpOffice)
+                .returnOffice(returnOffice)
+                .build();
+        reservationRepository.save(reservation);
+        return reservation;
+    }
+
+    public void cleanClientTable() {
         cleanReservationTable();
         clientRepository.deleteAll();
     }
@@ -81,7 +109,7 @@ public class DBOperations {
         incomeRepository.deleteAll();
     }
 
-    public void cleanCompanyTable(){
+    public void cleanCompanyTable() {
         companyRepository.deleteAll();
     }
 
@@ -122,4 +150,8 @@ public class DBOperations {
     }
 
 
+    public void cleanPriceListTable() {
+        cleanCarTable();
+        priceListRepository.deleteAll();
+    }
 }

@@ -25,4 +25,8 @@ public class RequestTool {
         return mockMvc.perform(post(path).contentType(MediaType.APPLICATION_JSON_VALUE).content(request));
     }
 
+    public ResultActions sendDeleteRequest(String path) throws Exception {
+        return mockMvc.perform(delete(path));
+    }
+
 }

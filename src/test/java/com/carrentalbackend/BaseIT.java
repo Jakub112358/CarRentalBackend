@@ -1,9 +1,7 @@
 package com.carrentalbackend;
 
 import com.carrentalbackend.config.security.JwtService;
-import com.carrentalbackend.repository.ClientRepository;
-import com.carrentalbackend.repository.ReservationRepository;
-import com.carrentalbackend.repository.UserRepository;
+import com.carrentalbackend.repository.*;
 import com.carrentalbackend.util.DBOperations;
 import com.carrentalbackend.util.RequestTool;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,6 +23,14 @@ public class BaseIT {
     protected ClientRepository clientRepository;
     @Autowired
     protected ReservationRepository reservationRepository;
+    @Autowired
+    protected OfficeRepository officeRepository;
+    @Autowired
+    protected CarRepository carRepository;
+    @Autowired
+    protected EmployeeRepository employeeRepository;
+    @Autowired
+    protected PriceListRepository priceListRepository;
     @Autowired
     protected MockMvc mockMvc;
     @Autowired

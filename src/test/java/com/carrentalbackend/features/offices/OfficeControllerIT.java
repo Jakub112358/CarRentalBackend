@@ -2,8 +2,7 @@ package com.carrentalbackend.features.offices;
 
 import com.carrentalbackend.BaseIT;
 import com.carrentalbackend.features.offices.rest.OfficeRequest;
-import com.carrentalbackend.model.entity.Address;
-import com.carrentalbackend.model.entity.Office;
+import com.carrentalbackend.model.entity.*;
 import com.carrentalbackend.util.factories.AddressFactory;
 import com.carrentalbackend.util.factories.OfficeFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -20,7 +19,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import static com.carrentalbackend.config.ApiConstraints.OFFICE;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -246,16 +245,74 @@ public class OfficeControllerIT extends BaseIT {
         result.andExpect(status().isBadRequest());
     }
 
-    public void whenDelete_thenCorrectAnswer() {
-        //TODO: implement
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    public void whenDelete_thenCorrectAnswer() throws Exception {
+        //given
+        var office = dbOperations.addSimpleOfficeToDB();
+        var employee = dbOperations.addSimpleEmployeeToDB(office);
+        var priceList = dbOperations.addSimplePriceListToDb();
+        var car = dbOperations.addSimpleCarToDb(office, priceList);
+        var reservation = dbOperations.addSimpleReservationToDB(car, office, office);
+
+        //and
+        var path = OFFICE + "/" + office.getId();
+
+        //and
+        assertTrue(officeRepository.existsById(office.getId()));
+        assertOfficeFieldsNotNull(employee, car, reservation);
+
+        //when
+        var result = requestTool.sendDeleteRequest(path);
+
+        //then
+        result.andExpect(status().isNoContent());
+
+        //and
+        assertFalse(officeRepository.existsById(office.getId()));
+        assertOfficeFieldsNull(employee, car, reservation);
+
+
+
     }
 
-    public void whenDelete_thenForbidden() {
-        //TODO: implement
+    @Test
+    public void whenDelete_thenForbidden() throws Exception {
+        //given
+        var office = dbOperations.addSimpleOfficeToDB();
+        dbOperations.addSimpleEmployeeToDB(office);
+        var priceList = dbOperations.addSimplePriceListToDb();
+        var car = dbOperations.addSimpleCarToDb(office, priceList);
+        dbOperations.addSimpleReservationToDB(car, office, office);
+
+        //and
+        var path = OFFICE + "/" + office.getId();
+
+        //when
+        var result = requestTool.sendDeleteRequest(path);
+
+        //then
+        result.andExpect(status().isForbidden());
     }
 
-    public void whenDelete_thenNotFound() {
-        //TODO: implement
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    public void whenDelete_thenNotFound() throws Exception {
+        //given
+        var office = dbOperations.addSimpleOfficeToDB();
+        dbOperations.addSimpleEmployeeToDB(office);
+        var priceList = dbOperations.addSimplePriceListToDb();
+        var car = dbOperations.addSimpleCarToDb(office, priceList);
+        dbOperations.addSimpleReservationToDB(car, office, office);
+
+        //and
+        var path = OFFICE + "/" + Long.MAX_VALUE;
+
+        //when
+        var result = requestTool.sendDeleteRequest(path);
+
+        //then
+        result.andExpect(status().isNotFound());
     }
 
     private static Stream<Arguments> officeRequestIncorrectParameters() {
@@ -279,5 +336,19 @@ public class OfficeControllerIT extends BaseIT {
                 .andExpect(jsonPath("$.address.street").value(AddressFactory.simpleStreet))
                 .andExpect(jsonPath("$.address.houseNumber").value(AddressFactory.simpleHouseNumber))
                 .andExpect(jsonPath("$.address.id").value(Matchers.greaterThan(0)));
+    }
+
+    private void assertOfficeFieldsNull(Employee employee, Car car, Reservation reservation) {
+        assertNull(employeeRepository.findById(employee.getId()).orElseThrow().getOffice());
+        assertNull(carRepository.findById(car.getId()).orElseThrow().getCurrentOffice());
+        assertNull(reservationRepository.findById(reservation.getId()).orElseThrow().getReturnOffice());
+        assertNull(reservationRepository.findById(reservation.getId()).orElseThrow().getPickUpOffice());
+    }
+
+    private void assertOfficeFieldsNotNull(Employee employee, Car car, Reservation reservation) {
+        assertNotNull(employeeRepository.findById(employee.getId()).orElseThrow().getOffice());
+        assertNotNull(carRepository.findById(car.getId()).orElseThrow().getCurrentOffice());
+        assertNotNull(reservationRepository.findById(reservation.getId()).orElseThrow().getReturnOffice());
+        assertNotNull(reservationRepository.findById(reservation.getId()).orElseThrow().getPickUpOffice());
     }
 }
