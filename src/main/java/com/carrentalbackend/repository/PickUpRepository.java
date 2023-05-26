@@ -10,4 +10,6 @@ import java.util.List;
 public interface PickUpRepository extends JpaRepository <PickUp, Long> {
 
     List<PickUp> findAllByOffice_Id(Long officeId);
+
+    List<PickUp> findAllByEmployee_id(Long id);
 }

@@ -32,6 +32,10 @@ public class BaseIT {
     @Autowired
     protected PriceListRepository priceListRepository;
     @Autowired
+    protected PickUpRepository pickUpRepository;
+    @Autowired
+    protected CarReturnRepository carReturnRepository;
+    @Autowired
     protected MockMvc mockMvc;
     @Autowired
     protected ObjectMapper objectMapper;

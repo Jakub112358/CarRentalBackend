@@ -9,8 +9,8 @@ import static com.carrentalbackend.model.entity.PickUp.PickUpBuilder;
 
 public class PickUpFactory {
     public final static String simplePickUpComments = "simple pick-up comments";
-    public final static LocalDate simplePickUpDate = LocalDate.now().minusDays(1);
-    public final static LocalDate simplePickUpPlannedDate = LocalDate.now().minusDays(2);
+    public final static LocalDate simplePickUpDate = LocalDate.now().minusDays(5);
+    public final static LocalDate simplePickUpPlannedDate = LocalDate.now().minusDays(6);
     public final static RentalActionStatus simplePickUpStatus = RentalActionStatus.REALIZED;
 
     public static PickUpBuilder getSimplePickUpBuilder() {

@@ -106,6 +106,17 @@ public class DBOperations {
         return pickUp;
     }
 
+    public CarReturn addSimpleCarReturnToDB(Employee employee, Reservation reservation, Car car, Office office) {
+        var carReturn = CarReturnFactory.getSimpleCarReturnBuilder()
+                .employee(employee)
+                .reservation(reservation)
+                .car(car)
+                .office(office)
+                .build();
+        carReturnRepository.save(carReturn);
+        return carReturn;
+    }
+
     public void cleanClientTable() {
         cleanReservationTable();
         clientRepository.deleteAll();
@@ -171,6 +182,7 @@ public class DBOperations {
         cleanPickUpTable();
         employeeRepository.deleteAll();
     }
+
 
 
 }

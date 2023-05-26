@@ -2,6 +2,8 @@ package com.carrentalbackend.features.employees;
 
 import com.carrentalbackend.BaseIT;
 import com.carrentalbackend.features.employees.rest.EmployeeResponse;
+import com.carrentalbackend.model.entity.CarReturn;
+import com.carrentalbackend.model.entity.PickUp;
 import com.carrentalbackend.util.factories.EmployeeFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.hamcrest.Matchers;
@@ -17,8 +19,8 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import static com.carrentalbackend.config.ApiConstraints.EMPLOYEE;
-import static com.carrentalbackend.features.employees.rest.EmployeeRequest.EmployeeRequestBuilder;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static com.carrentalbackend.features.employees.rest.EmployeeCreateRequest.EmployeeCreateRequestBuilder;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -53,7 +55,7 @@ public class EmployeeControllerIT extends BaseIT {
     @ParameterizedTest
     @MethodSource("employeeRequestBuilderIncorrectParameters")
     @WithMockUser(roles = "ADMIN")
-    public void whenSave_thenBasicValidationFailed(EmployeeRequestBuilder requestBuilder) throws Exception {
+    public void whenSave_thenBasicValidationFailed(EmployeeCreateRequestBuilder requestBuilder) throws Exception {
         //given
         var office = dbOperations.addSimpleOfficeToDB();
 
@@ -245,7 +247,7 @@ public class EmployeeControllerIT extends BaseIT {
     @ParameterizedTest
     @MethodSource("employeeRequestBuilderIncorrectParameters")
     @WithMockUser(roles = "ADMIN")
-    public void whenUpdate_thenValidationFailed(EmployeeRequestBuilder requestBuilder) throws Exception {
+    public void whenUpdate_thenValidationFailed(EmployeeCreateRequestBuilder requestBuilder) throws Exception {
         //given
         var office = dbOperations.addSimpleOfficeToDB();
         var employee = dbOperations.addSimpleEmployeeToDB(office);
@@ -259,6 +261,28 @@ public class EmployeeControllerIT extends BaseIT {
 
         //then
         result.andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    public void whenUpdate_thenEmailAlreadyExists() throws Exception {
+        //given
+        var user = dbOperations.addSimpleUserToDB();
+        var office = dbOperations.addSimpleOfficeToDB();
+        var employee = dbOperations.addSimpleEmployeeToDB(office);
+        var path = EMPLOYEE + "/" + employee.getId();
+
+        //and
+        var changedEmail = user.getEmail();
+        var updateRequest = EmployeeFactory.getSimpleEmployeeRequestBuilder(office.getId())
+                .email(changedEmail)
+                .build();
+
+        //when
+        var result = requestTool.sendPatchRequest(path, toJsonString(updateRequest));
+
+        //then
+        result.andExpect(status().isConflict());
     }
 
     @Test
@@ -279,67 +303,71 @@ public class EmployeeControllerIT extends BaseIT {
         result.andExpect(status().isBadRequest());
     }
 
-    //    @Test
-//    @WithMockUser(roles = "ADMIN")
-//    public void whenDelete_thenCorrectAnswer() throws Exception {
-//        //given
-//        var priceList = dbOperations.addSimplePriceListToDb();
-//        var office = dbOperations.addSimpleOfficeToDB();
-//        var car = dbOperations.addSimpleCarToDb(office, priceList);
-//
-//        //and
-//        var path = PRICE_LIST + "/" + priceList.getId();
-//
-//        //and
-//        assertTrue(priceListRepository.existsById(priceList.getId()));
-//        assertPriceListFieldsNotNull(car);
-//
-//        //when
-//        var result = requestTool.sendDeleteRequest(path);
-//
-//        //then
-//        result.andExpect(status().isNoContent());
-//
-//        //and
-//        assertFalse(priceListRepository.existsById(office.getId()));
-//        assertPriceListFieldsNull(car);
-//    }
-//
-//    @Test
-//    public void whenDelete_thenForbidden() throws Exception {
-//        //given
-//        var priceList = dbOperations.addSimplePriceListToDb();
-//        var office = dbOperations.addSimpleOfficeToDB();
-//        dbOperations.addSimpleCarToDb(office, priceList);
-//
-//        //and
-//        var path = PRICE_LIST + "/" + priceList.getId();
-//
-//        //when
-//        var result = requestTool.sendDeleteRequest(path);
-//
-//        //then
-//        result.andExpect(status().isForbidden());
-//    }
-//
-//    @Test
-//    @WithMockUser(roles = "ADMIN")
-//    public void whenDelete_thenNotFound() throws Exception {
-//        //given
-//        var priceList = dbOperations.addSimplePriceListToDb();
-//        var office = dbOperations.addSimpleOfficeToDB();
-//        dbOperations.addSimpleCarToDb(office, priceList);
-//
-//        //and
-//        var path = PRICE_LIST + "/" + Long.MAX_VALUE;
-//
-//        //when
-//        var result = requestTool.sendDeleteRequest(path);
-//
-//        //then
-//        result.andExpect(status().isNotFound());
-//    }
-//
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    public void whenDelete_thenCorrectAnswer() throws Exception {
+        //given
+        var office = dbOperations.addSimpleOfficeToDB();
+        var employee = dbOperations.addSimpleEmployeeToDB(office);
+
+        //and
+        var pricelist = dbOperations.addSimplePriceListToDb();
+        var car = dbOperations.addSimpleCarToDb(office, pricelist);
+        var reservation = dbOperations.addSimpleReservationToDB(car, office, office);
+        var pickUp = dbOperations.addSimplePickUpToDB(employee, reservation, car, office);
+        var carReturn = dbOperations.addSimpleCarReturnToDB(employee, reservation, car, office);
+
+        //and
+        var path = EMPLOYEE + "/" + employee.getId();
+
+        //and
+        assertTrue(employeeRepository.existsById(employee.getId()));
+        assertEmployeeFieldsNotNull(pickUp, carReturn);
+
+        //when
+        var result = requestTool.sendDeleteRequest(path);
+
+        //then
+        result.andExpect(status().isNoContent());
+
+        //and
+        assertFalse(employeeRepository.existsById(office.getId()));
+        assertEmployeeFieldsNull(pickUp, carReturn);
+    }
+
+    @Test
+    public void whenDelete_thenForbidden() throws Exception {
+        //given
+        var office = dbOperations.addSimpleOfficeToDB();
+        var employee = dbOperations.addSimpleEmployeeToDB(office);
+
+        //and
+        var path = EMPLOYEE + "/" + employee.getId();
+
+        //when
+        var result = requestTool.sendDeleteRequest(path);
+
+        //then
+        result.andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    public void whenDelete_thenNotFound() throws Exception {
+        //given
+        var office = dbOperations.addSimpleOfficeToDB();
+        dbOperations.addSimpleEmployeeToDB(office);
+
+        //and
+        var path = EMPLOYEE + "/" + Long.MAX_VALUE;
+
+        //when
+        var result = requestTool.sendDeleteRequest(path);
+
+        //then
+        result.andExpect(status().isNotFound());
+    }
+
     private static Stream<Arguments> employeeRequestBuilderIncorrectParameters() {
         return Stream.of(
                 Arguments.of(EmployeeFactory.getSimpleEmployeeRequestBuilder(null).firstName("")),
@@ -357,12 +385,15 @@ public class EmployeeControllerIT extends BaseIT {
                 .andExpect(jsonPath("$.jobPosition").value(EmployeeFactory.simpleEmployeeJobPosition.name()))
                 .andExpect(jsonPath("$.officeId").value(officeId));
     }
-//
-//    private void assertPriceListFieldsNull(Car car) {
-//        assertNull(carRepository.findById(car.getId()).orElseThrow().getPriceList());
-//    }
-//
-//    private void assertPriceListFieldsNotNull(Car car) {
-//        assertNotNull(carRepository.findById(car.getId()).orElseThrow().getPriceList());
-//    }
+
+    private void assertEmployeeFieldsNull(PickUp pickUp, CarReturn carReturn) {
+        assertNull(pickUpRepository.findById(pickUp.getId()).orElseThrow().getEmployee());
+        assertNull(carReturnRepository.findById(carReturn.getId()).orElseThrow().getEmployee());
+
+    }
+
+    private void assertEmployeeFieldsNotNull(PickUp pickUp, CarReturn carReturn) {
+        assertNotNull(pickUpRepository.findById(pickUp.getId()).orElseThrow().getEmployee());
+        assertNotNull(carReturnRepository.findById(carReturn.getId()).orElseThrow().getEmployee());
+    }
 }
