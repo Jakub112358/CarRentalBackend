@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class PickUpService extends CrudService<PickUp, PickUpRequest> {
+public class PickUpService extends CrudService<PickUp, PickUpRequest, PickUpRequest> {
     private final PickUpRepository pickUpRepository;
 
     public PickUpService(PickUpRepository repository, PickUpMapper mapper, PickUpUpdateTool updateTool) {

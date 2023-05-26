@@ -11,10 +11,10 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional
-public abstract class CrudService<T extends CrudEntity, U extends Request> {
+public abstract class CrudService<T extends CrudEntity, U extends CreateRequest, V extends UpdateRequest> {
     protected final JpaRepository<T, Long> repository;
     protected final CrudMapper<T, U> mapper;
-    protected final UpdateTool<T, U> updateTool;
+    protected final UpdateTool<T, V> updateTool;
 
     public Response save(U request) {
         T entity = mapper.toNewEntity(request);
@@ -30,7 +30,7 @@ public abstract class CrudService<T extends CrudEntity, U extends Request> {
         return mapper.toResponse(repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id)));
     }
 
-    public Response update(Long id, U request) {
+    public Response update(Long id, V request) {
         T instance = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
 
         updateTool.updateEntity(instance, request);

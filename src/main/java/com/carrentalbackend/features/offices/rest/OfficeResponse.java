@@ -12,5 +12,4 @@ import lombok.*;
 public class OfficeResponse implements Response {
     private long id;
     private Address address;
-    private Long companyId;
 }

@@ -11,6 +11,7 @@ import lombok.*;
 @Builder
 public class EmployeeResponse implements Response {
     private long id;
+    private String email;
     private String firstName;
     private String lastName;
     private JobPosition jobPosition;

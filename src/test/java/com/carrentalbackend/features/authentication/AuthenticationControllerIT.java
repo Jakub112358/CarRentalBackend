@@ -4,6 +4,7 @@ import com.carrentalbackend.BaseIT;
 import com.carrentalbackend.features.authentication.rest.AuthenticationRequest;
 import com.carrentalbackend.util.factories.UserFactory;
 import com.jayway.jsonpath.JsonPath;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -19,6 +20,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 public class AuthenticationControllerIT extends BaseIT {
+
+    @BeforeEach
+    void setUp(){
+        dbOperations.cleanUserTable();
+    }
 
     @Test
     public void whenAuthenticate_thenCorrectResponse() throws Exception {

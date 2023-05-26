@@ -1,4 +1,4 @@
-package com.carrentalbackend.features.clients.validation;
+package com.carrentalbackend.validation.uniqueEmail;
 
 import com.carrentalbackend.repository.UserRepository;
 import jakarta.validation.ConstraintValidator;
@@ -11,6 +11,8 @@ public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, St
 
     @Override
     public boolean isValid(String email, ConstraintValidatorContext constraintValidatorContext) {
+        if (email==null)
+            return false;
         return !userRepository.existsByEmail(email);
     }
 }

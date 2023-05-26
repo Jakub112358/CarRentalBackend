@@ -1,13 +1,14 @@
 package com.carrentalbackend.features.cars.rest;
 
-import com.carrentalbackend.features.generics.Request;
+import com.carrentalbackend.features.generics.CreateRequest;
 import com.carrentalbackend.features.generics.UpdateRequest;
 import com.carrentalbackend.model.enumeration.CarBodyType;
 import com.carrentalbackend.model.enumeration.CarStatus;
 import com.carrentalbackend.model.enumeration.Color;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import com.carrentalbackend.validation.existingOfficeId.ExistingOfficeId;
+import com.carrentalbackend.validation.existingPriceListId.ExistingPriceListId;
+import com.carrentalbackend.validation.yearOfManufacture.YearOfManufacture;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Getter
@@ -15,16 +16,18 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CarRequest implements Request, UpdateRequest {
+public class CarRequest implements CreateRequest, UpdateRequest {
     @NotEmpty
     private String make;
     @NotEmpty
     private String model;
     @Min(1)
+    @NotNull
     private Integer mileage;
     @Min(1)
+    @NotNull
     private Integer minRentalTime;
-    @Min(1900)
+    @YearOfManufacture
     private Integer yearOfManufacture;
     @NotNull
     private CarBodyType bodyType;
@@ -32,9 +35,9 @@ public class CarRequest implements Request, UpdateRequest {
     private Color color;
     @NotNull
     private CarStatus status;
-    @Min(1)
+    @ExistingPriceListId
     private Long priceListId;
-    @Min(1)
+    @ExistingOfficeId
     private Long currentOfficeId;
 
 }

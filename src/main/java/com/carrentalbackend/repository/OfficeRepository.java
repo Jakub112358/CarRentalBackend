@@ -16,4 +16,5 @@ public interface OfficeRepository extends JpaRepository<Office, Long> {
     @Modifying
     @Query("SELECT id FROM Office")
     List<Long> getAllOfficeIds();
+
 }

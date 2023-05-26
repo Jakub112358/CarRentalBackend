@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
-public class ReservationService extends CrudService<Reservation, ReservationRequest> {
+public class ReservationService extends CrudService<Reservation, ReservationRequest, ReservationRequest> {
     private final ReservationValidator reservationValidator;
     private final IncomeRepository incomeRepository;
     private final ReservationRepository reservationRepository;

@@ -1,9 +1,9 @@
 package com.carrentalbackend.features.clients;
 
 import com.carrentalbackend.BaseIT;
-import com.carrentalbackend.features.clients.rest.ClientRequest;
+import com.carrentalbackend.features.clients.rest.ClientCreateRequest;
+import com.carrentalbackend.features.clients.rest.ClientResponse;
 import com.carrentalbackend.model.entity.Address;
-import com.carrentalbackend.model.entity.Client;
 import com.carrentalbackend.util.factories.AddressFactory;
 import com.carrentalbackend.util.factories.ClientFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -20,8 +20,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import static com.carrentalbackend.config.ApiConstraints.CLIENT;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,14 +29,13 @@ public class ClientControllerIT extends BaseIT {
 
     @BeforeEach
     void setUp() {
-        dbOperations.cleanClientsTable();
+        dbOperations.cleanUserTable();
     }
-
 
     @Test
     public void whenSaveClient_thenResponseCreated() throws Exception {
         //given
-        ClientRequest clientRequest = ClientFactory.getSimpleClientRequestBuilder().build();
+        ClientCreateRequest clientRequest = ClientFactory.getSimpleClientRequestBuilder().build();
         String clientRequestJson = toJsonString(clientRequest);
 
         //when
@@ -81,7 +79,7 @@ public class ClientControllerIT extends BaseIT {
 
     @ParameterizedTest
     @MethodSource("clientRequestIncorrectParameters")
-    public void whenSaveClient_thenValidationFailed(ClientRequest request) throws Exception {
+    public void whenSaveClient_thenValidationFailed(ClientCreateRequest request) throws Exception {
         //given
         String clientRequestJson = toJsonString(request);
 
@@ -150,9 +148,9 @@ public class ClientControllerIT extends BaseIT {
 
         //and
         var responseJson = result.andReturn().getResponse().getContentAsString();
-        Set<Client> clients = objectMapper.readValue(responseJson, new TypeReference<>() {
+        Set<ClientResponse> clients = objectMapper.readValue(responseJson, new TypeReference<>() {
         });
-        assertTrue(clients.size() > 0);
+        assertEquals(1, clients.size());
     }
 
     @Test
@@ -194,7 +192,7 @@ public class ClientControllerIT extends BaseIT {
     @ParameterizedTest
     @MethodSource("clientRequestIncorrectParameters")
     @WithMockUser(roles = "CLIENT", username = ClientFactory.simpleEmail)
-    public void whenClientUpdate_thenValidationFailed(ClientRequest updateRequest) throws Exception {
+    public void whenClientUpdate_thenValidationFailed(ClientCreateRequest updateRequest) throws Exception {
         //given
         var client = dbOperations.addSimpleClientToDB();
         var path = CLIENT + "/" + client.getId();
@@ -224,6 +222,27 @@ public class ClientControllerIT extends BaseIT {
 
         //then
         result.andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    public void whenUpdate_thenEmailAlreadyExists() throws Exception {
+        //given
+        var user = dbOperations.addSimpleUserToDB();
+        var client = dbOperations.addSimpleClientToDB();
+        var path = CLIENT + "/" + client.getId();
+
+        //and
+        var changedEmail = user.getEmail();
+        var updateRequest = ClientFactory.getSimpleClientRequestBuilder()
+                .email(changedEmail)
+                .build();
+
+        //when
+        var result = requestTool.sendPatchRequest(path, toJsonString(updateRequest));
+
+        //then
+        result.andExpect(status().isConflict());
     }
 
     @Test

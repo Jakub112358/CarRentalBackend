@@ -1,6 +1,6 @@
 package com.carrentalbackend.features.renting.carReturns.rest;
 
-import com.carrentalbackend.features.generics.Request;
+import com.carrentalbackend.features.generics.CreateRequest;
 import com.carrentalbackend.model.enumeration.RentalActionStatus;
 import com.carrentalbackend.features.generics.UpdateRequest;
 import lombok.*;
@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CarReturnRequest implements Request, UpdateRequest {
+public class CarReturnRequest implements CreateRequest, UpdateRequest {
     private String comments;
     private BigDecimal extraCharge;
     private LocalDate returnDate;

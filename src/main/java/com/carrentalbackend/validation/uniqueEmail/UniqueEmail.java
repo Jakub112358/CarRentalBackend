@@ -1,4 +1,4 @@
-package com.carrentalbackend.features.clients.validation;
+package com.carrentalbackend.validation.uniqueEmail;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
