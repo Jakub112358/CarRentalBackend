@@ -13,7 +13,9 @@ public interface CarRepository extends JpaRepository<Car, Long> {
     List<Car> findAllByCurrentOffice_Id(Long id);
 
     List<Car> findAllByCurrentOfficeIsNull();
+
     List<Car> findAllByStatusIsNot(CarStatus carStatus);
+
     List<Car> findAllByPriceListId(Long id);
 
 }
