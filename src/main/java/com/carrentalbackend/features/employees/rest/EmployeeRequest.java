@@ -5,10 +5,7 @@ import com.carrentalbackend.validation.uniqueEmail.UniqueEmail;
 import com.carrentalbackend.features.generics.Request;
 import com.carrentalbackend.features.generics.UpdateRequest;
 import com.carrentalbackend.model.enumeration.JobPosition;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Getter
@@ -31,4 +28,5 @@ public class EmployeeRequest implements Request, UpdateRequest {
     private String email;
     @NotEmpty
     private String password;
+
 }

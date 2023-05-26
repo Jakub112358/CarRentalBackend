@@ -153,9 +153,9 @@ public class DbPopulator {
 
     private List<EmployeeRequest> createEmployeeList() {
         List<EmployeeRequest> employees = new ArrayList<>();
-        employees.add(EmployeeRequest.builder().firstName("John").lastName("Smith").jobPosition(JobPosition.MANAGER).branchOfficeId(1L).email("employee@mail.com").password("123").build());
-        employees.add(EmployeeRequest.builder().firstName("Bob").lastName("Budowniczy").jobPosition(JobPosition.MANAGER).branchOfficeId(2L).email("test2@mail.com").password("123").build());
-        employees.add(EmployeeRequest.builder().firstName("Ania").lastName("Z Zielonego Wzgorza").jobPosition(JobPosition.SELLER).branchOfficeId(1L).email("test3@mail.com").password("123").build());
+        employees.add(EmployeeRequest.builder().firstName("John").lastName("Smith").jobPosition(JobPosition.MANAGER).officeId(1L).email("employee@mail.com").password("123").build());
+        employees.add(EmployeeRequest.builder().firstName("Bob").lastName("Budowniczy").jobPosition(JobPosition.MANAGER).officeId(2L).email("test2@mail.com").password("123").build());
+        employees.add(EmployeeRequest.builder().firstName("Ania").lastName("Z Zielonego Wzgorza").jobPosition(JobPosition.SELLER).officeId(1L).email("test3@mail.com").password("123").build());
         return employees;
     }
 

@@ -154,4 +154,10 @@ public class DBOperations {
         cleanCarTable();
         priceListRepository.deleteAll();
     }
+
+    public void cleanEmployeeTable() {
+        cleanCarReturnTable();
+        cleanPickUpTable();
+        employeeRepository.deleteAll();
+    }
 }

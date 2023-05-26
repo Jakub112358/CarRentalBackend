@@ -2,8 +2,8 @@ package com.carrentalbackend.features.priceLists;
 
 import com.carrentalbackend.BaseIT;
 import com.carrentalbackend.features.priceLists.rest.PriceListRequest;
+import com.carrentalbackend.features.priceLists.rest.PriceListResponse;
 import com.carrentalbackend.model.entity.Car;
-import com.carrentalbackend.model.entity.PriceList;
 import com.carrentalbackend.util.factories.PriceListFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.hamcrest.Matchers;
@@ -146,7 +146,7 @@ public class PriceListControllerIT extends BaseIT {
 
         //and
         var responseJson = result.andReturn().getResponse().getContentAsString();
-        Set<PriceList> priceLists = objectMapper.readValue(responseJson, new TypeReference<>() {
+        Set<PriceListResponse> priceLists = objectMapper.readValue(responseJson, new TypeReference<>() {
         });
 
         assertEquals(1, priceLists.size());

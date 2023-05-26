@@ -30,7 +30,7 @@ public class EmployeeMapper implements CrudMapper<Employee, EmployeeRequest> {
     @Override
     public Employee toNewEntity(EmployeeRequest request) {
 
-        Office office = findOfficeById(request.getBranchOfficeId());
+        Office office = findOfficeById(request.getOfficeId());
         return Employee.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
@@ -52,6 +52,7 @@ public class EmployeeMapper implements CrudMapper<Employee, EmployeeRequest> {
                 .lastName(entity.getLastName())
                 .jobPosition(entity.getJobPosition())
                 .officeId(officeId)
+                .email(entity.getEmail())
                 .build();
     }
 

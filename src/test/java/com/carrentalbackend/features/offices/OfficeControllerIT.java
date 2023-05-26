@@ -2,7 +2,11 @@ package com.carrentalbackend.features.offices;
 
 import com.carrentalbackend.BaseIT;
 import com.carrentalbackend.features.offices.rest.OfficeRequest;
-import com.carrentalbackend.model.entity.*;
+import com.carrentalbackend.features.offices.rest.OfficeResponse;
+import com.carrentalbackend.model.entity.Address;
+import com.carrentalbackend.model.entity.Car;
+import com.carrentalbackend.model.entity.Employee;
+import com.carrentalbackend.model.entity.Reservation;
 import com.carrentalbackend.util.factories.AddressFactory;
 import com.carrentalbackend.util.factories.OfficeFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -147,7 +151,7 @@ public class OfficeControllerIT extends BaseIT {
 
         //and
         var responseJson = result.andReturn().getResponse().getContentAsString();
-        Set<Office> offices = objectMapper.readValue(responseJson, new TypeReference<>() {
+        Set<OfficeResponse> offices = objectMapper.readValue(responseJson, new TypeReference<>() {
         });
 
         assertEquals(1, offices.size());
@@ -271,7 +275,6 @@ public class OfficeControllerIT extends BaseIT {
         //and
         assertFalse(officeRepository.existsById(office.getId()));
         assertOfficeFieldsNull(employee, car, reservation);
-
 
 
     }

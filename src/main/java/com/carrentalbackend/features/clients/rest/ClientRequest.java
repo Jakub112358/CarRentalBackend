@@ -1,6 +1,6 @@
 package com.carrentalbackend.features.clients.rest;
 
-import com.carrentalbackend.features.clients.validation.UniqueEmail;
+import com.carrentalbackend.validation.uniqueEmail.UniqueEmail;
 import com.carrentalbackend.features.generics.Request;
 import com.carrentalbackend.model.entity.Address;
 import jakarta.validation.Valid;

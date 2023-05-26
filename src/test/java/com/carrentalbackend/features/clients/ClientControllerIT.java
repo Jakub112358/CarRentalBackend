@@ -2,8 +2,8 @@ package com.carrentalbackend.features.clients;
 
 import com.carrentalbackend.BaseIT;
 import com.carrentalbackend.features.clients.rest.ClientRequest;
+import com.carrentalbackend.features.clients.rest.ClientResponse;
 import com.carrentalbackend.model.entity.Address;
-import com.carrentalbackend.model.entity.Client;
 import com.carrentalbackend.util.factories.AddressFactory;
 import com.carrentalbackend.util.factories.ClientFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -148,7 +148,7 @@ public class ClientControllerIT extends BaseIT {
 
         //and
         var responseJson = result.andReturn().getResponse().getContentAsString();
-        Set<Client> clients = objectMapper.readValue(responseJson, new TypeReference<>() {
+        Set<ClientResponse> clients = objectMapper.readValue(responseJson, new TypeReference<>() {
         });
         assertEquals(1, clients.size());
     }
