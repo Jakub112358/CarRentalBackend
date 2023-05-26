@@ -13,11 +13,11 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import static com.carrentalbackend.config.ApiConstraints.CAR;
+import static com.carrentalbackend.config.ApiConstraints.ORIGIN;
 
 @RestController
 @RequestMapping(CAR)
-//@CrossOrigin(origins = ORIGIN)
-@CrossOrigin
+@CrossOrigin(origins = ORIGIN)
 public class CarController extends CrudController<CarRequest, CarRequest> {
     private final CarService service;
 

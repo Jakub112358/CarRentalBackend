@@ -8,8 +8,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ExistingOfficeIdValidator implements ConstraintValidator<ExistingOfficeId, Long> {
     private final OfficeRepository officeRepository;
+
     @Override
     public boolean isValid(Long officeId, ConstraintValidatorContext context) {
+        if (officeId == null)
+            return false;
         return officeRepository.existsById(officeId);
     }
 }

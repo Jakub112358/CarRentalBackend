@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = ExistingOfficeIdValidator.class)
 @Documented
 public @interface ExistingOfficeId {
-    String message() default "Office with given email doesn't exist in database";
+    String message() default "Office with given id doesn't exist in database";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default { };
 }

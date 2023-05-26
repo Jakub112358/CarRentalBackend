@@ -5,19 +5,13 @@ import com.carrentalbackend.features.cars.rest.CarMapper;
 import com.carrentalbackend.features.cars.rest.CarRequest;
 import com.carrentalbackend.features.cars.rest.CarUpdateTool;
 import com.carrentalbackend.features.generics.CrudService;
-import com.carrentalbackend.model.entity.Car;
-import com.carrentalbackend.model.entity.Office;
-import com.carrentalbackend.model.entity.PriceList;
-import com.carrentalbackend.model.entity.Reservation;
+import com.carrentalbackend.model.entity.*;
 import com.carrentalbackend.model.enumeration.CarStatus;
 import com.carrentalbackend.model.enumeration.ReservationStatus;
 import com.carrentalbackend.features.renting.CarSearchByCriteriaRequest;
 import com.carrentalbackend.features.renting.CarRentResponse;
 import com.carrentalbackend.features.generics.Response;
-import com.carrentalbackend.repository.CarRepository;
-import com.carrentalbackend.repository.CompanyRepository;
-import com.carrentalbackend.repository.PriceListRepository;
-import com.carrentalbackend.repository.ReservationRepository;
+import com.carrentalbackend.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -33,6 +27,8 @@ public class CarService extends CrudService<Car, CarRequest, CarRequest> {
     private final ReservationRepository reservationRepository;
     private final PriceListRepository priceListRepository;
     private final CompanyRepository companyRepository;
+    private final PickUpRepository pickUpRepository;
+    private final CarReturnRepository carReturnRepository;
     private final CarMapper carMapper;
 
     public CarService(CarRepository carRepository,
@@ -40,13 +36,17 @@ public class CarService extends CrudService<Car, CarRequest, CarRequest> {
                       ReservationRepository reservationRepository,
                       PriceListRepository priceListRepository,
                       CompanyRepository companyRepository,
-                      CarUpdateTool carUpdateTool) {
+                      CarUpdateTool carUpdateTool,
+                      PickUpRepository pickUpRepository,
+                      CarReturnRepository carReturnRepository) {
         super(carRepository, carMapper, carUpdateTool);
         this.carRepository = carRepository;
         this.carMapper = carMapper;
         this.reservationRepository = reservationRepository;
         this.priceListRepository = priceListRepository;
         this.companyRepository = companyRepository;
+        this.pickUpRepository = pickUpRepository;
+        this.carReturnRepository = carReturnRepository;
     }
 
     public Set<Response> findAllByOfficeId(Long officeId) {
@@ -56,9 +56,30 @@ public class CarService extends CrudService<Car, CarRequest, CarRequest> {
                 .collect(Collectors.toSet());
     }
 
-    //TODO implement method
     @Override
     public void deleteById(Long id) {
+        throwIfCarDoesNotExist(id);
+
+        nullCarInPickUps(id);
+        nullCarInCarReturns(id);
+        nullCarInReservations(id);
+
+        carRepository.deleteById(id);
+    }
+
+    private void nullCarInReservations(Long id) {
+        List<Reservation> reservations = reservationRepository.findAllByCar_id(id);
+        reservations.forEach(r -> r.setCar(null));
+    }
+
+    private void nullCarInCarReturns(Long id) {
+        List<CarReturn> carReturns = carReturnRepository.findAllByCar_id(id);
+        carReturns.forEach(cr -> cr.setCar(null));
+    }
+
+    private void nullCarInPickUps(Long id) {
+        List<PickUp> pickups = pickUpRepository.findAllByCar_id(id);
+        pickups.forEach(pu -> pu.setCar(null));
     }
 
     public Set<CarRentResponse> findByAvailableInDatesAndCriteria(LocalDate dateFrom, LocalDate dateTo, Long pickUpOfficeId, Long returnOfficeId, CarSearchByCriteriaRequest criteria) {
@@ -140,5 +161,10 @@ public class CarService extends CrudService<Car, CarRequest, CarRequest> {
 
     private List<Reservation> getNotRealizedReservations(Car car, LocalDate dateTo) {
         return reservationRepository.findAllByDateFromBeforeAndCar_IdAndStatusNot(dateTo, car.getId(), ReservationStatus.REALIZED);
+    }
+
+    private void throwIfCarDoesNotExist(Long id) {
+        if(!carRepository.existsById(id))
+            throw new ResourceNotFoundException(id);
     }
 }

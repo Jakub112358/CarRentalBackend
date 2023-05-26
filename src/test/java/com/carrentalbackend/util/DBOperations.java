@@ -184,5 +184,9 @@ public class DBOperations {
     }
 
 
-
+    public void cleanCarsTable() {
+        cleanCarReturnTable();
+        cleanPickUpTable();
+        carRepository.deleteAll();
+    }
 }
