@@ -12,7 +12,7 @@ import static com.carrentalbackend.config.ApiConstraints.PRICE_LIST;
 @RestController
 @RequestMapping(PRICE_LIST)
 @CrossOrigin(origins = ORIGIN)
-public class PriceListController extends CrudController<PriceListRequest> {
+public class PriceListController extends CrudController<PriceListRequest, PriceListRequest> {
     public PriceListController(PriceListService service) {
         super(service);
     }

@@ -2,11 +2,12 @@ package com.carrentalbackend.features.clients;
 
 import com.carrentalbackend.exception.ForbiddenResourceException;
 import com.carrentalbackend.exception.ResourceNotFoundException;
+import com.carrentalbackend.features.clients.rest.ClientCreateRequest;
 import com.carrentalbackend.features.clients.rest.ClientMapper;
-import com.carrentalbackend.features.clients.rest.ClientRequest;
+import com.carrentalbackend.features.clients.rest.ClientUpdateRequest;
 import com.carrentalbackend.features.clients.rest.ClientUpdateTool;
-import com.carrentalbackend.model.entity.Client;
 import com.carrentalbackend.features.generics.CrudService;
+import com.carrentalbackend.model.entity.Client;
 import com.carrentalbackend.model.entity.Reservation;
 import com.carrentalbackend.repository.ClientRepository;
 import com.carrentalbackend.repository.ReservationRepository;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ClientService extends CrudService<Client, ClientRequest> {
+public class ClientService extends CrudService<Client, ClientCreateRequest, ClientUpdateRequest> {
     private final ClientRepository clientRepository;
     private final ReservationRepository reservationRepository;
 

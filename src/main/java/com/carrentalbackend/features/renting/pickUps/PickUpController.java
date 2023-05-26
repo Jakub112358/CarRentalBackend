@@ -14,7 +14,7 @@ import static com.carrentalbackend.config.ApiConstraints.PICK_UP;
 @RestController
 @CrossOrigin(origins = ORIGIN)
 @RequestMapping(PICK_UP)
-public class PickUpController extends CrudController<PickUpRequest> {
+public class PickUpController extends CrudController<PickUpRequest, PickUpRequest> {
     private final PickUpService pickUpService;
 
     public PickUpController(PickUpService service) {

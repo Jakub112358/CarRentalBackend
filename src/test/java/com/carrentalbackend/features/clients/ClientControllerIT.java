@@ -1,7 +1,7 @@
 package com.carrentalbackend.features.clients;
 
 import com.carrentalbackend.BaseIT;
-import com.carrentalbackend.features.clients.rest.ClientRequest;
+import com.carrentalbackend.features.clients.rest.ClientCreateRequest;
 import com.carrentalbackend.features.clients.rest.ClientResponse;
 import com.carrentalbackend.model.entity.Address;
 import com.carrentalbackend.util.factories.AddressFactory;
@@ -35,7 +35,7 @@ public class ClientControllerIT extends BaseIT {
     @Test
     public void whenSaveClient_thenResponseCreated() throws Exception {
         //given
-        ClientRequest clientRequest = ClientFactory.getSimpleClientRequestBuilder().build();
+        ClientCreateRequest clientRequest = ClientFactory.getSimpleClientRequestBuilder().build();
         String clientRequestJson = toJsonString(clientRequest);
 
         //when
@@ -79,7 +79,7 @@ public class ClientControllerIT extends BaseIT {
 
     @ParameterizedTest
     @MethodSource("clientRequestIncorrectParameters")
-    public void whenSaveClient_thenValidationFailed(ClientRequest request) throws Exception {
+    public void whenSaveClient_thenValidationFailed(ClientCreateRequest request) throws Exception {
         //given
         String clientRequestJson = toJsonString(request);
 
@@ -192,7 +192,7 @@ public class ClientControllerIT extends BaseIT {
     @ParameterizedTest
     @MethodSource("clientRequestIncorrectParameters")
     @WithMockUser(roles = "CLIENT", username = ClientFactory.simpleEmail)
-    public void whenClientUpdate_thenValidationFailed(ClientRequest updateRequest) throws Exception {
+    public void whenClientUpdate_thenValidationFailed(ClientCreateRequest updateRequest) throws Exception {
         //given
         var client = dbOperations.addSimpleClientToDB();
         var path = CLIENT + "/" + client.getId();
@@ -222,6 +222,27 @@ public class ClientControllerIT extends BaseIT {
 
         //then
         result.andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    public void whenUpdate_thenEmailAlreadyExists() throws Exception {
+        //given
+        var user = dbOperations.addSimpleUserToDB();
+        var client = dbOperations.addSimpleClientToDB();
+        var path = CLIENT + "/" + client.getId();
+
+        //and
+        var changedEmail = user.getEmail();
+        var updateRequest = ClientFactory.getSimpleClientRequestBuilder()
+                .email(changedEmail)
+                .build();
+
+        //when
+        var result = requestTool.sendPatchRequest(path, toJsonString(updateRequest));
+
+        //then
+        result.andExpect(status().isConflict());
     }
 
     @Test

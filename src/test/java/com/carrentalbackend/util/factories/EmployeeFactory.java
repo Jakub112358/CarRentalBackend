@@ -1,13 +1,13 @@
 package com.carrentalbackend.util.factories;
 
-import com.carrentalbackend.features.employees.rest.EmployeeRequest;
+import com.carrentalbackend.features.employees.rest.EmployeeCreateRequest;
 import com.carrentalbackend.model.entity.Employee;
 import com.carrentalbackend.model.enumeration.JobPosition;
 import com.carrentalbackend.model.enumeration.Role;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static com.carrentalbackend.model.entity.Employee.EmployeeBuilder;
-import static com.carrentalbackend.features.employees.rest.EmployeeRequest.EmployeeRequestBuilder;
+import static com.carrentalbackend.features.employees.rest.EmployeeCreateRequest.EmployeeCreateRequestBuilder;
 
 public class EmployeeFactory {
     private final static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -30,8 +30,8 @@ public class EmployeeFactory {
                 .office(OfficeFactory.getSimpleOfficeBuilder().build());
     }
 
-    public static EmployeeRequestBuilder getSimpleEmployeeRequestBuilder(Long officeId) {
-        return EmployeeRequest.builder()
+    public static EmployeeCreateRequestBuilder getSimpleEmployeeRequestBuilder(Long officeId) {
+        return EmployeeCreateRequest.builder()
                 .firstName(simpleEmployeeFirstName)
                 .lastName(simpleEmployeeLastName)
                 .jobPosition(simpleEmployeeJobPosition)

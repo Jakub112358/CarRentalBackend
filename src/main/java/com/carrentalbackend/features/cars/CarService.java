@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
-public class CarService extends CrudService<Car, CarRequest> {
+public class CarService extends CrudService<Car, CarRequest, CarRequest> {
     private final CarRepository carRepository;
     private final ReservationRepository reservationRepository;
     private final PriceListRepository priceListRepository;

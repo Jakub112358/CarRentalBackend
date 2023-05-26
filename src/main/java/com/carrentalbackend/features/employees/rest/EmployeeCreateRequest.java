@@ -1,11 +1,13 @@
 package com.carrentalbackend.features.employees.rest;
 
+import com.carrentalbackend.features.generics.CreateRequest;
+import com.carrentalbackend.model.enumeration.JobPosition;
 import com.carrentalbackend.validation.existingOfficeId.ExistingOfficeId;
 import com.carrentalbackend.validation.uniqueEmail.UniqueEmail;
-import com.carrentalbackend.features.generics.Request;
-import com.carrentalbackend.features.generics.UpdateRequest;
-import com.carrentalbackend.model.enumeration.JobPosition;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Getter
@@ -13,7 +15,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EmployeeRequest implements Request, UpdateRequest {
+public class EmployeeCreateRequest implements CreateRequest {
     @NotBlank
     private String firstName;
     @NotBlank

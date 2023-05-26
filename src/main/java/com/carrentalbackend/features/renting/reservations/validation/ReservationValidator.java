@@ -1,24 +1,24 @@
 package com.carrentalbackend.features.renting.reservations.validation;
 
 import com.carrentalbackend.exception.InvalidReservationDataException;
-import com.carrentalbackend.features.generics.Request;
+import com.carrentalbackend.features.generics.CreateRequest;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ReservationValidator {
-    public void validate(Request request) {
+    public void validate(CreateRequest request) {
         validatePrice(request);
         validateDates(request);
     }
 
     //TODO: implement
-    private void validateDates(Request request) {
+    private void validateDates(CreateRequest request) {
         if (false)
             throw new InvalidReservationDataException("incorrect reservation dates");
     }
 
     //TODO: implement
-    private void validatePrice(Request request) {
+    private void validatePrice(CreateRequest request) {
         if (false)
             throw new InvalidReservationDataException("incorrect reservation price");
     }

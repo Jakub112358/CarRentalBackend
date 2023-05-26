@@ -1,11 +1,11 @@
-package com.carrentalbackend.features.companies.rest;
+package com.carrentalbackend.features.clients.rest;
 
-import com.carrentalbackend.features.generics.CreateRequest;
 import com.carrentalbackend.features.generics.UpdateRequest;
 import com.carrentalbackend.model.entity.Address;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -14,15 +14,16 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CompanyRequest implements CreateRequest, UpdateRequest {
+public class ClientUpdateRequest implements UpdateRequest {
     @NotBlank
-    private String name;
+    private String firstName;
     @NotBlank
-    private String domain;
-    private byte[] logotype;
+    private String lastName;
+    @Email
+    private String email;
     @Valid
     @NotNull
     private Address address;
-    @Min(0)
-    private double differentOfficesExtraCharge;
+    @NotEmpty
+    private String password;
 }

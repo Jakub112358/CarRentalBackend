@@ -18,7 +18,7 @@ import static com.carrentalbackend.config.ApiConstraints.CAR;
 @RequestMapping(CAR)
 //@CrossOrigin(origins = ORIGIN)
 @CrossOrigin
-public class CarController extends CrudController<CarRequest> {
+public class CarController extends CrudController<CarRequest, CarRequest> {
     private final CarService service;
 
     public CarController(CarService service) {

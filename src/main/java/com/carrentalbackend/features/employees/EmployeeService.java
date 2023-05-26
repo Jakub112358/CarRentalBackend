@@ -1,7 +1,8 @@
 package com.carrentalbackend.features.employees;
 
 import com.carrentalbackend.features.employees.rest.EmployeeMapper;
-import com.carrentalbackend.features.employees.rest.EmployeeRequest;
+import com.carrentalbackend.features.employees.rest.EmployeeCreateRequest;
+import com.carrentalbackend.features.employees.rest.EmployeeUpdateRequest;
 import com.carrentalbackend.features.employees.rest.EmployeeUpdateTool;
 import com.carrentalbackend.features.generics.CrudService;
 import com.carrentalbackend.model.entity.Employee;
@@ -13,7 +14,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class EmployeeService extends CrudService<Employee, EmployeeRequest> {
+public class EmployeeService extends CrudService<Employee, EmployeeCreateRequest, EmployeeUpdateRequest> {
     private final EmployeeRepository repository;
 
 

@@ -4,11 +4,11 @@ package com.carrentalbackend.devUtil;
 import com.carrentalbackend.features.cars.CarService;
 import com.carrentalbackend.features.cars.rest.CarRequest;
 import com.carrentalbackend.features.clients.ClientService;
-import com.carrentalbackend.features.clients.rest.ClientRequest;
+import com.carrentalbackend.features.clients.rest.ClientCreateRequest;
 import com.carrentalbackend.features.companies.rest.CompanyMapper;
 import com.carrentalbackend.features.companies.rest.CompanyRequest;
 import com.carrentalbackend.features.employees.EmployeeService;
-import com.carrentalbackend.features.employees.rest.EmployeeRequest;
+import com.carrentalbackend.features.employees.rest.EmployeeCreateRequest;
 import com.carrentalbackend.features.offices.OfficeService;
 import com.carrentalbackend.features.offices.rest.OfficeRequest;
 import com.carrentalbackend.features.priceLists.PriceListService;
@@ -128,20 +128,20 @@ public class DbPopulator {
     }
 
     private void addClients() {
-        List<ClientRequest> clients = createClientList();
+        List<ClientCreateRequest> clients = createClientList();
         clients.forEach(clientService::save);
     }
 
-    private List<ClientRequest> createClientList() {
-        List<ClientRequest> result = new ArrayList<>();
-        result.add(new ClientRequest("Jaś", "Fasola", "client@mail.com", getAddress(), "123"));
-        result.add(new ClientRequest("Johnny", "Bravo", "johny@buziaczek.pl", getAddress(), "123"));
-        result.add(new ClientRequest("Bruce", "Dickinson", "bruce@im.com", getAddress(), "123"));
+    private List<ClientCreateRequest> createClientList() {
+        List<ClientCreateRequest> result = new ArrayList<>();
+        result.add(new ClientCreateRequest("Jaś", "Fasola", "client@mail.com", getAddress(), "123"));
+        result.add(new ClientCreateRequest("Johnny", "Bravo", "johny@buziaczek.pl", getAddress(), "123"));
+        result.add(new ClientCreateRequest("Bruce", "Dickinson", "bruce@im.com", getAddress(), "123"));
         return result;
     }
 
     private void addEmployees() {
-        List<EmployeeRequest> employees = createEmployeeList();
+        List<EmployeeCreateRequest> employees = createEmployeeList();
         employees.forEach(employeeService::save);
     }
 
@@ -151,11 +151,11 @@ public class DbPopulator {
         cars.forEach(carService::save);
     }
 
-    private List<EmployeeRequest> createEmployeeList() {
-        List<EmployeeRequest> employees = new ArrayList<>();
-        employees.add(EmployeeRequest.builder().firstName("John").lastName("Smith").jobPosition(JobPosition.MANAGER).officeId(1L).email("employee@mail.com").password("123").build());
-        employees.add(EmployeeRequest.builder().firstName("Bob").lastName("Budowniczy").jobPosition(JobPosition.MANAGER).officeId(2L).email("test2@mail.com").password("123").build());
-        employees.add(EmployeeRequest.builder().firstName("Ania").lastName("Z Zielonego Wzgorza").jobPosition(JobPosition.SELLER).officeId(1L).email("test3@mail.com").password("123").build());
+    private List<EmployeeCreateRequest> createEmployeeList() {
+        List<EmployeeCreateRequest> employees = new ArrayList<>();
+        employees.add(EmployeeCreateRequest.builder().firstName("John").lastName("Smith").jobPosition(JobPosition.MANAGER).officeId(1L).email("employee@mail.com").password("123").build());
+        employees.add(EmployeeCreateRequest.builder().firstName("Bob").lastName("Budowniczy").jobPosition(JobPosition.MANAGER).officeId(2L).email("test2@mail.com").password("123").build());
+        employees.add(EmployeeCreateRequest.builder().firstName("Ania").lastName("Z Zielonego Wzgorza").jobPosition(JobPosition.SELLER).officeId(1L).email("test3@mail.com").password("123").build());
         return employees;
     }
 

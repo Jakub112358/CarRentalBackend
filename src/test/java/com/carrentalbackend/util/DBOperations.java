@@ -95,6 +95,17 @@ public class DBOperations {
         return reservation;
     }
 
+    public PickUp addSimplePickUpToDB(Employee employee, Reservation reservation, Car car, Office office) {
+        var pickUp = PickUpFactory.getSimplePickUpBuilder()
+                .employee(employee)
+                .reservation(reservation)
+                .car(car)
+                .office(office)
+                .build();
+        pickUpRepository.save(pickUp);
+        return pickUp;
+    }
+
     public void cleanClientTable() {
         cleanReservationTable();
         clientRepository.deleteAll();
@@ -160,4 +171,6 @@ public class DBOperations {
         cleanPickUpTable();
         employeeRepository.deleteAll();
     }
+
+
 }

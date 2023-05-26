@@ -1,5 +1,6 @@
 package com.carrentalbackend.config;
 
+import com.carrentalbackend.exception.ExistingEmailException;
 import com.carrentalbackend.exception.ForbiddenResourceException;
 import com.carrentalbackend.exception.MissingTokenClaimException;
 import com.carrentalbackend.exception.ResourceNotFoundException;
@@ -35,5 +36,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<String> handleExpiredJwtException (Exception e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(ExistingEmailException.class)
+    public ResponseEntity<String> handleExistingEmailException (Exception e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
     }
 }

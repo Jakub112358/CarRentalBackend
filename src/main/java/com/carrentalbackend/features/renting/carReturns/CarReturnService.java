@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class CarReturnService extends CrudService<CarReturn, CarReturnRequest> {
+public class CarReturnService extends CrudService<CarReturn, CarReturnRequest, CarReturnRequest> {
     private final CarReturnRepository carReturnRepository;
     private final FinancesRepository financesRepository;
     private final ReservationRepository reservationRepository;

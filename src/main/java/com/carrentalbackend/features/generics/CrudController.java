@@ -12,9 +12,9 @@ import java.util.Set;
 
 @RequiredArgsConstructor
 
-public abstract class CrudController<T extends Request> {
+public abstract class CrudController<T extends CreateRequest, U extends UpdateRequest> {
 
-    protected final CrudService<?, T> service;
+    protected final CrudService<?, T, U> service;
 
     @PostMapping
     public ResponseEntity<Response> save(@Valid @RequestBody T createRequest) {
@@ -34,7 +34,7 @@ public abstract class CrudController<T extends Request> {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Response> update(@PathVariable Long id, @Valid @RequestBody T updateRequest, Authentication auth) {
+    public ResponseEntity<Response> update(@PathVariable Long id, @Valid @RequestBody U updateRequest, Authentication auth) {
         return ResponseEntity.ok(service.update(id, updateRequest));
     }
 

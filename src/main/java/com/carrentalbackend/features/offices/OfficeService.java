@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class OfficeService extends CrudService<Office, OfficeRequest> {
+public class OfficeService extends CrudService<Office, OfficeRequest, OfficeRequest> {
     private final OfficeRepository officeRepository;
     private final EmployeeRepository employeeRepository;
     private final CarRepository carRepository;

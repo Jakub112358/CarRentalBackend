@@ -1,6 +1,7 @@
 package com.carrentalbackend.features.clients;
 
-import com.carrentalbackend.features.clients.rest.ClientRequest;
+import com.carrentalbackend.features.clients.rest.ClientCreateRequest;
+import com.carrentalbackend.features.clients.rest.ClientUpdateRequest;
 import com.carrentalbackend.features.generics.CrudController;
 import com.carrentalbackend.features.generics.Response;
 import jakarta.validation.Valid;
@@ -14,7 +15,7 @@ import static com.carrentalbackend.config.ApiConstraints.ORIGIN;
 @RestController
 @RequestMapping(CLIENT)
 @CrossOrigin(origins = ORIGIN)
-public class ClientController extends CrudController<ClientRequest> {
+public class ClientController extends CrudController<ClientCreateRequest, ClientUpdateRequest> {
     private final ClientService clientService;
 
     public ClientController(ClientService service) {
@@ -31,7 +32,7 @@ public class ClientController extends CrudController<ClientRequest> {
 
     @Override
     @PatchMapping("/{id}")
-    public ResponseEntity<Response> update(@PathVariable Long id, @Valid @RequestBody ClientRequest updateRequest, Authentication auth) {
+    public ResponseEntity<Response> update(@PathVariable Long id, @Valid @RequestBody ClientUpdateRequest updateRequest, Authentication auth) {
         clientService.throwIfNotPermitted(id, auth);
         return super.update(id, updateRequest, auth);
     }
