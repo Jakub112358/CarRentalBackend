@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface CarRepository extends JpaRepository<Car, Long> {
@@ -14,7 +15,7 @@ public interface CarRepository extends JpaRepository<Car, Long> {
 
     List<Car> findAllByCurrentOfficeIsNull();
 
-    List<Car> findAllByStatusIsNot(CarStatus carStatus);
+    Set<Car> findAllByStatusIsNot(CarStatus carStatus);
 
     List<Car> findAllByPriceListId(Long id);
 

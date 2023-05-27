@@ -2,7 +2,7 @@ package com.carrentalbackend.features.cars.rest;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
 import com.carrentalbackend.features.generics.CrudMapper;
-import com.carrentalbackend.features.renting.CarRentResponse;
+import com.carrentalbackend.features.renting.carSearch.CarSearchResponse;
 import com.carrentalbackend.model.entity.Car;
 import com.carrentalbackend.model.entity.Office;
 import com.carrentalbackend.model.entity.PriceList;
@@ -56,11 +56,11 @@ public class CarMapper implements CrudMapper<Car, CarRequest> {
                 .build();
     }
 
-    public CarRentResponse toCarRentResponse(Car entity) {
+    public CarSearchResponse toCarRentResponse(Car entity) {
         Long officeId = entity.getCurrentOffice() != null ? entity.getCurrentOffice().getId() : null;
         Long priceListId = entity.getPriceList() != null ? entity.getPriceList().getId() : null;
-        return CarRentResponse.builder()
-                .id(entity.getId())
+        return CarSearchResponse.builder()
+                .carId(entity.getId())
                 .make(entity.getMake())
                 .model(entity.getModel())
                 .mileage(entity.getMileage())

@@ -14,5 +14,6 @@ public class ApiConstraints {
     public final static String PICK_UP = BASE_URL + "/pick-ups";
     public final static String CAR_RETURN = BASE_URL + "/car-returns";
     public final static String AUTHENTICATION = BASE_URL + "/auth";
+    public final static String CAR_SEARCH = BASE_URL + "/car-search";
 
 }

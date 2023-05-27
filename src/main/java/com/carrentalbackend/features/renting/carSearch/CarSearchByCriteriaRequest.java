@@ -1,4 +1,4 @@
-package com.carrentalbackend.features.renting;
+package com.carrentalbackend.features.renting.carSearch;
 
 import com.carrentalbackend.model.enumeration.Color;
 import lombok.*;

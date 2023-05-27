@@ -1,4 +1,4 @@
-package com.carrentalbackend.features.renting;
+package com.carrentalbackend.features.renting.carSearch;
 
 import com.carrentalbackend.model.enumeration.CarBodyType;
 import com.carrentalbackend.model.enumeration.CarStatus;
@@ -11,9 +11,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CarRentResponse {
+public class CarSearchResponse {
 
-    private long id;
+    private long carId;
     private String make;
     private String model;
     private Integer mileage;
