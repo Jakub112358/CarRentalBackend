@@ -14,11 +14,11 @@ import lombok.*;
 public class PriceListRequest implements CreateRequest, UpdateRequest {
     @NotNull
     @Min(0)
-    private Double pricePerDay;
+    private Double shortTermPrice;
     @NotNull
     @Min(0)
-    private Double pricePerWeek;
+    private Double mediumTermPrice;
     @NotNull
     @Min(0)
-    private Double pricePerMonth;
+    private Double longTermPrice;
 }

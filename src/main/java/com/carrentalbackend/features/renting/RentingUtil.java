@@ -2,6 +2,7 @@ package com.carrentalbackend.features.renting;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
 import com.carrentalbackend.features.renting.carSearch.CarSearchResponse;
+import com.carrentalbackend.model.entity.Company;
 import com.carrentalbackend.model.entity.PriceList;
 import com.carrentalbackend.repository.CompanyRepository;
 import com.carrentalbackend.repository.PriceListRepository;
@@ -20,7 +21,7 @@ public class RentingUtil {
     private final CompanyRepository companyRepository;
     private final PriceListRepository priceListRepository;
     public int calculateRentalLength(LocalDate dateFrom, LocalDate dateTo) {
-        rentingValidation.validateRentingDates(dateFrom, dateTo);
+        rentingValidation.throwIfInvalidRentingDatesOrder(dateFrom, dateTo);
         return (int) DAYS.between(dateFrom, dateTo) + 1;
     }
 
@@ -44,16 +45,21 @@ public class RentingUtil {
     }
 
     private double getCurrentPrice(int rentalLength, PriceList priceList) {
-        if (rentalLength < 7)
-            return priceList.getPricePerDay();
-        else if (rentalLength < 30)
-            return priceList.getPricePerWeek();
+        Company company = companyRepository.findFirstByIdIsNotNull().orElseThrow(()-> new ResourceNotFoundException(1L));
+        int mediumTermMinDays = company.getMediumTermRentMinDays();
+        int longTermMinDays = company.getLongTermRentMinDays();
+
+        if (rentalLength < mediumTermMinDays)
+            return priceList.getShortTermPrice();
+        else if (rentalLength < longTermMinDays)
+            return priceList.getMediumTermPrice();
         else
-            return priceList.getPricePerMonth();
+            return priceList.getLongTermPrice();
     }
 
     private PriceList getPriceList(CarSearchResponse rentDto) {
-        return priceListRepository.findById(rentDto.getPriceListId())
-                .orElseThrow(() -> new ResourceNotFoundException(rentDto.getPriceListId()));
+        Long priceListId = rentDto.getCarResponse().getPriceListId();
+        return priceListRepository.findById(priceListId)
+                .orElseThrow(() -> new ResourceNotFoundException(priceListId));
     }
 }

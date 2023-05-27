@@ -113,7 +113,9 @@ public class CompanyControllerIT extends BaseIT {
                 Arguments.of(CompanyFactory.getSimpleCompanyRequestBuilder().domain("").build()),
                 Arguments.of(CompanyFactory.getSimpleCompanyRequestBuilder().address(null).build()),
                 Arguments.of(CompanyFactory.getSimpleCompanyRequestBuilder().address(invalidAddress).build()),
-                Arguments.of(CompanyFactory.getSimpleCompanyRequestBuilder().differentOfficesExtraCharge(-0.1).build())
+                Arguments.of(CompanyFactory.getSimpleCompanyRequestBuilder().differentOfficesExtraCharge(-0.1).build()),
+                Arguments.of(CompanyFactory.getSimpleCompanyRequestBuilder().mediumTermRentMinDays(0).build()),
+                Arguments.of(CompanyFactory.getSimpleCompanyRequestBuilder().longTermRentMinDays(-1).build())
         );
 
     }

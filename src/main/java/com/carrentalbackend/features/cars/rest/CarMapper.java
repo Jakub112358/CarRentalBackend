@@ -57,20 +57,8 @@ public class CarMapper implements CrudMapper<Car, CarRequest> {
     }
 
     public CarSearchResponse toCarRentResponse(Car entity) {
-        Long officeId = entity.getCurrentOffice() != null ? entity.getCurrentOffice().getId() : null;
-        Long priceListId = entity.getPriceList() != null ? entity.getPriceList().getId() : null;
         return CarSearchResponse.builder()
-                .carId(entity.getId())
-                .make(entity.getMake())
-                .model(entity.getModel())
-                .mileage(entity.getMileage())
-                .minRentalTime(entity.getMinRentalTime())
-                .yearOfManufacture(entity.getYearOfManufacture())
-                .bodyType(entity.getBodyType())
-                .color(entity.getColor())
-                .status(entity.getStatus())
-                .priceListId(priceListId)
-                .currentBranchOfficeId(officeId)
+                .carResponse(toResponse(entity))
                 .build();
     }
 

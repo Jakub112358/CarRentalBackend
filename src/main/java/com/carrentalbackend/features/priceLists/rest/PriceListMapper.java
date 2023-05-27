@@ -14,9 +14,9 @@ public class PriceListMapper implements CrudMapper<PriceList, PriceListRequest> 
     public PriceList toNewEntity(PriceListRequest request) {
 
         return PriceList.builder()
-                .pricePerDay(request.getPricePerDay())
-                .pricePerWeek(request.getPricePerWeek())
-                .pricePerMonth(request.getPricePerMonth())
+                .shortTermPrice(request.getShortTermPrice())
+                .mediumTermPrice(request.getMediumTermPrice())
+                .longTermPrice(request.getLongTermPrice())
                 .cars(new ArrayList<>())
                 .build();
     }
@@ -25,9 +25,9 @@ public class PriceListMapper implements CrudMapper<PriceList, PriceListRequest> 
     public Response toResponse(PriceList entity) {
         return PriceListResponse.builder()
                 .id(entity.getId())
-                .pricePerDay(entity.getPricePerDay())
-                .pricePerWeek(entity.getPricePerWeek())
-                .pricePerMonth(entity.getPricePerMonth())
+                .shortTermPrice(entity.getShortTermPrice())
+                .mediumTermPrice(entity.getMediumTermPrice())
+                .longTermPrice(entity.getLongTermPrice())
                 .build();
     }
 

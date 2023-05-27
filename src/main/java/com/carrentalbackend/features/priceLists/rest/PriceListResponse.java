@@ -10,7 +10,7 @@ import lombok.*;
 @Builder
 public class PriceListResponse implements Response {
     private long id;
-    private Double pricePerDay;
-    private Double pricePerWeek;
-    private Double pricePerMonth;
+    private Double shortTermPrice;
+    private Double mediumTermPrice;
+    private Double longTermPrice;
 }

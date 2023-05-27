@@ -1,6 +1,8 @@
 package com.carrentalbackend;
 
 import com.carrentalbackend.config.security.JwtService;
+import com.carrentalbackend.features.cars.rest.CarMapper;
+import com.carrentalbackend.features.renting.RentingUtil;
 import com.carrentalbackend.repository.*;
 import com.carrentalbackend.util.DBOperations;
 import com.carrentalbackend.util.RequestTool;
@@ -47,6 +49,10 @@ public class BaseIT {
     protected DBOperations dbOperations;
     @Autowired
     protected RequestTool requestTool;
+    @Autowired
+    protected RentingUtil rentingUtil;
+    @Autowired
+    protected CarMapper carMapper;
 
     @SneakyThrows
     protected <T> String toJsonString(T obj) {
