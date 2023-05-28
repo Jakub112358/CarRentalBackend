@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 import static com.carrentalbackend.config.ApiConstraints.CAR_SEARCH;
@@ -28,7 +29,7 @@ public class CarSearchController {
                                                                                     @RequestParam @NotNull @FutureOrPresent @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateTo,
                                                                                     @RequestParam @NotNull @ExistingOfficeId Long pickUpOfficeId,
                                                                                     @RequestParam @NotNull @ExistingOfficeId Long returnOfficeId) {
-        Set<Car> cars = service.findByCriteria(criteria);
+        List<Car> cars = criteria == null ? service.findNotUnavailable() : service.findByCriteria(criteria);
 
         return ResponseEntity.ok(service.findByAvailableInTerm(dateFrom, dateTo, pickUpOfficeId, returnOfficeId, cars));
 

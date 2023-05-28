@@ -10,6 +10,7 @@ import com.carrentalbackend.model.enumeration.ReservationStatus;
 import com.carrentalbackend.repository.CarRepository;
 import com.carrentalbackend.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -24,12 +25,16 @@ public class CarSearchService {
     private final CarMapper carMapper;
     private final RentingUtil rentingUtil;
 
-    public Set<Car> findByCriteria(CarSearchByCriteriaRequest criteria) {
-        //TODO: implement criteria
+    public List<Car> findNotUnavailable() {
         return carRepository.findAllByStatusIsNot(CarStatus.UNAVAILABLE);
     }
 
-    public Set<CarSearchResponse> findByAvailableInTerm(LocalDate dateFrom, LocalDate dateTo, Long pickUpOfficeId, Long returnOfficeId, Set<Car> cars) {
+    public List<Car> findByCriteria(CarSearchByCriteriaRequest criteria) {
+        Specification<Car> specification = new CarSpecification(criteria);
+        return carRepository.findAll(specification);
+    }
+
+    public Set<CarSearchResponse> findByAvailableInTerm(LocalDate dateFrom, LocalDate dateTo, Long pickUpOfficeId, Long returnOfficeId, List<Car> cars) {
 
         int rentalLength = rentingUtil.calculateRentalLength(dateFrom, dateTo);
         boolean sameOffices = Objects.equals(returnOfficeId, pickUpOfficeId);
@@ -69,6 +74,5 @@ public class CarSearchService {
     private List<Reservation> getNotRealizedReservations(Car car, LocalDate dateTo) {
         return reservationRepository.findAllByDateFromBeforeAndCar_IdAndStatusNot(dateTo, car.getId(), ReservationStatus.REALIZED);
     }
-
 
 }
