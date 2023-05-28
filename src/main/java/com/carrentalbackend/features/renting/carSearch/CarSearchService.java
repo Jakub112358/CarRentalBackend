@@ -47,8 +47,8 @@ public class CarSearchService {
     }
 
     private boolean checkIfAvailable(Car car, LocalDate dateFrom, LocalDate dateTo, Long pickUpOfficeId) {
-        List<Reservation> reservations = getNotRealizedReservations(car, dateTo);
-        if (!checkIfReservationsDoNotInterfere(dateFrom, dateTo, reservations))
+        List<Reservation> reservations = getInterferingReservations(car, dateTo, dateFrom);
+        if(reservations.size()>0)
             return false;
         return checkIfCarWillBeInChosenOffice(pickUpOfficeId, reservations, car);
     }
@@ -67,15 +67,8 @@ public class CarSearchService {
         return false;
     }
 
-    private boolean checkIfReservationsDoNotInterfere(LocalDate newReservationDateFrom,
-                                                      LocalDate newReservationDateTo,
-                                                      List<Reservation> reservations) {
-        return reservations.stream().noneMatch(r ->
-                (r.getDateFrom().isBefore(newReservationDateTo) && newReservationDateFrom.isBefore(r.getDateTo())));
-    }
-
-    private List<Reservation> getNotRealizedReservations(Car car, LocalDate dateTo) {
-        return reservationRepository.findAllByDateFromBeforeAndCar_IdAndStatusNot(dateTo, car.getId(), ReservationStatus.REALIZED);
+    private List<Reservation> getInterferingReservations(Car car, LocalDate dateTo, LocalDate dateFrom) {
+        return reservationRepository.findAllByDateFromBeforeAndDateToGreaterThanEqualAndCar_IdAndStatusNot(dateTo, dateFrom, car.getId(), ReservationStatus.REALIZED);
     }
 
 }
