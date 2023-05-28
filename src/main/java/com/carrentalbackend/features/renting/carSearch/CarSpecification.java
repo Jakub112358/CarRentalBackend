@@ -37,7 +37,7 @@ public class CarSpecification implements Specification<Car> {
 
     private Predicate[] getColorsPredicatesArray(Root<Car> root, CriteriaBuilder criteriaBuilder) {
         return criteria.getColorOf().stream()
-                .map(c -> criteriaBuilder.like(root.get("color"),c.name()))
+                .map(c -> criteriaBuilder.equal(root.get("color"),c))
                 .toArray(Predicate[]::new);
     }
 
@@ -49,7 +49,7 @@ public class CarSpecification implements Specification<Car> {
 
     private Predicate[] getBodyTypesPredicatesArray(Root<Car> root, CriteriaBuilder criteriaBuilder) {
         return criteria.getBodyTypeOf().stream()
-                .map(bt -> criteriaBuilder.like(root.get("bodyType"), bt.name()))
+                .map(bt -> criteriaBuilder.equal(root.get("bodyType"), bt))
                 .toArray(Predicate[]::new);
     }
 
