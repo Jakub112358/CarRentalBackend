@@ -21,7 +21,11 @@ public class PickUpService {
     private final PickUpUpdateTool updateTool;
 
     public Set<Response> findAll() {
-        return pickUpRepository.findAll().stream().map(pickUpMapper::toResponse).collect(Collectors.toSet());
+        return pickUpRepository
+                .findAll()
+                .stream()
+                .map(pickUpMapper::toResponse)
+                .collect(Collectors.toSet());
     }
 
     public Response findById(Long id) {

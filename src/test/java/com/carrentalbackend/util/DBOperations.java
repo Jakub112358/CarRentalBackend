@@ -151,18 +151,18 @@ public class DBOperations {
         officeRepository.deleteAll();
     }
 
-    private void cleanCarTable() {
+    public void cleanCarTable() {
         cleanCarReturnTable();
         cleanPickUpTable();
         carRepository.deleteAll();
     }
 
-    private void cleanPickUpTable() {
+    public void cleanPickUpTable() {
         cleanReservationTable();
         pickUpRepository.deleteAll();
     }
 
-    private void cleanCarReturnTable() {
+    public void cleanCarReturnTable() {
         cleanReservationTable();
         carReturnRepository.deleteAll();
     }
@@ -174,7 +174,7 @@ public class DBOperations {
         userRepository.deleteAll();
     }
 
-    private void cleanEmployeesTable() {
+    public void cleanEmployeesTable() {
         cleanCarReturnTable();
         cleanPickUpTable();
         employeeRepository.deleteAll();
