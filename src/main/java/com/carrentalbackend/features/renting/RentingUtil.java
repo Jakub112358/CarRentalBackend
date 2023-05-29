@@ -2,8 +2,10 @@ package com.carrentalbackend.features.renting;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
 import com.carrentalbackend.features.renting.carSearch.CarSearchResponse;
+import com.carrentalbackend.model.entity.Car;
 import com.carrentalbackend.model.entity.Company;
 import com.carrentalbackend.model.entity.PriceList;
+import com.carrentalbackend.repository.CarRepository;
 import com.carrentalbackend.repository.CompanyRepository;
 import com.carrentalbackend.repository.PriceListRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ public class RentingUtil {
     private final RentingValidation rentingValidation;
     private final CompanyRepository companyRepository;
     private final PriceListRepository priceListRepository;
+    private final CarRepository carRepository;
     public int calculateRentalLength(LocalDate dateFrom, LocalDate dateTo) {
         rentingValidation.throwIfInvalidRentingDatesOrder(dateFrom, dateTo);
         return (int) DAYS.between(dateFrom, dateTo) + 1;
@@ -27,6 +30,16 @@ public class RentingUtil {
 
     public BigDecimal calculatePrice(CarSearchResponse rentResponse, int rentalLength, boolean sameOffices) {
         PriceList priceList = getPriceList(rentResponse);
+        return calculatePrice(priceList, rentalLength, sameOffices);
+    }
+
+    public BigDecimal calculatePrice(Long carId, int rentalLength, boolean sameOffices) {
+        PriceList priceList = getPriceList(carId);
+        return calculatePrice(priceList, rentalLength, sameOffices);
+    }
+
+
+    public BigDecimal calculatePrice(PriceList priceList, int rentalLength, boolean sameOffices) {
         double currentPrice = getCurrentPrice(rentalLength, priceList);
         return calculateTotalPrice(rentalLength, currentPrice, sameOffices);
     }
@@ -62,4 +75,12 @@ public class RentingUtil {
         return priceListRepository.findById(priceListId)
                 .orElseThrow(() -> new ResourceNotFoundException(priceListId));
     }
+
+    private PriceList getPriceList(Long carId) {
+        Car car = carRepository.findById(carId).orElseThrow(()-> new ResourceNotFoundException(carId));
+        Long priceListId = car.getPriceList().getId();
+        return priceListRepository.findById(priceListId)
+                .orElseThrow(() -> new ResourceNotFoundException(priceListId));
+    }
+
 }

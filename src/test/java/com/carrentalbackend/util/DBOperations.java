@@ -33,6 +33,8 @@ public class DBOperations {
     private CarReturnRepository carReturnRepository;
     @Autowired
     private PriceListRepository priceListRepository;
+    @Autowired
+    private FinancesRepository financesRepository;
 
 
     public User addSimpleUserToDB() {
@@ -47,10 +49,9 @@ public class DBOperations {
         return client;
     }
 
-    public Company addSimpleCompanyToDB() {
+    public void addSimpleCompanyToDB() {
         var company = CompanyFactory.getSimpleCompanyBuilder().build();
         companyRepository.save(company);
-        return company;
     }
 
     public Office addSimpleOfficeToDB() {
@@ -82,8 +83,7 @@ public class DBOperations {
         return priceList;
     }
 
-    public Reservation addSimpleReservationToDB(Car car, Office pickUpOffice, Office returnOffice) {
-        var client = addSimpleClientToDB();
+    public Reservation addSimpleReservationToDB(Client client, Car car, Office pickUpOffice, Office returnOffice) {
 
         var reservation = ReservationFactory.getSimpleReservationBuilder()
                 .client(client)
@@ -115,6 +115,13 @@ public class DBOperations {
                 .build();
         carReturnRepository.save(carReturn);
         return carReturn;
+    }
+
+    public void addSimpleFinancesToDB(Company company) {
+        var finances = Finances.builder()
+                .company(company)
+                .build();
+        financesRepository.save(finances);
     }
 
     public void cleanClientTable() {
@@ -189,4 +196,6 @@ public class DBOperations {
         cleanPickUpTable();
         carRepository.deleteAll();
     }
+
+
 }

@@ -33,7 +33,7 @@ public class PriceListControllerIT extends BaseIT {
     @WithMockUser(roles = "ADMIN")
     public void whenSave_thenResponseCreated() throws Exception {
         //given
-        var request = PriceListFactory.getSimplePriceListBuilder().build();
+        var request = PriceListFactory.getSimplePriceListRequestBuilder().build();
 
         //when
         var result = requestTool.sendPostRequest(PRICE_LIST, toJsonString(request));

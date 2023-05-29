@@ -14,4 +14,6 @@ public interface PickUpRepository extends JpaRepository<PickUp, Long> {
     List<PickUp> findAllByEmployee_id(Long id);
 
     List<PickUp> findAllByCar_id(Long id);
+
+    List<PickUp> findAllByReservation_Id(Long id);
 }

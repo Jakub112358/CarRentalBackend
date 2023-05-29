@@ -24,7 +24,7 @@ public abstract class CrudController<T extends CreateRequest, U extends UpdateRe
     }
 
     @GetMapping
-    public ResponseEntity<Set<Response>> findAll() {
+    public ResponseEntity<Set<Response>> findAll(Authentication auth) {
         return ResponseEntity.ok(service.findAll());
     }
 

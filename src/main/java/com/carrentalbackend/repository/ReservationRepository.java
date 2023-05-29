@@ -11,7 +11,8 @@ import java.util.List;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
-    List<Reservation> findAllByDateFromBeforeAndCar_IdAndStatusNot(LocalDate date, Long carId, ReservationStatus status);
+    boolean existsByDateFromBeforeAndDateToGreaterThanEqualAndCar_IdAndStatusNot(LocalDate newDateTo, LocalDate newDateFrom, Long carId, ReservationStatus status);
+    List<Reservation> findAllByCar_IdAndDateToBeforeAndStatusNot(Long carId, LocalDate newDateFrom, ReservationStatus status);
 
     List<Reservation> findAllByClient_Id(Long clientId);
 
