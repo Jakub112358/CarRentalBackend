@@ -12,4 +12,7 @@ public interface CarReturnRepository extends JpaRepository<CarReturn, Long> {
     List<CarReturn> findAllByEmployee_id(Long id);
 
     List<CarReturn> findAllByCar_id(Long id);
+
+    List<CarReturn> findAllByReservation_Id(Long id);
 }
+

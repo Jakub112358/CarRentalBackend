@@ -334,7 +334,8 @@ public class CarControllerIT extends BaseIT {
 
         //and
         var employee = dbOperations.addSimpleEmployeeToDB(office);
-        var reservation = dbOperations.addSimpleReservationToDB(car, office, office);
+        var client = dbOperations.addSimpleClientToDB();
+        var reservation = dbOperations.addSimpleReservationToDB(client, car, office, office);
         var pickUp = dbOperations.addSimplePickUpToDB(employee, reservation, car, office);
         var carReturn = dbOperations.addSimpleCarReturnToDB(employee, reservation, car, office);
 

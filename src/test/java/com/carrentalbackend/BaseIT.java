@@ -58,6 +58,10 @@ public class BaseIT {
     protected CarMapper carMapper;
     @Autowired
     protected CarSearchService carSearchService;
+    @Autowired
+    protected FinancesRepository financesRepository;
+    @Autowired
+    protected IncomeRepository incomeRepository;
 
     @SneakyThrows
     protected <T> String toJsonString(T obj) {
