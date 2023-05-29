@@ -16,4 +16,6 @@ public class CompanyResponse implements Response {
     private byte[] logotype;
     private Address address;
     private double differentOfficesExtraCharge;
+    private int mediumTermRentMinDays;
+    private int longTermRentMinDays;
 }

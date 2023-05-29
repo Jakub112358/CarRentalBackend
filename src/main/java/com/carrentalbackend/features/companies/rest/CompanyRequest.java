@@ -25,4 +25,8 @@ public class CompanyRequest implements CreateRequest, UpdateRequest {
     private Address address;
     @Min(0)
     private double differentOfficesExtraCharge;
+    @Min(1)
+    private int mediumTermRentMinDays;
+    @Min(1)
+    private int longTermRentMinDays;
 }

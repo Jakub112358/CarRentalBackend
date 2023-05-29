@@ -13,6 +13,8 @@ public class CompanyFactory {
     public static final String simpleCompanyDomain = "www.company.com";
     public static final double simpleCompanyDifferentOfficesExtraCharge = 9.99;
     public static final byte[] simpleCompanyLogotype = new byte[1];
+    public static final int simpleCompanyMediumTermRentMinDays = 7;
+    public static final int simpleCompanyLongTermRentMinDays = 30;
 
     public static CompanyBuilder getSimpleCompanyBuilder(){
         return Company.builder()
@@ -21,7 +23,10 @@ public class CompanyFactory {
                 .differentOfficesExtraCharge(simpleCompanyDifferentOfficesExtraCharge)
                 .logotype(simpleCompanyLogotype)
                 .address(AddressFactory.getSimpleAddress())
-                .finances(new Finances());
+                .finances(new Finances())
+                .mediumTermRentMinDays(simpleCompanyMediumTermRentMinDays)
+                .longTermRentMinDays(simpleCompanyLongTermRentMinDays);
+
     }
 
     public static CompanyRequestBuilder getSimpleCompanyRequestBuilder(){
@@ -30,6 +35,8 @@ public class CompanyFactory {
                 .domain(simpleCompanyDomain)
                 .differentOfficesExtraCharge(simpleCompanyDifferentOfficesExtraCharge)
                 .logotype(simpleCompanyLogotype)
-                .address(AddressFactory.getSimpleAddress());
+                .address(AddressFactory.getSimpleAddress())
+                .mediumTermRentMinDays(simpleCompanyMediumTermRentMinDays)
+                .longTermRentMinDays(simpleCompanyLongTermRentMinDays);
     }
 }

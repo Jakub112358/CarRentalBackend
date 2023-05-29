@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 public class PriceListUpdateTool implements UpdateTool<PriceList, PriceListRequest> {
     @Override
     public void updateEntity(PriceList entity, PriceListRequest updateRequest) {
-        entity.setPricePerDay(updateRequest.getPricePerDay());
-        entity.setPricePerWeek(updateRequest.getPricePerWeek());
-        entity.setPricePerMonth(updateRequest.getPricePerMonth());
+        entity.setShortTermPrice(updateRequest.getShortTermPrice());
+        entity.setMediumTermPrice(updateRequest.getMediumTermPrice());
+        entity.setLongTermPrice(updateRequest.getLongTermPrice());
     }
 }

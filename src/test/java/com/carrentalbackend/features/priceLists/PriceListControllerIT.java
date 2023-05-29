@@ -173,9 +173,9 @@ public class PriceListControllerIT extends BaseIT {
         var path = PRICE_LIST + "/" + priceList.getId();
 
         //and
-        var changedPricePerDay = 10_000.0;
+        var changedShortTermPrice = 10_000.0;
         var updateRequest = PriceListFactory.getSimplePriceListRequestBuilder()
-                .pricePerDay(changedPricePerDay)
+                .shortTermPrice(changedShortTermPrice)
                 .build();
 
         //when
@@ -184,7 +184,7 @@ public class PriceListControllerIT extends BaseIT {
         //then
         result.andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(priceList.getId()))
-                .andExpect(jsonPath("$.pricePerDay").value(changedPricePerDay));
+                .andExpect(jsonPath("$.shortTermPrice").value(changedShortTermPrice));
     }
 
     @Test
@@ -196,7 +196,7 @@ public class PriceListControllerIT extends BaseIT {
         //and
         var changedPricePerDay = 10_000.0;
         var updateRequest = PriceListFactory.getSimplePriceListRequestBuilder()
-                .pricePerDay(changedPricePerDay)
+                .shortTermPrice(changedPricePerDay)
                 .build();
 
         //when
@@ -301,19 +301,19 @@ public class PriceListControllerIT extends BaseIT {
 
     private static Stream<Arguments> priceListRequestIncorrectParameters() {
         return Stream.of(
-                Arguments.of(PriceListFactory.getSimplePriceListRequestBuilder().pricePerDay(null).build()),
-                Arguments.of(PriceListFactory.getSimplePriceListRequestBuilder().pricePerDay(-3.0).build()),
-                Arguments.of(PriceListFactory.getSimplePriceListRequestBuilder().pricePerWeek(null).build()),
-                Arguments.of(PriceListFactory.getSimplePriceListRequestBuilder().pricePerWeek(-3.0).build()),
-                Arguments.of(PriceListFactory.getSimplePriceListRequestBuilder().pricePerMonth(null).build()),
-                Arguments.of(PriceListFactory.getSimplePriceListRequestBuilder().pricePerMonth(-3.0).build())
+                Arguments.of(PriceListFactory.getSimplePriceListRequestBuilder().shortTermPrice(null).build()),
+                Arguments.of(PriceListFactory.getSimplePriceListRequestBuilder().shortTermPrice(-3.0).build()),
+                Arguments.of(PriceListFactory.getSimplePriceListRequestBuilder().mediumTermPrice(null).build()),
+                Arguments.of(PriceListFactory.getSimplePriceListRequestBuilder().mediumTermPrice(-3.0).build()),
+                Arguments.of(PriceListFactory.getSimplePriceListRequestBuilder().longTermPrice(null).build()),
+                Arguments.of(PriceListFactory.getSimplePriceListRequestBuilder().longTermPrice(-3.0).build())
         );
     }
 
     private void expectSimplePriceList(ResultActions result) throws Exception {
-        result.andExpect(jsonPath("$.pricePerDay").value(PriceListFactory.simplePriceListPricePerDay))
-                .andExpect(jsonPath("$.pricePerWeek").value(PriceListFactory.simplePriceListPricePerWeek))
-                .andExpect(jsonPath("$.pricePerMonth").value(PriceListFactory.simplePriceListPricePerMonth));
+        result.andExpect(jsonPath("$.shortTermPrice").value(PriceListFactory.simplePriceListShortTermPrice))
+                .andExpect(jsonPath("$.mediumTermPrice").value(PriceListFactory.simplePriceListMediumTermPrice))
+                .andExpect(jsonPath("$.longTermPrice").value(PriceListFactory.simplePriceListLongTermPrice));
     }
 
     private void assertPriceListFieldsNull(Car car) {

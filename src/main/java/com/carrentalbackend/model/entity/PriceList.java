@@ -14,9 +14,9 @@ public class PriceList implements CrudEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private double pricePerDay;
-    private double pricePerWeek;
-    private double pricePerMonth;
+    private double shortTermPrice;
+    private double mediumTermPrice;
+    private double longTermPrice;
     @OneToMany(mappedBy = "priceList", cascade = CascadeType.PERSIST)
     private List<Car> cars;
 }

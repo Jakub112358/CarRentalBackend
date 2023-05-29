@@ -16,6 +16,8 @@ public class Company implements CrudEntity {
     private String name;
     private String domain;
     private double differentOfficesExtraCharge;
+    private int mediumTermRentMinDays;
+    private int longTermRentMinDays;
     @Lob
     @Column(length = 65_535)
     @Basic(fetch = FetchType.LAZY)
@@ -24,6 +26,8 @@ public class Company implements CrudEntity {
     private Address address;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Finances finances;
+
+
 
 
 }

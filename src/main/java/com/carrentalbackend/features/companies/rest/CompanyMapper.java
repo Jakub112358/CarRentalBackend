@@ -18,6 +18,8 @@ public class CompanyMapper implements CrudMapper<Company, CompanyRequest> {
                 .address(request.getAddress())
                 .finances(new Finances())
                 .differentOfficesExtraCharge(request.getDifferentOfficesExtraCharge())
+                .mediumTermRentMinDays(request.getMediumTermRentMinDays())
+                .longTermRentMinDays(request.getLongTermRentMinDays())
                 .build();
     }
 
@@ -30,6 +32,8 @@ public class CompanyMapper implements CrudMapper<Company, CompanyRequest> {
                 .logotype(entity.getLogotype())
                 .address(entity.getAddress())
                 .differentOfficesExtraCharge(entity.getDifferentOfficesExtraCharge())
+                .mediumTermRentMinDays(entity.getMediumTermRentMinDays())
+                .longTermRentMinDays(entity.getLongTermRentMinDays())
                 .build();
     }
 
