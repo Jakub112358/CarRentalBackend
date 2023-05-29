@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 
 import static com.carrentalbackend.config.ApiConstraints.RESERVATION;
 import static com.carrentalbackend.features.renting.reservations.rest.ReservationCreateRequest.ReservationCreateRequestBuilder;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -367,7 +367,7 @@ public class ReservationControllerIT extends BaseIT {
         //then
         result.andExpect(status().isForbidden());
     }
-    
+
     @Test
     @WithMockUser(roles = "CLIENT", username = "client1@user.name")
     public void whenFindByClientId_thenCorrectAnswer() throws Exception {
@@ -612,66 +612,90 @@ public class ReservationControllerIT extends BaseIT {
         result.andExpect(status().isBadRequest());
     }
 
-//    @Test
-//    @WithMockUser(roles = "ADMIN")
-//    public void whenDelete_thenCorrectAnswer() throws Exception {
-//        //given
-//        var priceList = dbOperations.addSimplePriceListToDb();
-//        var office = dbOperations.addSimpleOfficeToDB();
-//        var car = dbOperations.addSimpleCarToDb(office, priceList);
-//
-//        //and
-//        var path = PRICE_LIST + "/" + priceList.getId();
-//
-//        //and
-//        assertTrue(priceListRepository.existsById(priceList.getId()));
-//        assertPriceListFieldsNotNull(car);
-//
-//        //when
-//        var result = requestTool.sendDeleteRequest(path);
-//
-//        //then
-//        result.andExpect(status().isNoContent());
-//
-//        //and
-//        assertFalse(priceListRepository.existsById(office.getId()));
-//        assertPriceListFieldsNull(car);
-//    }
-//
-//    @Test
-//    public void whenDelete_thenForbidden() throws Exception {
-//        //given
-//        var priceList = dbOperations.addSimplePriceListToDb();
-//        var office = dbOperations.addSimpleOfficeToDB();
-//        dbOperations.addSimpleCarToDb(office, priceList);
-//
-//        //and
-//        var path = PRICE_LIST + "/" + priceList.getId();
-//
-//        //when
-//        var result = requestTool.sendDeleteRequest(path);
-//
-//        //then
-//        result.andExpect(status().isForbidden());
-//    }
-//
-//    @Test
-//    @WithMockUser(roles = "ADMIN")
-//    public void whenDelete_thenNotFound() throws Exception {
-//        //given
-//        var priceList = dbOperations.addSimplePriceListToDb();
-//        var office = dbOperations.addSimpleOfficeToDB();
-//        dbOperations.addSimpleCarToDb(office, priceList);
-//
-//        //and
-//        var path = PRICE_LIST + "/" + Long.MAX_VALUE;
-//
-//        //when
-//        var result = requestTool.sendDeleteRequest(path);
-//
-//        //then
-//        result.andExpect(status().isNotFound());
-//    }
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    public void whenDelete_thenCorrectAnswer() throws Exception {
+        //given
+        var reservation = prepareBaseDB();
+
+        //and
+        var income = Income.builder()
+                .incomeValue(BigDecimal.TEN)
+                .reservation(reservation)
+                .build();
+        incomeRepository.save(income);
+
+        //and
+        var path = RESERVATION + "/" + reservation.getId();
+
+        //and
+        assertTrue(reservationRepository.existsById(reservation.getId()));
+        assertReservationFieldsNotNull(income);
+
+        //when
+        var result = requestTool.sendDeleteRequest(path);
+
+        //then
+        result.andExpect(status().isNoContent());
+
+        //and
+        assertFalse(reservationRepository.existsById(reservation.getId()));
+        assertReservationFieldsNull(income);
+    }
+
+    @Test
+    @WithMockUser(roles = "USER")
+    public void whenDelete_thenForbidden() throws Exception {
+        //given
+        var reservation = prepareBaseDB();
+
+        //and
+        var income = Income.builder()
+                .incomeValue(BigDecimal.TEN)
+                .reservation(reservation)
+                .build();
+        incomeRepository.save(income);
+
+        //and
+        var path = RESERVATION + "/" + reservation.getId();
+
+        //and
+        assertTrue(reservationRepository.existsById(reservation.getId()));
+        assertReservationFieldsNotNull(income);
+
+        //when
+        var result = requestTool.sendDeleteRequest(path);
+
+        //then
+        result.andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    public void whenDelete_thenNotFound() throws Exception {
+        //given
+        var reservation = prepareBaseDB();
+
+        //and
+        var income = Income.builder()
+                .incomeValue(BigDecimal.TEN)
+                .reservation(reservation)
+                .build();
+        incomeRepository.save(income);
+
+        //and
+        var path = RESERVATION + "/" + Long.MAX_VALUE;
+
+        //and
+        assertTrue(reservationRepository.existsById(reservation.getId()));
+        assertReservationFieldsNotNull(income);
+
+        //when
+        var result = requestTool.sendDeleteRequest(path);
+
+        //then
+        result.andExpect(status().isNotFound());
+    }
 
     private static Stream<Arguments> reservationCreateRequestBuilderIncorrectParameters() {
         return Stream.of(
@@ -729,13 +753,13 @@ public class ReservationControllerIT extends BaseIT {
         return dbOperations.addSimpleReservationToDB(client, car, office, office);
     }
 
-//
-//    private void assertPriceListFieldsNull(Car car) {
-//        assertNull(carRepository.findById(car.getId()).orElseThrow().getPriceList());
-//    }
-//
-//    private void assertPriceListFieldsNotNull(Car car) {
-//        assertNotNull(carRepository.findById(car.getId()).orElseThrow().getPriceList());
-//    }
+
+    private void assertReservationFieldsNull(Income income) {
+        assertNull(incomeRepository.findById(income.getId()).orElseThrow().getReservation());
+    }
+
+    private void assertReservationFieldsNotNull(Income income) {
+        assertNotNull(incomeRepository.findById(income.getId()).orElseThrow().getReservation());
+    }
 
 }

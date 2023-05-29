@@ -83,6 +83,15 @@ public class ReservationService extends CrudService<Reservation, ReservationCrea
 
     @Override
     public void deleteById(Long id) {
+        if(!reservationRepository.existsById(id))
+            throw new ResourceNotFoundException(id);
+
+        nullReservationInIncomes(id);
+        reservationRepository.deleteById(id);
+    }
+
+    private void nullReservationInIncomes(Long id) {
+        incomeRepository.findAllByReservation_Id(id).forEach(i -> i.setReservation(null));
     }
 
 
