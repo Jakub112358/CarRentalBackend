@@ -32,6 +32,7 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.GET, ApiConstraints.COMPANY ).permitAll()
                 .requestMatchers(HttpMethod.GET, ApiConstraints.CLIENT + "/{id}").authenticated()
                 .requestMatchers(HttpMethod.PATCH, ApiConstraints.CLIENT + "/{id}").authenticated()
+                .requestMatchers(ApiConstraints.CAR_SEARCH).authenticated()
                 .anyRequest().hasRole("ADMIN")
                 .and()
                 .sessionManagement()

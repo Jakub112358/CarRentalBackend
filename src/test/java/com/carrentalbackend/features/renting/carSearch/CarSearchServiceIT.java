@@ -399,13 +399,6 @@ public class CarSearchServiceIT extends BaseIT {
         assertEquals("E", carSearchResponse.getCarResponse().getModel());
     }
 
-    private Reservation addReservation(Car car, Office pickUpoffice, Office returnOffice, LocalDate startDate, LocalDate endDate) {
-        var reservation = dbOperations.addSimpleReservationToDB(car, pickUpoffice, returnOffice);
-        reservation.setDateFrom(startDate);
-        reservation.setDateTo(endDate);
-        return reservation;
-    }
-
     @Test
     public void whenFindByAvailableInTerm_thenIgnoreRealizedReservation() {
         //given
@@ -439,6 +432,88 @@ public class CarSearchServiceIT extends BaseIT {
         //and
         var carSearchResponse = result.stream().findAny().orElseThrow();
         assertEquals("B", carSearchResponse.getCarResponse().getModel());
+    }
+
+    @Test
+    public void whenFindByAvailableInTerm_withDifferentCurrentOffices_thenCorrectAnswer() {
+        //given
+        var priceList = dbOperations.addSimplePriceListToDb();
+        var office1 = dbOperations.addSimpleOfficeToDB();
+        var office2 = dbOperations.addSimpleOfficeToDB();
+
+        //and
+        var car1 = dbOperations.addSimpleCarToDb(office1, priceList);
+        var car2 = dbOperations.addSimpleCarToDb(office2, priceList);
+        var cars = List.of(car1, car2);
+
+        //and
+        var searchDayFrom = LocalDate.now().plusDays(10);
+        var searchDateTo = LocalDate.now().plusDays(20);
+
+        //when
+        var result = carSearchService.findByAvailableInTerm(searchDayFrom, searchDateTo, office1.getId(), office1.getId(), cars);
+
+        //then
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    public void whenFindByAvailableInTerm_withDifferentCurrentOfficesAndPlannedReservationFinishedInSearchOffice_thenCorrectAnswer() {
+        //given
+        var priceList = dbOperations.addSimplePriceListToDb();
+        var office1 = dbOperations.addSimpleOfficeToDB();
+        var office2 = dbOperations.addSimpleOfficeToDB();
+
+        //and
+        var car1 = dbOperations.addSimpleCarToDb(office1, priceList);
+        var car2 = dbOperations.addSimpleCarToDb(office2, priceList);
+        var cars = List.of(car1, car2);
+
+        //and
+        var searchDayFrom = LocalDate.now().plusDays(10);
+        var searchDateTo = LocalDate.now().plusDays(20);
+
+        //and
+        addReservation(car2, office2, office1, LocalDate.now(), LocalDate.now().plusDays(3));
+
+        //when
+        var result = carSearchService.findByAvailableInTerm(searchDayFrom, searchDateTo, office1.getId(), office1.getId(), cars);
+
+        //then
+        assertEquals(2, result.size());
+    }
+
+    @Test
+    public void whenFindByAvailableInTerm_withSameCurrentOfficesAndPlannedReservationFinishedInDifferentOffice_thenCorrectAnswer() {
+        //given
+        var priceList = dbOperations.addSimplePriceListToDb();
+        var office1 = dbOperations.addSimpleOfficeToDB();
+        var office2 = dbOperations.addSimpleOfficeToDB();
+
+        //and
+        var car1 = dbOperations.addSimpleCarToDb(office1, priceList);
+        var car2 = dbOperations.addSimpleCarToDb(office1, priceList);
+        var cars = List.of(car1, car2);
+
+        //and
+        var searchDayFrom = LocalDate.now().plusDays(10);
+        var searchDateTo = LocalDate.now().plusDays(20);
+
+        //and
+        addReservation(car1, office1, office2, LocalDate.now(), LocalDate.now().plusDays(3));
+
+        //when
+        var result = carSearchService.findByAvailableInTerm(searchDayFrom, searchDateTo, office1.getId(), office1.getId(), cars);
+
+        //then
+        assertEquals(1, result.size());
+    }
+
+    private Reservation addReservation(Car car, Office pickUpoffice, Office returnOffice, LocalDate startDate, LocalDate endDate) {
+        var reservation = dbOperations.addSimpleReservationToDB(car, pickUpoffice, returnOffice);
+        reservation.setDateFrom(startDate);
+        reservation.setDateTo(endDate);
+        return reservation;
     }
 
 }

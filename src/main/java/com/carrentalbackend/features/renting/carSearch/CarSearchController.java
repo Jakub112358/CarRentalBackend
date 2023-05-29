@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -20,10 +21,11 @@ import static com.carrentalbackend.config.ApiConstraints.ORIGIN;
 @CrossOrigin(origins = ORIGIN)
 @RequestMapping(CAR_SEARCH)
 @RequiredArgsConstructor
+@Validated
 public class CarSearchController {
     private final CarSearchService service;
 
-    @PostMapping("/search")
+    @PostMapping()
     public ResponseEntity<Set<CarSearchResponse>> findByAvailableInDatesAndCriteria(@RequestBody(required = false) CarSearchByCriteriaRequest criteria,
                                                                                     @RequestParam @NotNull @FutureOrPresent @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFrom,
                                                                                     @RequestParam @NotNull @FutureOrPresent @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateTo,

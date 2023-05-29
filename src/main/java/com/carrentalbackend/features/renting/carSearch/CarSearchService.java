@@ -47,28 +47,36 @@ public class CarSearchService {
     }
 
     private boolean checkIfAvailable(Car car, LocalDate dateFrom, LocalDate dateTo, Long pickUpOfficeId) {
-        List<Reservation> reservations = getInterferingReservations(car, dateTo, dateFrom);
-        if(reservations.size()>0)
+        boolean carReserved = checkInterferingReservations(car, dateTo, dateFrom);
+        if(carReserved)
             return false;
-        return checkIfCarWillBeInChosenOffice(pickUpOfficeId, reservations, car);
+        return checkIfCarWillBeInChosenOffice(car, dateFrom, pickUpOfficeId);
     }
 
-    private boolean checkIfCarWillBeInChosenOffice(Long pickUpOfficeId, List<Reservation> reservations, Car car) {
+    private boolean checkIfCarWillBeInChosenOffice(Car car, LocalDate dateFrom, Long pickUpOfficeId) {
+
+        List<Reservation> reservations = getNotRealizedCarReservations(car, dateFrom);
         Optional<Reservation> lastReservation = reservations.stream().max(Comparator.comparing(Reservation::getDateTo));
         return lastReservation
                 .map(reservation -> compareOffices(reservation.getReturnOffice(), pickUpOfficeId))
                 .orElseGet(() -> compareOffices(car.getCurrentOffice(), pickUpOfficeId));
     }
 
+    private List<Reservation> getNotRealizedCarReservations(Car car, LocalDate dateFrom) {
+        return reservationRepository.findAllByCar_IdAndDateToBeforeAndStatusNot(car.getId(), dateFrom, ReservationStatus.REALIZED);
+    }
+
+    private boolean checkInterferingReservations(Car car, LocalDate dateTo, LocalDate dateFrom) {
+        return reservationRepository.existsByDateFromBeforeAndDateToGreaterThanEqualAndCar_IdAndStatusNot(dateTo, dateFrom, car.getId(), ReservationStatus.REALIZED);
+
+    }
+
+
     private boolean compareOffices(Office office, Long pickUpOfficeId) {
         if (office != null) {
             return office.getId() == pickUpOfficeId;
         }
         return false;
-    }
-
-    private List<Reservation> getInterferingReservations(Car car, LocalDate dateTo, LocalDate dateFrom) {
-        return reservationRepository.findAllByDateFromBeforeAndDateToGreaterThanEqualAndCar_IdAndStatusNot(dateTo, dateFrom, car.getId(), ReservationStatus.REALIZED);
     }
 
 }

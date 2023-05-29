@@ -1,10 +1,8 @@
 package com.carrentalbackend.config;
 
-import com.carrentalbackend.exception.ExistingEmailException;
-import com.carrentalbackend.exception.ForbiddenResourceException;
-import com.carrentalbackend.exception.MissingTokenClaimException;
-import com.carrentalbackend.exception.ResourceNotFoundException;
+import com.carrentalbackend.exception.*;
 import io.jsonwebtoken.ExpiredJwtException;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -42,4 +40,16 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleExistingEmailException (Exception e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(InvalidReservationDataException.class)
+    public ResponseEntity<String> handleInvalidReservationDataException (Exception e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<String> handleConstraintViolationException (Exception e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+
 }
