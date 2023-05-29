@@ -1,7 +1,6 @@
 package com.carrentalbackend.features.renting.reservations.rest;
 
 import com.carrentalbackend.features.generics.CreateRequest;
-import com.carrentalbackend.features.generics.UpdateRequest;
 import com.carrentalbackend.validation.existingCarId.ExistingCarId;
 import com.carrentalbackend.validation.existingClientId.ExistingClientId;
 import com.carrentalbackend.validation.existingOfficeId.ExistingOfficeId;
@@ -18,7 +17,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ReservationCreateRequest implements CreateRequest, UpdateRequest {
+public class ReservationCreateRequest implements CreateRequest {
     @NotNull
     @FutureOrPresent
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)

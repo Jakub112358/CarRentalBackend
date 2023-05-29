@@ -7,9 +7,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class UserFactory {
     private final static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    public static String simpleUserEmail = "simple@mail.com";
-    public static String simpleUserPassword = "simple password";
-    public static Role simpleUserRole = Role.ADMIN;
+    public final static String simpleUserEmail = "simple@mail.com";
+    public final static String simpleUserPassword = "simple password";
+    public final static Role simpleUserRole = Role.ADMIN;
 
     public static User getSimpleUser() {
         return new User(0L, simpleUserEmail, passwordEncoder.encode(simpleUserPassword), simpleUserRole);

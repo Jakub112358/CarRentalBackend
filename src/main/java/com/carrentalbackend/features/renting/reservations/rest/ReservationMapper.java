@@ -27,23 +27,7 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationCre
     private final CompanyRepository companyRepository;
 
 
-    private CarReturn createCarReturn(ReservationCreateRequest request, Car car, Office office) {
-        return CarReturn.builder()
-                .plannedReturnDate(request.getDateTo())
-                .status(RentalActionStatus.PLANNED)
-                .car(car)
-                .office(office)
-                .build();
-    }
 
-    private PickUp createCarPickUp(ReservationCreateRequest request, Car car, Office office) {
-        return PickUp.builder()
-                .plannedPickUpDate(request.getDateFrom())
-                .status(RentalActionStatus.PLANNED)
-                .car(car)
-                .office(office)
-                .build();
-    }
 
     @Override
     public ReservationResponse toResponse(Reservation reservation) {
@@ -103,6 +87,22 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationCre
                 .build();
     }
 
+    private CarReturn createCarReturn(ReservationCreateRequest request, Car car, Office office) {
+        return CarReturn.builder()
+                .plannedReturnDate(request.getDateTo())
+                .status(RentalActionStatus.PLANNED)
+                .car(car)
+                .office(office)
+                .build();
+    }
 
+    private PickUp createCarPickUp(ReservationCreateRequest request, Car car, Office office) {
+        return PickUp.builder()
+                .plannedPickUpDate(request.getDateFrom())
+                .status(RentalActionStatus.PLANNED)
+                .car(car)
+                .office(office)
+                .build();
+    }
 
 }

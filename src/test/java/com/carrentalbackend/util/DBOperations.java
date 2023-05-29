@@ -198,4 +198,7 @@ public class DBOperations {
     }
 
 
+    public void cleanIncomesTable() {
+        incomeRepository.deleteAll();
+    }
 }

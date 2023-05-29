@@ -4,6 +4,7 @@ import com.carrentalbackend.features.generics.CrudController;
 import com.carrentalbackend.features.generics.Response;
 import com.carrentalbackend.features.renting.reservations.rest.ReservationCreateRequest;
 import com.carrentalbackend.features.renting.reservations.rest.ReservationResponse;
+import com.carrentalbackend.features.renting.reservations.rest.ReservationUpdateRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ import static com.carrentalbackend.config.ApiConstraints.RESERVATION;
 @RestController
 @CrossOrigin(origins = ORIGIN)
 @RequestMapping(RESERVATION)
-public class ReservationController extends CrudController<ReservationCreateRequest, ReservationCreateRequest> {
+public class ReservationController extends CrudController<ReservationCreateRequest, ReservationUpdateRequest> {
     private final ReservationService reservationService;
 
     public ReservationController(ReservationService service) {
@@ -34,13 +35,22 @@ public class ReservationController extends CrudController<ReservationCreateReque
     @Override
     @GetMapping("/{id}")
     public ResponseEntity<Response> findById(@PathVariable Long id, Authentication auth) {
-        reservationService.throwIfNotPermittedWithReservationId(id, auth);
+        reservationService.throwIfNotPermittedByReservationId(id, auth);
         return super.findById(id, auth);
     }
 
     @GetMapping(params = "clientId")
     public ResponseEntity<Set<ReservationResponse>> findByClientId(@RequestParam Long clientId, Authentication auth) {
-        reservationService.throwIfNotPermittedWithClientId(clientId, auth);
+        reservationService.throwIfNotPermittedByClientId(clientId, auth);
         return ResponseEntity.ok(reservationService.findByClientId(clientId));
+    }
+
+    @Override
+    @PatchMapping("/{id}")
+    public ResponseEntity<Response> update(@PathVariable Long id, @RequestBody ReservationUpdateRequest updateRequest, Authentication auth) {
+        reservationService.throwIfNotPermittedToUpdate(id, updateRequest, auth);
+        reservationService.performCashbackIfClient(auth, id);
+
+        return super.update(id, updateRequest, auth);
     }
 }

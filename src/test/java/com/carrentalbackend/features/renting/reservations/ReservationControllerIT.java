@@ -2,7 +2,9 @@ package com.carrentalbackend.features.renting.reservations;
 
 import com.carrentalbackend.BaseIT;
 import com.carrentalbackend.features.renting.reservations.rest.ReservationResponse;
+import com.carrentalbackend.features.renting.reservations.rest.ReservationUpdateRequest;
 import com.carrentalbackend.model.entity.Income;
+import com.carrentalbackend.model.entity.Reservation;
 import com.carrentalbackend.model.enumeration.ReservationStatus;
 import com.carrentalbackend.util.factories.ClientFactory;
 import com.carrentalbackend.util.factories.ReservationFactory;
@@ -36,6 +38,7 @@ public class ReservationControllerIT extends BaseIT {
         dbOperations.cleanReservationTable();
         dbOperations.cleanPriceListTable();
         dbOperations.cleanOfficeTable();
+        dbOperations.cleanIncomesTable();
 
         if (companyRepository.findFirstByIdIsNotNull().isEmpty())
             dbOperations.addSimpleCompanyToDB();
@@ -75,7 +78,7 @@ public class ReservationControllerIT extends BaseIT {
         expectCreatedCarReturn(reservation);
 
         //and
-        expectCreatedIncome(reservation);
+        expectSumOfIncomesEqualPrice(reservation.getId(), reservation.getPrice());
     }
 
     @ParameterizedTest
@@ -259,7 +262,7 @@ public class ReservationControllerIT extends BaseIT {
         var car = dbOperations.addSimpleCarToDb(office, pricelist);
 
         //and
-        var id =dbOperations.addSimpleReservationToDB(client, car, office, office).getId();
+        var id = dbOperations.addSimpleReservationToDB(client, car, office, office).getId();
         var path = RESERVATION + "/" + id;
 
         //when
@@ -304,7 +307,7 @@ public class ReservationControllerIT extends BaseIT {
         var car = dbOperations.addSimpleCarToDb(office, pricelist);
 
         //and
-        var id =dbOperations.addSimpleReservationToDB(client, car, office, office).getId();
+        var id = dbOperations.addSimpleReservationToDB(client, car, office, office).getId();
         var path = RESERVATION + "/" + id;
 
         //when
@@ -318,13 +321,10 @@ public class ReservationControllerIT extends BaseIT {
     @WithMockUser(roles = "CLIENT", username = "wrong@email.com")
     public void whenFindById_ByClient_thenForbidden() throws Exception {
         //given
-        var client = dbOperations.addSimpleClientToDB();
-        var office = dbOperations.addSimpleOfficeToDB();
-        var pricelist = dbOperations.addSimplePriceListToDb();
-        var car = dbOperations.addSimpleCarToDb(office, pricelist);
+        var reservation = prepareBaseDB();
 
         //and
-        var id =dbOperations.addSimpleReservationToDB(client, car, office, office).getId();
+        var id = reservation.getId();
         var path = RESERVATION + "/" + id;
 
         //when
@@ -334,15 +334,12 @@ public class ReservationControllerIT extends BaseIT {
         result.andExpect(status().isForbidden());
     }
 
+
     @Test
     @WithMockUser(roles = "EMPLOYEE")
     public void whenFindAll_thenCorrectAnswer() throws Exception {
         //given
-        var client = dbOperations.addSimpleClientToDB();
-        var office = dbOperations.addSimpleOfficeToDB();
-        var pricelist = dbOperations.addSimplePriceListToDb();
-        var car = dbOperations.addSimpleCarToDb(office, pricelist);
-        dbOperations.addSimpleReservationToDB(client, car, office, office);
+        prepareBaseDB();
 
         //when
         var result = requestTool.sendGetRequest(RESERVATION);
@@ -357,15 +354,12 @@ public class ReservationControllerIT extends BaseIT {
 
         assertEquals(1, reservations.size());
     }
+
     @Test
     @WithMockUser(roles = "CLIENT")
     public void whenFindAll_thenForbidden() throws Exception {
         //given
-        var client = dbOperations.addSimpleClientToDB();
-        var office = dbOperations.addSimpleOfficeToDB();
-        var pricelist = dbOperations.addSimplePriceListToDb();
-        var car = dbOperations.addSimpleCarToDb(office, pricelist);
-        dbOperations.addSimpleReservationToDB(client, car, office, office);
+        prepareBaseDB();
 
         //when
         var result = requestTool.sendGetRequest(RESERVATION);
@@ -373,8 +367,7 @@ public class ReservationControllerIT extends BaseIT {
         //then
         result.andExpect(status().isForbidden());
     }
-
-
+    
     @Test
     @WithMockUser(roles = "CLIENT", username = "client1@user.name")
     public void whenFindByClientId_thenCorrectAnswer() throws Exception {
@@ -439,79 +432,186 @@ public class ReservationControllerIT extends BaseIT {
         result.andExpect(status().isForbidden());
     }
 
-//    @Test
-//    @WithMockUser(roles = "ADMIN")
-//    public void whenUpdate_thenCorrectAnswer() throws Exception {
-//        //given
-//        var priceList = dbOperations.addSimplePriceListToDb();
-//        var path = PRICE_LIST + "/" + priceList.getId();
-//
-//        //and
-//        var changedShortTermPrice = 10_000.0;
-//        var updateRequest = PriceListFactory.getSimplePriceListRequestBuilder()
-//                .shortTermPrice(changedShortTermPrice)
-//                .build();
-//
-//        //when
-//        var result = requestTool.sendPatchRequest(path, toJsonString(updateRequest));
-//
-//        //then
-//        result.andExpect(status().isOk())
-//                .andExpect(jsonPath("$.id").value(priceList.getId()))
-//                .andExpect(jsonPath("$.shortTermPrice").value(changedShortTermPrice));
-//    }
-//
-//    @Test
-//    public void whenUpdate_thenForbidden() throws Exception {
-//        //given
-//        var priceList = dbOperations.addSimplePriceListToDb();
-//        var path = PRICE_LIST + "/" + priceList.getId();
-//
-//        //and
-//        var changedPricePerDay = 10_000.0;
-//        var updateRequest = PriceListFactory.getSimplePriceListRequestBuilder()
-//                .shortTermPrice(changedPricePerDay)
-//                .build();
-//
-//        //when
-//        var result = requestTool.sendPatchRequest(path, toJsonString(updateRequest));
-//
-//        //then
-//        result.andExpect(status().isForbidden());
-//    }
-//
-//    @ParameterizedTest
-//    @MethodSource("priceListRequestIncorrectParameters")
-//    @WithMockUser(roles = "ADMIN")
-//    public void whenUpdate_thenValidationFailed(PriceListRequest request) throws Exception {
-//        //given
-//        var priceList = dbOperations.addSimplePriceListToDb();
-//        var path = PRICE_LIST + "/" + priceList.getId();
-//
-//        //when
-//        var result = requestTool.sendPatchRequest(path, toJsonString(request));
-//
-//        //then
-//        result.andExpect(status().isForbidden());
-//    }
-//
-//    @Test
-//    @WithMockUser(roles = "ADMIN")
-//    public void whenUpdate_thenBadRequest() throws Exception {
-//        //given
-//        var priceList = dbOperations.addSimplePriceListToDb();
-//        var path = PRICE_LIST + "/" + priceList.getId();
-//
-//        //and
-//        var request = " ";
-//
-//        //when
-//        var result = requestTool.sendPatchRequest(path, request);
-//
-//        //then
-//        result.andExpect(status().isBadRequest());
-//    }
-//
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    public void whenUpdate_thenCorrectAnswer() throws Exception {
+        //given
+        var reservation = prepareBaseDB();
+
+        //and
+        var path = RESERVATION + "/" + reservation.getId();
+
+        //and
+        var changedStatus = ReservationStatus.REALIZED;
+        var updateRequest = ReservationUpdateRequest.builder()
+                .reservationStatus(changedStatus)
+                .build();
+
+        //when
+        var result = requestTool.sendPatchRequest(path, toJsonString(updateRequest));
+
+        //then
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(reservation.getId()))
+                .andExpect(jsonPath("$.status").value(changedStatus.name()));
+
+        //and
+        var incomes = incomeRepository.findAllByReservation_Id(reservation.getId());
+        assertEquals(0, incomes.size());
+    }
+
+    @Test
+    @WithMockUser(roles = "CLIENT")
+    public void whenUpdate_thenForbidden() throws Exception {
+        //given
+        var reservation = prepareBaseDB();
+
+        //and
+        var path = RESERVATION + "/" + reservation.getId();
+
+        //and
+        var changedStatus = ReservationStatus.REALIZED;
+        var updateRequest = ReservationUpdateRequest.builder()
+                .reservationStatus(changedStatus)
+                .build();
+
+        //when
+        var result = requestTool.sendPatchRequest(path, toJsonString(updateRequest));
+
+        //then
+        result.andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "CLIENT", username = ClientFactory.simpleEmail)
+    public void whenUpdate_ByClient_thenForbidden() throws Exception {
+        //given
+        var client = dbOperations.addSimpleClientToDB();
+
+        //and
+        var reservation = prepareBaseDB();
+        reservation.setClient(client);
+
+        //and
+        var path = RESERVATION + "/" + reservation.getId();
+
+        //and
+        var changedStatus = ReservationStatus.REALIZED;
+        var updateRequest = ReservationUpdateRequest.builder()
+                .reservationStatus(changedStatus)
+                .build();
+
+        //when
+        var result = requestTool.sendPatchRequest(path, toJsonString(updateRequest));
+
+        //then
+        result.andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "CLIENT", username = ClientFactory.simpleEmail)
+    public void whenCancel_byClient_LongTermCancellation_thenCorrectAnswer() throws Exception {
+        //given
+        var client = dbOperations.addSimpleClientToDB();
+
+        //and
+        var freeReservationDaysLimit = companyRepository.findFirstByIdIsNotNull().orElseThrow().getFreeCancellationDaysLimit();
+        var reservation = prepareBaseDB();
+        reservation.setClient(client);
+        reservation.setDateFrom(LocalDate.now().plusDays(freeReservationDaysLimit + 1));
+        reservation.setDateTo(LocalDate.now().plusDays(freeReservationDaysLimit + 1));
+
+        //and
+        var path = RESERVATION + "/" + reservation.getId();
+
+        //and
+        var changedStatus = ReservationStatus.CANCELLED;
+        var updateRequest = ReservationUpdateRequest.builder()
+                .reservationStatus(changedStatus)
+                .build();
+
+        //when
+        var result = requestTool.sendPatchRequest(path, toJsonString(updateRequest));
+
+        //then
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(reservation.getId()))
+                .andExpect(jsonPath("$.status").value(changedStatus.name()));
+
+        //and
+        var incomes = incomeRepository.findAllByReservation_Id(reservation.getId());
+        assertEquals(1, incomes.size());
+
+        //and
+        var amount = incomes.stream()
+                .map(Income::getIncomeValue)
+                .reduce(BigDecimal::add)
+                .orElseThrow();
+        assertEquals(reservation.getPrice().multiply(BigDecimal.valueOf((-1))).doubleValue(), amount.doubleValue());
+    }
+
+    @Test
+    @WithMockUser(roles = "CLIENT", username = ClientFactory.simpleEmail)
+    public void whenCancel_byClient_ShortTermCancellation_thenCorrectAnswer() throws Exception {
+        //given
+        var client = dbOperations.addSimpleClientToDB();
+
+        //and
+        var freeReservationDaysLimit = companyRepository.findFirstByIdIsNotNull().orElseThrow().getFreeCancellationDaysLimit();
+        var reservationChargeRatio = companyRepository.findFirstByIdIsNotNull().orElseThrow().getLateCancellationRatio();
+        var reservation = prepareBaseDB();
+        reservation.setClient(client);
+        reservation.setDateFrom(LocalDate.now().plusDays(freeReservationDaysLimit - 1));
+        reservation.setDateTo(LocalDate.now().plusDays(freeReservationDaysLimit - 1));
+
+        //and
+        var path = RESERVATION + "/" + reservation.getId();
+
+        //and
+        var changedStatus = ReservationStatus.CANCELLED;
+        var updateRequest = ReservationUpdateRequest.builder()
+                .reservationStatus(changedStatus)
+                .build();
+
+        //when
+        var result = requestTool.sendPatchRequest(path, toJsonString(updateRequest));
+
+        //then
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(reservation.getId()))
+                .andExpect(jsonPath("$.status").value(changedStatus.name()));
+
+        //and
+        var incomes = incomeRepository.findAllByReservation_Id(reservation.getId());
+        assertEquals(1, incomes.size());
+
+        //and
+        var amount = incomes.stream()
+                .map(Income::getIncomeValue)
+                .reduce(BigDecimal::add)
+                .orElseThrow();
+        assertEquals(reservation.getPrice().multiply(BigDecimal.valueOf((-1) * reservationChargeRatio)), amount);
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    public void whenUpdate_thenBadRequest() throws Exception {
+        //given
+        var reservation = prepareBaseDB();
+
+        //and
+        var path = RESERVATION + "/" + reservation.getId();
+
+        //and
+        var updateRequest = new Object().toString();
+
+        //when
+        var result = requestTool.sendPatchRequest(path, toJsonString(updateRequest));
+
+        //then
+        result.andExpect(status().isBadRequest());
+    }
+
 //    @Test
 //    @WithMockUser(roles = "ADMIN")
 //    public void whenDelete_thenCorrectAnswer() throws Exception {
@@ -599,13 +699,13 @@ public class ReservationControllerIT extends BaseIT {
                 .andExpect(jsonPath("$.returnOffice.id").value(returnOfficeId));
     }
 
-    private void expectCreatedIncome(ReservationResponse reservation) {
-        var incomes = incomeRepository.findAllByReservation_Id(reservation.getId());
+    private void expectSumOfIncomesEqualPrice(Long reservationId, BigDecimal price) {
+        var incomes = incomeRepository.findAllByReservation_Id(reservationId);
         var reservationIncomeSum = incomes.stream()
                 .map(Income::getIncomeValue)
                 .reduce(BigDecimal::add)
                 .orElseThrow();
-        assertEquals(reservationIncomeSum, reservation.getPrice());
+        assertEquals(reservationIncomeSum, price);
     }
 
     private void expectCreatedCarReturn(ReservationResponse reservation) {
@@ -618,6 +718,15 @@ public class ReservationControllerIT extends BaseIT {
         var pickUp = pickUpRepository.findAllByReservation_Id(reservation.getId()).stream().findFirst().orElseThrow();
         assertEquals(reservation.getCar().getId(), pickUp.getCar().getId());
         assertEquals(reservation.getPickUpOffice().getId(), pickUp.getOffice().getId());
+    }
+
+    private Reservation prepareBaseDB() {
+        var client = dbOperations.addSimpleClientToDB();
+        var office = dbOperations.addSimpleOfficeToDB();
+        var pricelist = dbOperations.addSimplePriceListToDb();
+        var car = dbOperations.addSimpleCarToDb(office, pricelist);
+
+        return dbOperations.addSimpleReservationToDB(client, car, office, office);
     }
 
 //
