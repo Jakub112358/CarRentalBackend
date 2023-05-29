@@ -32,9 +32,9 @@ public class Reservation implements CrudEntity {
     private Office pickUpOffice;
     @ManyToOne
     private Office returnOffice;
-    @OneToOne (cascade = CascadeType.PERSIST)
+    @OneToOne (cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
     private PickUp pickUp;
-    @OneToOne (cascade = CascadeType.PERSIST)
+    @OneToOne (cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
     private CarReturn carReturn;
 
 

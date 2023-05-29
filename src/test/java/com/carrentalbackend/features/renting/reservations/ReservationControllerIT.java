@@ -632,15 +632,23 @@ public class ReservationControllerIT extends BaseIT {
         assertTrue(reservationRepository.existsById(reservation.getId()));
         assertReservationFieldsNotNull(income);
 
+        //and
+        assertFalse(pickUpRepository.findAllByReservation_Id(reservation.getId()).isEmpty());
+        assertFalse(carReturnRepository.findAllByReservation_Id(reservation.getId()).isEmpty());
+
         //when
         var result = requestTool.sendDeleteRequest(path);
 
         //then
         result.andExpect(status().isNoContent());
-
+        
         //and
         assertFalse(reservationRepository.existsById(reservation.getId()));
         assertReservationFieldsNull(income);
+
+        //and
+        assertTrue(pickUpRepository.findAllByReservation_Id(reservation.getId()).isEmpty());
+        assertTrue(carReturnRepository.findAllByReservation_Id(reservation.getId()).isEmpty());
     }
 
     @Test
@@ -695,6 +703,7 @@ public class ReservationControllerIT extends BaseIT {
 
         //then
         result.andExpect(status().isNotFound());
+
     }
 
     private static Stream<Arguments> reservationCreateRequestBuilderIncorrectParameters() {

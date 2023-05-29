@@ -32,9 +32,7 @@ public abstract class CrudService<T extends CrudEntity, U extends CreateRequest,
 
     public Response update(Long id, V request) {
         T instance = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
-
         updateTool.updateEntity(instance, request);
-
         return mapper.toResponse(instance);
     }
 

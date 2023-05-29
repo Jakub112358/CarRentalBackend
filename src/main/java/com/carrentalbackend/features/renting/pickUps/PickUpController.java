@@ -1,8 +1,9 @@
 package com.carrentalbackend.features.renting.pickUps;
 
-import com.carrentalbackend.features.generics.CrudController;
 import com.carrentalbackend.features.generics.Response;
-import com.carrentalbackend.features.renting.pickUps.rest.PickUpRequest;
+import com.carrentalbackend.features.renting.pickUps.rest.PickUpUpdateRequest;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,12 +15,23 @@ import static com.carrentalbackend.config.ApiConstraints.PICK_UP;
 @RestController
 @CrossOrigin(origins = ORIGIN)
 @RequestMapping(PICK_UP)
-public class PickUpController extends CrudController<PickUpRequest, PickUpRequest> {
+@RequiredArgsConstructor
+public class PickUpController {
     private final PickUpService pickUpService;
 
-    public PickUpController(PickUpService service) {
-        super(service);
-        this.pickUpService = service;
+    @GetMapping
+    public ResponseEntity<Set<Response>> findAll() {
+        return ResponseEntity.ok(pickUpService.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Response> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(pickUpService.findById(id));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Response> update(@PathVariable Long id, @Valid @RequestBody PickUpUpdateRequest updateRequest) {
+        return ResponseEntity.ok(pickUpService.update(id, updateRequest));
     }
 
     @GetMapping(params = "officeId")

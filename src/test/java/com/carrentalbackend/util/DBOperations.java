@@ -90,6 +90,8 @@ public class DBOperations {
                 .car(car)
                 .pickUpOffice(pickUpOffice)
                 .returnOffice(returnOffice)
+                .pickUp(new PickUp())
+                .carReturn(new CarReturn())
                 .build();
         reservationRepository.save(reservation);
         return reservation;
