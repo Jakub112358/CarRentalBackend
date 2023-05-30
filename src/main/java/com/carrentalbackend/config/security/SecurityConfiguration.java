@@ -39,6 +39,8 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.PATCH, ApiConstraints.RESERVATION + "/{id}").authenticated()
                 .requestMatchers(ApiConstraints.PICK_UP).hasAnyRole("ADMIN", "EMPLOYEE")
                 .requestMatchers(ApiConstraints.PICK_UP + "/**").hasAnyRole("ADMIN", "EMPLOYEE")
+                .requestMatchers(ApiConstraints.CAR_RETURN).hasAnyRole("ADMIN", "EMPLOYEE")
+                .requestMatchers(ApiConstraints.CAR_RETURN + "/**").hasAnyRole("ADMIN", "EMPLOYEE")
                 .anyRequest().hasRole("ADMIN")
                 .and()
                 .sessionManagement()

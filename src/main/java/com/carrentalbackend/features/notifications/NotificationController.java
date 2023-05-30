@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.carrentalbackend.config.ApiConstraints.MESSAGE;
+import static com.carrentalbackend.config.ApiConstraints.NOTIFICATION;
 import static com.carrentalbackend.config.ApiConstraints.ORIGIN;
 
 @RestController
-@RequestMapping(MESSAGE)
+@RequestMapping(NOTIFICATION)
 @CrossOrigin(origins = ORIGIN)
 @RequiredArgsConstructor
 public class NotificationController {

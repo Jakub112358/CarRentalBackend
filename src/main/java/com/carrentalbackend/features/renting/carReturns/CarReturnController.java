@@ -1,8 +1,9 @@
 package com.carrentalbackend.features.renting.carReturns;
 
-import com.carrentalbackend.features.generics.CrudController;
 import com.carrentalbackend.features.generics.Response;
-import com.carrentalbackend.features.renting.carReturns.rest.CarReturnRequest;
+import com.carrentalbackend.features.renting.carReturns.rest.CarReturnUpdateRequest;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,12 +15,23 @@ import static com.carrentalbackend.config.ApiConstraints.ORIGIN;
 @RestController
 @CrossOrigin(origins = ORIGIN)
 @RequestMapping(CAR_RETURN)
-public class CarReturnController extends CrudController<CarReturnRequest, CarReturnRequest> {
+@RequiredArgsConstructor
+public class CarReturnController {
     private final CarReturnService carReturnService;
 
-    public CarReturnController(CarReturnService service) {
-        super(service);
-        this.carReturnService = service;
+    @GetMapping
+    public ResponseEntity<Set<Response>> findAll() {
+        return ResponseEntity.ok(carReturnService.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Response> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(carReturnService.findById(id));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Response> update(@PathVariable Long id, @Valid @RequestBody CarReturnUpdateRequest updateRequest) {
+        return ResponseEntity.ok(carReturnService.update(id, updateRequest));
     }
 
     @GetMapping(params = "officeId")

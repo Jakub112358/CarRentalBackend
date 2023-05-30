@@ -1,87 +1,72 @@
 package com.carrentalbackend.features.renting.carReturns;
 
-import com.carrentalbackend.exception.InvalidCastException;
+import com.carrentalbackend.exception.InvalidReservationDataException;
 import com.carrentalbackend.exception.ResourceNotFoundException;
-import com.carrentalbackend.features.generics.CrudService;
 import com.carrentalbackend.features.generics.Response;
 import com.carrentalbackend.features.renting.carReturns.rest.CarReturnMapper;
-import com.carrentalbackend.features.renting.carReturns.rest.CarReturnRequest;
 import com.carrentalbackend.features.renting.carReturns.rest.CarReturnResponse;
+import com.carrentalbackend.features.renting.carReturns.rest.CarReturnUpdateRequest;
 import com.carrentalbackend.features.renting.carReturns.rest.CarReturnUpdateTool;
-import com.carrentalbackend.model.entity.*;
+import com.carrentalbackend.model.entity.CarReturn;
+import com.carrentalbackend.model.entity.Finances;
+import com.carrentalbackend.model.entity.Income;
+import com.carrentalbackend.model.entity.Reservation;
 import com.carrentalbackend.repository.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class CarReturnService extends CrudService<CarReturn, CarReturnRequest, CarReturnRequest> {
+@RequiredArgsConstructor
+public class CarReturnService {
     private final CarReturnRepository carReturnRepository;
     private final FinancesRepository financesRepository;
     private final ReservationRepository reservationRepository;
     private final IncomeRepository incomeRepository;
-    private final CarRepository carRepository;
+    private final CarReturnMapper carReturnMapper;
+    private final CarReturnUpdateTool updateTool;
 
-    public CarReturnService(CarReturnRepository carReturnRepository,
-                            CarReturnMapper mapper,
-                            FinancesRepository financesRepository,
-                            ReservationRepository reservationRepository,
-                            IncomeRepository incomeRepository,
-                            CarRepository carRepository,
-                            CarReturnUpdateTool updateTool) {
-        super(carReturnRepository, mapper, updateTool);
-        this.carReturnRepository = carReturnRepository;
-        this.financesRepository = financesRepository;
-        this.reservationRepository = reservationRepository;
-        this.incomeRepository = incomeRepository;
-        this.carRepository = carRepository;
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        //TODO: implement
-    }
-
-    public Set<Response> findAllByOfficeId(Long officeId) {
-        return carReturnRepository.findAllByOffice_Id(officeId)
+    public Set<Response> findAll() {
+        return carReturnRepository
+                .findAll()
                 .stream()
-                .map(mapper::toResponse)
+                .map(carReturnMapper::toResponse)
                 .collect(Collectors.toSet());
     }
 
-    @Override
-    public CarReturnResponse update(Long id, CarReturnRequest request) {
-
-        Response response = super.update(id, request);
-
-        checkIfInstance(response, CarReturnResponse.class);
-        CarReturnResponse carReturnResponse = (CarReturnResponse) response;
-
-        saveExtraChargeAndMileage(carReturnResponse, request);
-
-        carReturnResponse.setMileage(request.getMileage());
-
-        return carReturnResponse;
+    public Set<Response> findAllByOfficeId(Long officeId) {
+        return carReturnRepository
+                .findAllByOffice_Id(officeId)
+                .stream()
+                .map(carReturnMapper::toResponse)
+                .collect(Collectors.toSet());
     }
 
 
-    private void saveExtraChargeAndMileage(CarReturnResponse carReturnResponse, CarReturnRequest carReturnUpdateRequest) {
-        saveExtraCharge(carReturnResponse);
-        updateMileage(carReturnUpdateRequest, carReturnResponse.getCarId());
+    public CarReturnResponse update(Long id, CarReturnUpdateRequest request) {
+
+        CarReturn instance = carReturnRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        updateTool.updateEntity(instance, request);
+        CarReturnResponse response = carReturnMapper.toResponse(instance);
+
+        if(request.getExtraCharge() != null)
+            saveExtraCharge(response);
+        return response;
     }
 
-
-    private void updateMileage(CarReturnRequest request, Long carId) {
-        Car car = carRepository.findById(carId).orElseThrow(() -> new ResourceNotFoundException(carId));
-        car.setMileage(request.getMileage());
+    public Response findById(Long id) {
+        return carReturnMapper.toResponse(carReturnRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id)));
     }
 
     private void saveExtraCharge(CarReturnResponse carReturnResponse) {
+        Long reservationId = carReturnResponse.getReservationId();
+        if (reservationId == null)
+            throw new InvalidReservationDataException("missing reservation id exception");
 
-        Reservation reservation = carReturnResponse.getReservationId() != null ? reservationRepository.getReferenceById(carReturnResponse.getReservationId()) : null;
-        //TODO finances id from logged user data?
-        Finances finances = financesRepository.getReferenceById(1L);
+        Reservation reservation = reservationRepository.getReferenceById(carReturnResponse.getReservationId());
+        Finances finances = financesRepository.findFirstByIdIsNotNull().orElseThrow(() -> new ResourceNotFoundException(1L));
 
         Income income = Income.builder()
                 .incomeValue(carReturnResponse.getExtraCharge())
@@ -92,8 +77,4 @@ public class CarReturnService extends CrudService<CarReturn, CarReturnRequest, C
         incomeRepository.save(income);
     }
 
-    private void checkIfInstance(Object object, Class<?> castClass) {
-        if (!castClass.isInstance(object))
-            throw new InvalidCastException(castClass.getSimpleName());
-    }
 }
