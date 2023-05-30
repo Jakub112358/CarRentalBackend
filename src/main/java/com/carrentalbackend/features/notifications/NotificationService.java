@@ -1,8 +1,12 @@
 package com.carrentalbackend.features.notifications;
 
 import com.carrentalbackend.exception.MissingTokenClaimException;
+import com.carrentalbackend.features.notifications.providers.AdminNotificationProvider;
+import com.carrentalbackend.features.notifications.providers.ClientNotificationProvider;
+import com.carrentalbackend.features.notifications.providers.EmployeeNotificationProvider;
 import com.carrentalbackend.model.enumeration.Role;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
@@ -17,13 +21,15 @@ public class NotificationService {
     private final EmployeeNotificationProvider employeeNotificationProvider;
     private final ClientNotificationProvider clientNotificationProvider;
 
-    public List<NotificationDTO> getAllByRecipient(Collection<? extends GrantedAuthority> authorities) {
-        Role recipient = extractRole(authorities);
+    public List<NotificationDTO> getAllByRecipient(Authentication auth) {
+        var authorities = auth.getAuthorities();
+        var recipient = extractRole(authorities);
+        var username = auth.getName();
 
         return switch (recipient) {
             case ADMIN -> adminNotificationProvider.getNotifications();
             case EMPLOYEE -> employeeNotificationProvider.getNotifications();
-            case CLIENT -> clientNotificationProvider.getNotifications();
+            case CLIENT -> clientNotificationProvider.getNotifications(username);
         };
     }
 

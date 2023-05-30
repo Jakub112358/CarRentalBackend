@@ -41,6 +41,7 @@ public class SecurityConfiguration {
                 .requestMatchers(ApiConstraints.PICK_UP + "/**").hasAnyRole("ADMIN", "EMPLOYEE")
                 .requestMatchers(ApiConstraints.CAR_RETURN).hasAnyRole("ADMIN", "EMPLOYEE")
                 .requestMatchers(ApiConstraints.CAR_RETURN + "/**").hasAnyRole("ADMIN", "EMPLOYEE")
+                .requestMatchers(ApiConstraints.NOTIFICATION).authenticated()
                 .anyRequest().hasRole("ADMIN")
                 .and()
                 .sessionManagement()

@@ -7,8 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class NotificationDTO {
-    @NonNull
+
     private String title;
-    @NonNull
     private String content;
 }
