@@ -257,7 +257,8 @@ public class OfficeControllerIT extends BaseIT {
         var employee = dbOperations.addSimpleEmployeeToDB(office);
         var priceList = dbOperations.addSimplePriceListToDb();
         var car = dbOperations.addSimpleCarToDb(office, priceList);
-        var reservation = dbOperations.addSimpleReservationToDB(car, office, office);
+        var client = dbOperations.addSimpleClientToDB();
+        var reservation = dbOperations.addSimpleReservationToDB(client, car, office, office);
 
         //and
         var path = OFFICE + "/" + office.getId();
@@ -286,7 +287,8 @@ public class OfficeControllerIT extends BaseIT {
         dbOperations.addSimpleEmployeeToDB(office);
         var priceList = dbOperations.addSimplePriceListToDb();
         var car = dbOperations.addSimpleCarToDb(office, priceList);
-        dbOperations.addSimpleReservationToDB(car, office, office);
+        var client = dbOperations.addSimpleClientToDB();
+        dbOperations.addSimpleReservationToDB(client, car, office, office);
 
         //and
         var path = OFFICE + "/" + office.getId();
@@ -306,7 +308,8 @@ public class OfficeControllerIT extends BaseIT {
         dbOperations.addSimpleEmployeeToDB(office);
         var priceList = dbOperations.addSimplePriceListToDb();
         var car = dbOperations.addSimpleCarToDb(office, priceList);
-        dbOperations.addSimpleReservationToDB(car, office, office);
+        var client = dbOperations.addSimpleClientToDB();
+        dbOperations.addSimpleReservationToDB(client, car, office, office);
 
         //and
         var path = OFFICE + "/" + Long.MAX_VALUE;

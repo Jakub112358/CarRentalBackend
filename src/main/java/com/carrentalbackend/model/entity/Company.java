@@ -18,6 +18,8 @@ public class Company implements CrudEntity {
     private double differentOfficesExtraCharge;
     private int mediumTermRentMinDays;
     private int longTermRentMinDays;
+    private int freeCancellationDaysLimit;
+    private double lateCancellationRatio;
     @Lob
     @Column(length = 65_535)
     @Basic(fetch = FetchType.LAZY)

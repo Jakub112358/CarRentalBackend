@@ -15,6 +15,8 @@ public class CompanyFactory {
     public static final byte[] simpleCompanyLogotype = new byte[1];
     public static final int simpleCompanyMediumTermRentMinDays = 7;
     public static final int simpleCompanyLongTermRentMinDays = 30;
+    public static final int simpleCompanyFreeCancellationDaysLimit = 5;
+    public static final double simpleCompanyLateCancellationRatio = 0.5;
 
     public static CompanyBuilder getSimpleCompanyBuilder(){
         return Company.builder()
@@ -25,7 +27,9 @@ public class CompanyFactory {
                 .address(AddressFactory.getSimpleAddress())
                 .finances(new Finances())
                 .mediumTermRentMinDays(simpleCompanyMediumTermRentMinDays)
-                .longTermRentMinDays(simpleCompanyLongTermRentMinDays);
+                .longTermRentMinDays(simpleCompanyLongTermRentMinDays)
+                .freeCancellationDaysLimit(simpleCompanyFreeCancellationDaysLimit)
+                .lateCancellationRatio(simpleCompanyLateCancellationRatio);
 
     }
 
@@ -37,6 +41,8 @@ public class CompanyFactory {
                 .logotype(simpleCompanyLogotype)
                 .address(AddressFactory.getSimpleAddress())
                 .mediumTermRentMinDays(simpleCompanyMediumTermRentMinDays)
-                .longTermRentMinDays(simpleCompanyLongTermRentMinDays);
+                .longTermRentMinDays(simpleCompanyLongTermRentMinDays)
+                .freeCancellationDaysLimit(simpleCompanyFreeCancellationDaysLimit)
+                .lateCancellationRatio(simpleCompanyLateCancellationRatio);
     }
 }

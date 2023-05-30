@@ -33,6 +33,8 @@ public class DBOperations {
     private CarReturnRepository carReturnRepository;
     @Autowired
     private PriceListRepository priceListRepository;
+    @Autowired
+    private FinancesRepository financesRepository;
 
 
     public User addSimpleUserToDB() {
@@ -47,10 +49,9 @@ public class DBOperations {
         return client;
     }
 
-    public Company addSimpleCompanyToDB() {
+    public void addSimpleCompanyToDB() {
         var company = CompanyFactory.getSimpleCompanyBuilder().build();
         companyRepository.save(company);
-        return company;
     }
 
     public Office addSimpleOfficeToDB() {
@@ -82,14 +83,15 @@ public class DBOperations {
         return priceList;
     }
 
-    public Reservation addSimpleReservationToDB(Car car, Office pickUpOffice, Office returnOffice) {
-        var client = addSimpleClientToDB();
+    public Reservation addSimpleReservationToDB(Client client, Car car, Office pickUpOffice, Office returnOffice) {
 
         var reservation = ReservationFactory.getSimpleReservationBuilder()
                 .client(client)
                 .car(car)
                 .pickUpOffice(pickUpOffice)
                 .returnOffice(returnOffice)
+                .pickUp(new PickUp())
+                .carReturn(new CarReturn())
                 .build();
         reservationRepository.save(reservation);
         return reservation;
@@ -117,6 +119,13 @@ public class DBOperations {
         return carReturn;
     }
 
+    public void addSimpleFinancesToDB(Company company) {
+        var finances = Finances.builder()
+                .company(company)
+                .build();
+        financesRepository.save(finances);
+    }
+
     public void cleanClientTable() {
         cleanReservationTable();
         clientRepository.deleteAll();
@@ -142,18 +151,18 @@ public class DBOperations {
         officeRepository.deleteAll();
     }
 
-    private void cleanCarTable() {
+    public void cleanCarTable() {
         cleanCarReturnTable();
         cleanPickUpTable();
         carRepository.deleteAll();
     }
 
-    private void cleanPickUpTable() {
+    public void cleanPickUpTable() {
         cleanReservationTable();
         pickUpRepository.deleteAll();
     }
 
-    private void cleanCarReturnTable() {
+    public void cleanCarReturnTable() {
         cleanReservationTable();
         carReturnRepository.deleteAll();
     }
@@ -165,7 +174,7 @@ public class DBOperations {
         userRepository.deleteAll();
     }
 
-    private void cleanEmployeesTable() {
+    public void cleanEmployeesTable() {
         cleanCarReturnTable();
         cleanPickUpTable();
         employeeRepository.deleteAll();
@@ -188,5 +197,10 @@ public class DBOperations {
         cleanCarReturnTable();
         cleanPickUpTable();
         carRepository.deleteAll();
+    }
+
+
+    public void cleanIncomesTable() {
+        incomeRepository.deleteAll();
     }
 }

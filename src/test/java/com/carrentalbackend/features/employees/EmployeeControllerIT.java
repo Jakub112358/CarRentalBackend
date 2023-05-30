@@ -313,7 +313,8 @@ public class EmployeeControllerIT extends BaseIT {
         //and
         var pricelist = dbOperations.addSimplePriceListToDb();
         var car = dbOperations.addSimpleCarToDb(office, pricelist);
-        var reservation = dbOperations.addSimpleReservationToDB(car, office, office);
+        var client = dbOperations.addSimpleClientToDB();
+        var reservation = dbOperations.addSimpleReservationToDB(client, car, office, office);
         var pickUp = dbOperations.addSimplePickUpToDB(employee, reservation, car, office);
         var carReturn = dbOperations.addSimpleCarReturnToDB(employee, reservation, car, office);
 

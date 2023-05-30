@@ -29,4 +29,8 @@ public class CompanyRequest implements CreateRequest, UpdateRequest {
     private int mediumTermRentMinDays;
     @Min(1)
     private int longTermRentMinDays;
+    @Min(0)
+    private int freeCancellationDaysLimit;
+    @Min(0)
+    private double lateCancellationRatio;
 }

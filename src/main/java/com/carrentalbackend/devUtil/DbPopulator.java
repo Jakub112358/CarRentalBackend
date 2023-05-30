@@ -14,7 +14,7 @@ import com.carrentalbackend.features.offices.rest.OfficeRequest;
 import com.carrentalbackend.features.priceLists.PriceListService;
 import com.carrentalbackend.features.priceLists.rest.PriceListRequest;
 import com.carrentalbackend.features.renting.reservations.ReservationService;
-import com.carrentalbackend.features.renting.reservations.rest.ReservationRequest;
+import com.carrentalbackend.features.renting.reservations.rest.ReservationCreateRequest;
 import com.carrentalbackend.model.entity.Address;
 import com.carrentalbackend.model.entity.Company;
 import com.carrentalbackend.model.entity.User;
@@ -33,7 +33,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,39 +87,31 @@ public class DbPopulator {
     }
 
     private void addReservations() {
-        List<ReservationRequest> reservations = createReservationDtos();
+        List<ReservationCreateRequest> reservations = createReservationDtos();
         reservations.forEach(reservationService::save);
     }
 
-    private List<ReservationRequest> createReservationDtos() {
-        List<ReservationRequest> result = new ArrayList<>();
-        result.add(new ReservationRequest(
-                LocalDateTime.now(),
+    private List<ReservationCreateRequest> createReservationDtos() {
+        List<ReservationCreateRequest> result = new ArrayList<>();
+        result.add(new ReservationCreateRequest(
                 LocalDate.of(2023, 5, 10),
                 LocalDate.of(2023, 5, 15),
                 BigDecimal.valueOf(300),
-                ReservationStatus.PLANNED,
                 4L, 1L, 1L, 1L));
-        result.add(new ReservationRequest(
-                LocalDateTime.now(),
+        result.add(new ReservationCreateRequest(
                 LocalDate.of(2023, 5, 12),
                 LocalDate.of(2023, 5, 19),
                 BigDecimal.valueOf(500),
-                ReservationStatus.PLANNED,
                 5L, 2L, 1L, 3L));
-        result.add(new ReservationRequest(
-                LocalDateTime.now(),
+        result.add(new ReservationCreateRequest(
                 LocalDate.of(2022, 5, 12),
                 LocalDate.of(2022, 5, 19),
                 BigDecimal.valueOf(500),
-                ReservationStatus.PLANNED,
                 5L, 2L, 1L, 3L));
-        result.add(new ReservationRequest(
-                LocalDateTime.now(),
+        result.add(new ReservationCreateRequest(
                 LocalDate.of(2023, 5, 12),
                 LocalDate.of(2023, 5, 19),
                 BigDecimal.valueOf(500),
-                ReservationStatus.PLANNED,
                 4L, 2L, 1L, 3L));
 
 

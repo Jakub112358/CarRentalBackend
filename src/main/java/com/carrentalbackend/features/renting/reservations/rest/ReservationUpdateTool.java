@@ -5,9 +5,9 @@ import com.carrentalbackend.model.entity.Reservation;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ReservationUpdateTool implements UpdateTool <Reservation, ReservationRequest> {
+public class ReservationUpdateTool implements UpdateTool <Reservation, ReservationUpdateRequest> {
     @Override
-    public void updateEntity(Reservation entity, ReservationRequest updateRequest) {
-        //TODO: implement
+    public void updateEntity(Reservation entity, ReservationUpdateRequest updateRequest) {
+        entity.setStatus(updateRequest.getReservationStatus());
     }
 }

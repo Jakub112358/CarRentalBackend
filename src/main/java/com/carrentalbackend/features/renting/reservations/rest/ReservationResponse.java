@@ -1,6 +1,8 @@
 package com.carrentalbackend.features.renting.reservations.rest;
 
+import com.carrentalbackend.features.cars.rest.CarResponse;
 import com.carrentalbackend.features.generics.Response;
+import com.carrentalbackend.features.offices.rest.OfficeResponse;
 import com.carrentalbackend.model.enumeration.ReservationStatus;
 import lombok.*;
 
@@ -20,7 +22,7 @@ public class ReservationResponse implements Response {
     private BigDecimal price;
     private ReservationStatus status;
     private Long clientId;
-    private Long carId;
-    private Long pickUpOfficeId;
-    private Long returnOfficeId;
+    private CarResponse car;
+    private OfficeResponse pickUpOffice;
+    private OfficeResponse returnOffice;
 }

@@ -1,55 +1,41 @@
-package com.carrentalbackend.features.renting.reservations;
+package com.carrentalbackend.features.renting.reservations.rest;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
 import com.carrentalbackend.features.cars.rest.CarMapper;
+import com.carrentalbackend.features.generics.Response;
 import com.carrentalbackend.features.offices.rest.OfficeMapper;
 import com.carrentalbackend.features.generics.CrudMapper;
-import com.carrentalbackend.features.renting.reservations.rest.ReservationRequest;
-import com.carrentalbackend.features.renting.reservations.rest.ReservationResponse;
+
 import com.carrentalbackend.model.entity.*;
 import com.carrentalbackend.model.enumeration.RentalActionStatus;
 import com.carrentalbackend.model.enumeration.ReservationStatus;
-import com.carrentalbackend.repository.CarRepository;
-import com.carrentalbackend.repository.ClientRepository;
-import com.carrentalbackend.repository.OfficeRepository;
+import com.carrentalbackend.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Component
 @RequiredArgsConstructor
-public class ReservationMapper implements CrudMapper<Reservation, ReservationRequest> {
+public class ReservationMapper implements CrudMapper<Reservation, ReservationCreateRequest> {
     private final ClientRepository clientRepository;
     private final CarRepository carRepository;
     private final OfficeRepository officeRepository;
     private final CarMapper carMapper;
     private final OfficeMapper officeMapper;
+    private final ReservationRepository reservationRepository;
+    private final CompanyRepository companyRepository;
 
 
-    private CarReturn createCarReturn(ReservationRequest request, Car car, Office office) {
-        return CarReturn.builder()
-                .plannedReturnDate(request.getDateTo())
-                .status(RentalActionStatus.PLANNED)
-                .car(car)
-                .office(office)
-                .build();
-    }
-
-    private PickUp createCarPickUp(ReservationRequest request, Car car, Office office) {
-        return PickUp.builder()
-                .plannedPickUpDate(request.getDateFrom())
-                .status(RentalActionStatus.PLANNED)
-                .car(car)
-                .office(office)
-                .build();
-    }
 
 
-    public ReservationClientResponse toReservationClientResponse(Reservation reservation) {
-
+    @Override
+    public ReservationResponse toResponse(Reservation reservation) {
         Long clientId = reservation.getClient() != null ? reservation.getClient().getId() : null;
 
-        return ReservationClientResponse.builder()
+        return ReservationResponse.builder()
                 .id(reservation.getId())
+                .reservationDate(reservation.getReservationDate())
                 .dateFrom(reservation.getDateFrom())
                 .dateTo(reservation.getDateTo())
                 .price(reservation.getPrice())
@@ -62,7 +48,7 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationReq
     }
 
     @Override
-    public Reservation toNewEntity(ReservationRequest request) {
+    public Reservation toNewEntity(ReservationCreateRequest request) {
 
         //TODO price should be recalculated!
         Client client = clientRepository.findById(request.getClientId()).orElseThrow(() -> new ResourceNotFoundException(request.getClientId()));
@@ -73,7 +59,7 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationReq
         CarReturn carReturn = createCarReturn(request, car, returnOffice);
 
         return Reservation.builder()
-                .reservationDate(request.getReservationDate())
+                .reservationDate(LocalDateTime.now())
                 .price(request.getPrice())
                 .dateFrom(request.getDateFrom())
                 .dateTo(request.getDateTo())
@@ -87,24 +73,35 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationReq
                 .build();
     }
 
-    @Override
-    public ReservationResponse toResponse(Reservation entity) {
-        Long clientId = entity.getClient() != null ? entity.getClient().getId() : null;
-        Long carId = entity.getCar() != null ? entity.getCar().getId() : null;
-        Long pickUpOfficeId = entity.getPickUpOffice() != null ? entity.getPickUpOffice().getId() : null;
-        Long returnOfficeId = entity.getReturnOffice() != null ? entity.getReturnOffice().getId() : null;
 
-        return ReservationResponse.builder()
-                .id(entity.getId())
-                .reservationDate(entity.getReservationDate())
-                .price(entity.getPrice())
-                .status(entity.getStatus())
-                .dateFrom(entity.getDateFrom())
-                .dateTo(entity.getDateTo())
-                .clientId(clientId)
-                .carId(carId)
-                .pickUpOfficeId(pickUpOfficeId)
-                .returnOfficeId(returnOfficeId)
+    public Income reservationResponseToIncome(Response response) {
+
+        ReservationResponse reservationResponse = (ReservationResponse) response;
+
+        Reservation reservation = reservationRepository.getReferenceById(response.getId());
+        Finances finances = companyRepository.findFirstByIdIsNotNull().orElseThrow().getFinances();
+        return Income.builder()
+                .incomeValue(reservationResponse.getPrice())
+                .reservation(reservation)
+                .finances(finances)
+                .build();
+    }
+
+    private CarReturn createCarReturn(ReservationCreateRequest request, Car car, Office office) {
+        return CarReturn.builder()
+                .plannedReturnDate(request.getDateTo())
+                .status(RentalActionStatus.PLANNED)
+                .car(car)
+                .office(office)
+                .build();
+    }
+
+    private PickUp createCarPickUp(ReservationCreateRequest request, Car car, Office office) {
+        return PickUp.builder()
+                .plannedPickUpDate(request.getDateFrom())
+                .status(RentalActionStatus.PLANNED)
+                .car(car)
+                .office(office)
                 .build();
     }
 

@@ -510,7 +510,8 @@ public class CarSearchServiceIT extends BaseIT {
     }
 
     private Reservation addReservation(Car car, Office pickUpoffice, Office returnOffice, LocalDate startDate, LocalDate endDate) {
-        var reservation = dbOperations.addSimpleReservationToDB(car, pickUpoffice, returnOffice);
+        var client = dbOperations.addSimpleClientToDB();
+        var reservation = dbOperations.addSimpleReservationToDB(client, car, pickUpoffice, returnOffice);
         reservation.setDateFrom(startDate);
         reservation.setDateTo(endDate);
         return reservation;
