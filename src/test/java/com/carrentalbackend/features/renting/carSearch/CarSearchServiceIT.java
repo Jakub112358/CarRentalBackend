@@ -27,8 +27,10 @@ public class CarSearchServiceIT extends BaseIT {
     void setUp() {
         dbOperations.cleanCarsTable();
         dbOperations.cleanReservationTable();
-        if (companyRepository.findFirstByIdIsNotNull().isEmpty())
-            dbOperations.addSimpleCompanyToDB();
+        dbOperations.cleanCompanyTable();
+        dbOperations.cleanFinancesTable();
+        dbOperations.addSimpleCompanyToDB();
+        dbOperations.addSimpleFinancesToDB(companyRepository.findFirstByIdIsNotNull().orElseThrow());
     }
 
     @Test

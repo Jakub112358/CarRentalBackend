@@ -39,12 +39,10 @@ public class ReservationControllerIT extends BaseIT {
         dbOperations.cleanPriceListTable();
         dbOperations.cleanOfficeTable();
         dbOperations.cleanIncomesTable();
-
-        if (companyRepository.findFirstByIdIsNotNull().isEmpty())
-            dbOperations.addSimpleCompanyToDB();
-
-        if (financesRepository.findFirstByIdIsNotNull().isEmpty())
-            dbOperations.addSimpleFinancesToDB(companyRepository.findFirstByIdIsNotNull().orElseThrow());
+        dbOperations.cleanCompanyTable();
+        dbOperations.cleanFinancesTable();
+        dbOperations.addSimpleCompanyToDB();
+        dbOperations.addSimpleFinancesToDB(companyRepository.findFirstByIdIsNotNull().orElseThrow());
     }
 
     @Test

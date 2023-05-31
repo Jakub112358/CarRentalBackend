@@ -28,7 +28,7 @@ public class NotificationService {
 
         return switch (recipient) {
             case ADMIN -> adminNotificationProvider.getNotifications();
-            case EMPLOYEE -> employeeNotificationProvider.getNotifications();
+            case EMPLOYEE -> employeeNotificationProvider.getNotifications(username);
             case CLIENT -> clientNotificationProvider.getNotifications(username);
         };
     }
