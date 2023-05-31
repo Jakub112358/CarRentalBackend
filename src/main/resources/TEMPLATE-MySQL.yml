@@ -1,5 +1,5 @@
 # 1. Copy this file
-# 2. Rename the copy to 'application-dev.yml'
+# 2. Rename the copy to 'application-dev.yml' and/or 'application-test.yml'
 # 3. Make sure to add the copy to .gitignore, DO NOT SHARE ON GITHUB
 # 4. Fill in your local environment settings
 
@@ -13,6 +13,7 @@ spring:
 
   # Hibernate/JPA settings
   jpa:
+    defer-datasource-initialization: true
     hibernate:
       # use 'create-drop' to initialize the DB on first run and after major changes to the model
       # use 'update' otherwise

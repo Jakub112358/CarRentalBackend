@@ -50,7 +50,6 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationCre
     @Override
     public Reservation toNewEntity(ReservationCreateRequest request) {
 
-        //TODO price should be recalculated!
         Client client = clientRepository.findById(request.getClientId()).orElseThrow(() -> new ResourceNotFoundException(request.getClientId()));
         Car car = carRepository.findById(request.getCarId()).orElseThrow(() -> new ResourceNotFoundException(request.getCarId()));
         Office pickUpOffice = officeRepository.findById(request.getPickUpOfficeId()).orElseThrow(() -> new ResourceNotFoundException(request.getPickUpOfficeId()));

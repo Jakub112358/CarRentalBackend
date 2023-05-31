@@ -203,4 +203,8 @@ public class DBOperations {
     public void cleanIncomesTable() {
         incomeRepository.deleteAll();
     }
+
+    public void cleanFinancesTable() {
+        financesRepository.deleteAll();
+    }
 }

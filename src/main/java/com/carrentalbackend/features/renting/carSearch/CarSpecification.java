@@ -22,7 +22,7 @@ public class CarSpecification implements Specification<Car> {
                 statusIsNotUnavailable(root, criteriaBuilder),
                 makeIsMember(root, criteriaBuilder),
                 modelIsMember(root, criteriaBuilder),
-                mileageIsSmallerThanOrEqualTo(root, criteriaBuilder),
+                mileageIsLessThanOrEqualTo(root, criteriaBuilder),
                 yearGraterThanOrEqualTo(root, criteriaBuilder),
                 bodyTypeIsMember(root, criteriaBuilder),
                 colorIsMember(root, criteriaBuilder)
@@ -77,7 +77,7 @@ public class CarSpecification implements Specification<Car> {
                 .toArray(Predicate[]::new);
     }
 
-    private Predicate mileageIsSmallerThanOrEqualTo(Root<Car> root, CriteriaBuilder criteriaBuilder) {
+    private Predicate mileageIsLessThanOrEqualTo(Root<Car> root, CriteriaBuilder criteriaBuilder) {
         return nonNull(criteria.getMaxMileage()) ?
                 criteriaBuilder.lessThanOrEqualTo(root.get("mileage"), criteria.getMaxMileage()) :
                 alwaysTruePredicate(criteriaBuilder);
