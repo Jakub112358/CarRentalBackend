@@ -67,3 +67,7 @@ Angular application with PrimeNG library.
   - main – release app version
   - dev – stable and tested version of application
 
+### Data Base Model: 
+
+![data base model](src/assets/dbDiagram.png)
+
