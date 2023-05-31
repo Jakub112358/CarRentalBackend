@@ -65,7 +65,7 @@ public class DbPopulator {
         addEmployees();
         addClients();
         addAdmin();
-        addReservations();
+        //addReservations();
     }
 
     private void addAdmin() {

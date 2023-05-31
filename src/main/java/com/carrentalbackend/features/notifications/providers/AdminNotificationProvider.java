@@ -1,5 +1,6 @@
-package com.carrentalbackend.features.notifications;
+package com.carrentalbackend.features.notifications.providers;
 
+import com.carrentalbackend.features.notifications.NotificationDTO;
 import com.carrentalbackend.model.entity.Car;
 import com.carrentalbackend.model.entity.Employee;
 import com.carrentalbackend.model.enumeration.JobPosition;
@@ -20,7 +21,7 @@ public class AdminNotificationProvider {
     private final CarRepository carRepository;
 
     public List<NotificationDTO> getNotifications() {
-        List<NotificationDTO> result = new ArrayList<>(checkNumberOfManagers());
+        List<NotificationDTO> result = checkNumberOfManagers();
         result.addAll(checkCarsWithNullBranchOffice());
         result.addAll(checkEmployeesWithNullBranchOffice());
 

@@ -21,4 +21,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Reservation> findAllByPickUpOffice_id(Long id);
 
     List<Reservation> findAllByCar_id(Long id);
+
+    List<Reservation> findAllByClient_IdAndStatusNotAndStatusNot(Long clientId, ReservationStatus status1, ReservationStatus status2);
 }

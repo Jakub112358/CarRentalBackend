@@ -20,9 +20,9 @@ import static com.carrentalbackend.config.ApiConstraints.ORIGIN;
 public class NotificationController {
     private final NotificationService notificationService;
 
-    @GetMapping(params = "recipient")
+    @GetMapping
     public ResponseEntity<List<NotificationDTO>> getAllByRecipient(Authentication auth) {
-        var authorities = auth.getAuthorities();
-        return ResponseEntity.ok(notificationService.getAllByRecipient(authorities));
+
+        return ResponseEntity.ok(notificationService.getAllByRecipient(auth));
     }
 }
