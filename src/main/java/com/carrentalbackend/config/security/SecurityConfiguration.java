@@ -26,6 +26,8 @@ public class SecurityConfiguration {
                 .cors()
                 .and()
                 .authorizeHttpRequests()
+                .requestMatchers(ApiConstraints.SWAGGER).permitAll()
+                .requestMatchers(ApiConstraints.API_DOCS).permitAll()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers(ApiConstraints.AUTHENTICATION + "/**").permitAll()
                 .requestMatchers(HttpMethod.POST, ApiConstraints.CLIENT).permitAll()

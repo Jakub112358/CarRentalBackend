@@ -18,5 +18,7 @@ public class ApiConstraints {
     public final static String CAR_RETURN = BASE_URL + "/car-returns";
     public final static String AUTHENTICATION = BASE_URL + "/auth";
     public final static String CAR_SEARCH = BASE_URL + "/car-search";
+    public final static String SWAGGER = "/swagger-ui/**";
+    public final static String API_DOCS = "/v3/api-docs/**";
 
 }
