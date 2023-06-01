@@ -29,7 +29,7 @@ Angular application with PrimeNG library.
 - Security: Spring Security 6 based on user roles + Json Web Tokens (JWT)
 - Testing: Unit and integration tests (singular and parameterized) using tools such as JUnit, MockMVC, Mockito.
 - Test coverage:
-- <img src="src/assets/testCoverage.png" width="400" alt="test coverage">
+ <img src="src/assets/testCoverage.png" width="632" alt="test coverage">
 
 **DataBase:**
 - MySQL / H2 for development and testing
