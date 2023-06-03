@@ -14,6 +14,7 @@ public class PickUpUpdateTool {
     private final CarRepository carRepository;
     private final OfficeRepository officeRepository;
 
+
     public void updateEntity(PickUp entity, PickUpUpdateRequest updateRequest) {
         var employee = employeeRepository.getReferenceById(updateRequest.getEmployeeId());
         var car = carRepository.getReferenceById(updateRequest.getCarId());

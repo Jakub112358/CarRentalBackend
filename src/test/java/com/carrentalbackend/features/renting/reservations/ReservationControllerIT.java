@@ -442,7 +442,7 @@ public class ReservationControllerIT extends BaseIT {
         //and
         var changedStatus = ReservationStatus.REALIZED;
         var updateRequest = ReservationUpdateRequest.builder()
-                .reservationStatus(changedStatus)
+                .status(changedStatus)
                 .build();
 
         //when
@@ -470,7 +470,7 @@ public class ReservationControllerIT extends BaseIT {
         //and
         var changedStatus = ReservationStatus.REALIZED;
         var updateRequest = ReservationUpdateRequest.builder()
-                .reservationStatus(changedStatus)
+                .status(changedStatus)
                 .build();
 
         //when
@@ -496,7 +496,7 @@ public class ReservationControllerIT extends BaseIT {
         //and
         var changedStatus = ReservationStatus.REALIZED;
         var updateRequest = ReservationUpdateRequest.builder()
-                .reservationStatus(changedStatus)
+                .status(changedStatus)
                 .build();
 
         //when
@@ -525,7 +525,7 @@ public class ReservationControllerIT extends BaseIT {
         //and
         var changedStatus = ReservationStatus.CANCELLED;
         var updateRequest = ReservationUpdateRequest.builder()
-                .reservationStatus(changedStatus)
+                .status(changedStatus)
                 .build();
 
         //when
@@ -568,7 +568,7 @@ public class ReservationControllerIT extends BaseIT {
         //and
         var changedStatus = ReservationStatus.CANCELLED;
         var updateRequest = ReservationUpdateRequest.builder()
-                .reservationStatus(changedStatus)
+                .status(changedStatus)
                 .build();
 
         //when

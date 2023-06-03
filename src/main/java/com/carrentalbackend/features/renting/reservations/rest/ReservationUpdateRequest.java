@@ -12,6 +12,6 @@ import lombok.*;
 @Builder
 public class ReservationUpdateRequest implements UpdateRequest {
     @NotNull
-    private ReservationStatus reservationStatus;
+    private ReservationStatus status;
 
 }

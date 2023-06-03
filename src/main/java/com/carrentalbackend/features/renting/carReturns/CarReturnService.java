@@ -49,6 +49,7 @@ public class CarReturnService {
 
         CarReturn instance = carReturnRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
         updateTool.updateEntity(instance, request);
+        carReturnRepository.save(instance);
         CarReturnResponse response = carReturnMapper.toResponse(instance);
 
         if(request.getExtraCharge() != null)

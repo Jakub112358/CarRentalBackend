@@ -20,5 +20,5 @@ public class PickUpResponse implements Response {
     private Long employeeId;
     private Long reservationId;
     private Long carId;
-    private Long branchOfficeId;
+    private Long officeId;
 }

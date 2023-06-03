@@ -18,4 +18,6 @@ public class CompanyResponse implements Response {
     private double differentOfficesExtraCharge;
     private int mediumTermRentMinDays;
     private int longTermRentMinDays;
+    private int freeCancellationDaysLimit;
+    private double lateCancellationRatio;
 }

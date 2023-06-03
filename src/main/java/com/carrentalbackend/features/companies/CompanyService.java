@@ -27,6 +27,7 @@ public class CompanyService {
     public Response update(CompanyRequest request) {
         Company company = getCompanyFromDB();
         updateTool.updateEntity(company, request);
+        companyRepository.save(company);
         return companyMapper.toResponse(company);
     }
 

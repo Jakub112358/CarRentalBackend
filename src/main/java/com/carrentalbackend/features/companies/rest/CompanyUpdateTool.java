@@ -13,5 +13,9 @@ public class CompanyUpdateTool implements UpdateTool<Company, CompanyRequest> {
         entity.setLogotype(request.getLogotype());
         entity.setAddress(request.getAddress());
         entity.setDifferentOfficesExtraCharge(request.getDifferentOfficesExtraCharge());
+        entity.setMediumTermRentMinDays(request.getMediumTermRentMinDays());
+        entity.setLongTermRentMinDays(request.getLongTermRentMinDays());
+        entity.setFreeCancellationDaysLimit(request.getFreeCancellationDaysLimit());
+        entity.setLateCancellationRatio(request.getLateCancellationRatio());
     }
 }

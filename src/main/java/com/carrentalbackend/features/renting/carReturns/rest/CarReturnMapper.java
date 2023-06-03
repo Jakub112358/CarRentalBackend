@@ -12,7 +12,6 @@ public class CarReturnMapper {
         Long employeeId = entity.getEmployee() != null ? entity.getEmployee().getId() : null;
         Long reservationId = entity.getReservation() != null ? entity.getReservation().getId() : null;
         Long carId = entity.getCar() != null ? entity.getCar().getId() : null;
-        int carMileage = entity.getCar() != null ? entity.getCar().getMileage() : 0;
         Long branchOfficeId = entity.getOffice() != null ? entity.getOffice().getId() : null;
         return CarReturnResponse.builder()
                 .id(entity.getId())
@@ -24,8 +23,7 @@ public class CarReturnMapper {
                 .employeeId(employeeId)
                 .reservationId(reservationId)
                 .carId(carId)
-                .branchOfficeId(branchOfficeId)
-                .mileage(carMileage)
+                .officeId(branchOfficeId)
                 .build();
     }
 }

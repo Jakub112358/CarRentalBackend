@@ -5,6 +5,7 @@ import com.carrentalbackend.features.generics.Response;
 import com.carrentalbackend.features.renting.reservations.rest.ReservationCreateRequest;
 import com.carrentalbackend.features.renting.reservations.rest.ReservationResponse;
 import com.carrentalbackend.features.renting.reservations.rest.ReservationUpdateRequest;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -47,7 +48,7 @@ public class ReservationController extends CrudController<ReservationCreateReque
 
     @Override
     @PatchMapping("/{id}")
-    public ResponseEntity<Response> update(@PathVariable Long id, @RequestBody ReservationUpdateRequest updateRequest, Authentication auth) {
+    public ResponseEntity<Response> update(@PathVariable Long id, @Valid @RequestBody ReservationUpdateRequest updateRequest, Authentication auth) {
         reservationService.throwIfNotPermittedToUpdate(id, updateRequest, auth);
         reservationService.performCashbackIfClient(auth, id);
 
