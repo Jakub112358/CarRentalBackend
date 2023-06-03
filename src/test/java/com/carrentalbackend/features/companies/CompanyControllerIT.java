@@ -80,7 +80,7 @@ public class CompanyControllerIT extends BaseIT {
         var result = requestTool.sendPatchRequest(COMPANY, toJsonString(updateRequest));
 
         //then
-        result.andExpect(status().isForbidden());
+        result.andExpect(status().isBadRequest());
     }
 
 

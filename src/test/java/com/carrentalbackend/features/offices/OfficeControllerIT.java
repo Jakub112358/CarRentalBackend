@@ -61,7 +61,7 @@ public class OfficeControllerIT extends BaseIT {
         var result = requestTool.sendPostRequest(OFFICE, jsonRequest);
 
         //then
-        result.andExpect(status().isForbidden());
+        result.andExpect(status().isBadRequest());
     }
 
     @Test
@@ -158,7 +158,6 @@ public class OfficeControllerIT extends BaseIT {
     }
 
     @Test
-    @WithMockUser(roles = "CLIENT")
     public void whenFindAll_thenForbidden() throws Exception {
         //given
         dbOperations.addSimpleOfficeToDB();
@@ -229,7 +228,7 @@ public class OfficeControllerIT extends BaseIT {
         var result = requestTool.sendPatchRequest(path, toJsonString(request));
 
         //then
-        result.andExpect(status().isForbidden());
+        result.andExpect(status().isBadRequest());
     }
 
     @Test

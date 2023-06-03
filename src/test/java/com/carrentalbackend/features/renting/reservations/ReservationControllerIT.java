@@ -104,7 +104,7 @@ public class ReservationControllerIT extends BaseIT {
         var result = requestTool.sendPostRequest(RESERVATION, jsonRequest);
 
         //then
-        result.andExpect(status().isForbidden());
+        result.andExpect(status().isBadRequest());
     }
 
     @Test
@@ -126,7 +126,7 @@ public class ReservationControllerIT extends BaseIT {
         var result = requestTool.sendPostRequest(RESERVATION, toJsonString(request));
 
         //then
-        result.andExpect(status().isForbidden());
+        result.andExpect(status().isBadRequest());
     }
 
     @Test
@@ -148,7 +148,7 @@ public class ReservationControllerIT extends BaseIT {
         var result = requestTool.sendPostRequest(RESERVATION, toJsonString(request));
 
         //then
-        result.andExpect(status().isForbidden());
+        result.andExpect(status().isBadRequest());
     }
 
     @Test
@@ -170,7 +170,7 @@ public class ReservationControllerIT extends BaseIT {
         var result = requestTool.sendPostRequest(RESERVATION, toJsonString(request));
 
         //then
-        result.andExpect(status().isForbidden());
+        result.andExpect(status().isBadRequest());
     }
 
 
