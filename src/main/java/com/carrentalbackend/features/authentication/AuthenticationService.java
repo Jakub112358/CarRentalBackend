@@ -35,6 +35,7 @@ public class AuthenticationService {
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException("user not found"));
         Map<String, Object> extraClaims = new HashMap<>();
         extraClaims.put("rol", user.getRole());
+        extraClaims.put("id", user.getId());
         return jwtService.generateToken(user, extraClaims);
     }
 }
