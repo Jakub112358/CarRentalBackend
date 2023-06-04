@@ -26,10 +26,8 @@ public class Income {
         if (this == o)
             return true;
 
-        if (!(o instanceof Income))
+        if (!(o instanceof Income other))
             return false;
-
-        Income other = (Income) o;
 
         return id != null &&
                 id.equals(other.getId());

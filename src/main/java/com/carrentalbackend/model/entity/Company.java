@@ -34,10 +34,8 @@ public class Company implements CrudEntity {
         if (this == o)
             return true;
 
-        if (!(o instanceof Company))
+        if (!(o instanceof Company other))
             return false;
-
-        Company other = (Company) o;
 
         return id != null &&
                 id.equals(other.getId());

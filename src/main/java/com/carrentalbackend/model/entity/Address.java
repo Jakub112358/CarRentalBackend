@@ -33,10 +33,8 @@ public class Address {
         if (this == o)
             return true;
 
-        if (!(o instanceof Address))
+        if (!(o instanceof Address other))
             return false;
-
-        Address other = (Address) o;
 
         return id != null &&
                 id.equals(other.getId());

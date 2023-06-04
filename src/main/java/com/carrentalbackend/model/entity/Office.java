@@ -31,10 +31,8 @@ public class Office implements CrudEntity{
         if (this == o)
             return true;
 
-        if (!(o instanceof Office))
+        if (!(o instanceof Office other))
             return false;
-
-        Office other = (Office) o;
 
         return id != null &&
                 id.equals(other.getId());

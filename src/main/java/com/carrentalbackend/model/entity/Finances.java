@@ -25,10 +25,8 @@ public class Finances {
         if (this == o)
             return true;
 
-        if (!(o instanceof Finances))
+        if (!(o instanceof Finances other))
             return false;
-
-        Finances other = (Finances) o;
 
         return id != null &&
                 id.equals(other.getId());

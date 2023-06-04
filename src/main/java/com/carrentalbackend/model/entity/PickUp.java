@@ -35,10 +35,8 @@ public class PickUp implements CrudEntity {
         if (this == o)
             return true;
 
-        if (!(o instanceof PickUp))
+        if (!(o instanceof PickUp other))
             return false;
-
-        PickUp other = (PickUp) o;
 
         return id != null &&
                 id.equals(other.getId());

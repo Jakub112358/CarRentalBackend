@@ -25,10 +25,8 @@ public class PriceList implements CrudEntity{
         if (this == o)
             return true;
 
-        if (!(o instanceof PriceList))
+        if (!(o instanceof PriceList other))
             return false;
-
-        PriceList other = (PriceList) o;
 
         return id != null &&
                 id.equals(other.getId());

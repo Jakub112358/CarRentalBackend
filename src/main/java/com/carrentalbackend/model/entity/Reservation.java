@@ -42,10 +42,8 @@ public class Reservation implements CrudEntity {
         if (this == o)
             return true;
 
-        if (!(o instanceof Reservation))
+        if (!(o instanceof Reservation other))
             return false;
-
-        Reservation other = (Reservation) o;
 
         return id != null &&
                 id.equals(other.getId());

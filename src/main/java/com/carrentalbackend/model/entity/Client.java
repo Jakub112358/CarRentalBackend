@@ -41,10 +41,8 @@ public class Client extends User implements CrudEntity {
         if (this == o)
             return true;
 
-        if (!(o instanceof Client))
+        if (!(o instanceof Client other))
             return false;
-
-        Client other = (Client) o;
 
         return id != null &&
                 id.equals(other.getId());

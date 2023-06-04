@@ -37,10 +37,8 @@ public class Employee extends User implements CrudEntity {
         if (this == o)
             return true;
 
-        if (!(o instanceof Employee))
+        if (!(o instanceof Employee other))
             return false;
-
-        Employee other = (Employee) o;
 
         return id != null &&
                 id.equals(other.getId());

@@ -66,10 +66,8 @@ public class User implements UserDetails {
         if (this == o)
             return true;
 
-        if (!(o instanceof User))
+        if (!(o instanceof User other))
             return false;
-
-        User other = (User) o;
 
         return id != null &&
                 id.equals(other.getId());

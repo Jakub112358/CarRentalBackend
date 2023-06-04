@@ -37,10 +37,8 @@ public class CarReturn implements CrudEntity{
         if (this == o)
             return true;
 
-        if (!(o instanceof CarReturn))
+        if (!(o instanceof CarReturn other))
             return false;
-
-        CarReturn other = (CarReturn) o;
 
         return id != null &&
                 id.equals(other.getId());
