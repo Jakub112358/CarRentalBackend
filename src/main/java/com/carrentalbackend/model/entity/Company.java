@@ -12,7 +12,7 @@ import lombok.*;
 public class Company implements CrudEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String name;
     private String domain;
     private double differentOfficesExtraCharge;
@@ -29,7 +29,24 @@ public class Company implements CrudEntity {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Finances finances;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
 
+        if (!(o instanceof Company))
+            return false;
+
+        Company other = (Company) o;
+
+        return id != null &&
+                id.equals(other.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 
 
 }

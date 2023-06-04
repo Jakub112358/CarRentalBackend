@@ -39,14 +39,14 @@ public class DBOperations {
 
     public User addSimpleUserToDB() {
         var user = UserFactory.getSimpleUser();
-        userRepository.save(user);
-        return user;
+        return userRepository.save(user);
+
     }
 
     public Client addSimpleClientToDB() {
         var client = ClientFactory.getSimpleClient();
-        clientRepository.save(client);
-        return client;
+        return clientRepository.save(client);
+
     }
 
     public void addSimpleCompanyToDB() {
@@ -56,16 +56,14 @@ public class DBOperations {
 
     public Office addSimpleOfficeToDB() {
         var office = OfficeFactory.getSimpleOfficeBuilder().build();
-        officeRepository.save(office);
-        return office;
+        return officeRepository.save(office);
     }
 
     public Employee addSimpleEmployeeToDB(Office office) {
         var employee = EmployeeFactory.getSimpleEmployeeBuilder()
                 .office(office)
                 .build();
-        employeeRepository.save(employee);
-        return employee;
+        return employeeRepository.save(employee);
     }
 
     public Car addSimpleCarToDb(Office currentOffice, PriceList priceList) {
@@ -73,14 +71,12 @@ public class DBOperations {
                 .priceList(priceList)
                 .currentOffice(currentOffice)
                 .build();
-        carRepository.save(car);
-        return car;
+        return carRepository.save(car);
     }
 
     public PriceList addSimplePriceListToDb() {
         var priceList = PriceListFactory.getSimplePriceListBuilder().build();
-        priceListRepository.save(priceList);
-        return priceList;
+        return priceListRepository.save(priceList);
     }
 
     public Reservation addSimpleReservationToDB(Client client, Car car, Office pickUpOffice, Office returnOffice) {
@@ -93,8 +89,7 @@ public class DBOperations {
                 .pickUp(new PickUp())
                 .carReturn(new CarReturn())
                 .build();
-        reservationRepository.save(reservation);
-        return reservation;
+        return reservationRepository.save(reservation);
     }
 
     public PickUp addSimplePickUpToDB(Employee employee, Reservation reservation, Car car, Office office) {
@@ -104,8 +99,7 @@ public class DBOperations {
                 .car(car)
                 .office(office)
                 .build();
-        pickUpRepository.save(pickUp);
-        return pickUp;
+        return pickUpRepository.save(pickUp);
     }
 
     public CarReturn addSimpleCarReturnToDB(Employee employee, Reservation reservation, Car car, Office office) {
@@ -115,8 +109,7 @@ public class DBOperations {
                 .car(car)
                 .office(office)
                 .build();
-        carReturnRepository.save(carReturn);
-        return carReturn;
+        return carReturnRepository.save(carReturn);
     }
 
     public void addSimpleFinancesToDB(Company company) {

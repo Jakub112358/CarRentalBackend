@@ -14,10 +14,29 @@ import java.math.BigDecimal;
 public class Income {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private BigDecimal incomeValue;
     @ManyToOne (fetch = FetchType.LAZY)
     private Reservation reservation;
     @ManyToOne (fetch = FetchType.LAZY)
     private Finances finances;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+
+        if (!(o instanceof Income))
+            return false;
+
+        Income other = (Income) o;
+
+        return id != null &&
+                id.equals(other.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

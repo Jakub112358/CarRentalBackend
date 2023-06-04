@@ -15,7 +15,7 @@ import java.time.LocalDate;
 public class PickUp implements CrudEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String comments;
     private LocalDate pickUpDate;
     private LocalDate plannedPickUpDate;
@@ -29,4 +29,23 @@ public class PickUp implements CrudEntity {
     private Car car;
     @ManyToOne (fetch = FetchType.LAZY)
     private Office office;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+
+        if (!(o instanceof PickUp))
+            return false;
+
+        PickUp other = (PickUp) o;
+
+        return id != null &&
+                id.equals(other.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

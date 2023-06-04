@@ -16,7 +16,7 @@ import java.time.LocalDate;
 public class CarReturn implements CrudEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String comments;
     private BigDecimal extraCharge;
     private LocalDate returnDate;
@@ -32,4 +32,22 @@ public class CarReturn implements CrudEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     private Office office;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+
+        if (!(o instanceof CarReturn))
+            return false;
+
+        CarReturn other = (CarReturn) o;
+
+        return id != null &&
+                id.equals(other.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

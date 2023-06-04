@@ -13,10 +13,29 @@ import java.util.List;
 public class PriceList implements CrudEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private double shortTermPrice;
     private double mediumTermPrice;
     private double longTermPrice;
     @OneToMany(mappedBy = "priceList", cascade = CascadeType.PERSIST)
     private List<Car> cars;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+
+        if (!(o instanceof PriceList))
+            return false;
+
+        PriceList other = (PriceList) o;
+
+        return id != null &&
+                id.equals(other.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

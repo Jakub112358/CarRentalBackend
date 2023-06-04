@@ -199,19 +199,19 @@ public class DbPopulator {
 
     private void createAddressList() {
         this.addresses = new Address[]{
-                new Address(0L, "11-111", "Poznań", "ul. Roosevelta", "1"),
-                new Address(0L, "11-111", "Poznań", "ul. Kolejowa", "2"),
-                new Address(0L, "11-111", "Poznań", "ul. Piątkowska", "3"),
-                new Address(0L, "22-222", "Warszawa", "ul. Marszałkowska", "1"),
-                new Address(0L, "22-222", "Warszawa", "ul. Główna", "2"),
-                new Address(0L, "22-222", "Warszawa", "ul. Dębowa", "3"),
-                new Address(0L, "33-333", "Wrocław", "ul. Kolejowa", "4"),
-                new Address(0L, "44-444", "Kraków", "ul. Niepodległości", "100A"),
-                new Address(0L, "55-555", "Gdańsk", "ul. Zwycięstwa", "12C/3"),
-                new Address(0L, "55-556", "Gdańsk", "ul. Niepodległości", "3"),
-                new Address(0L, "55-557", "Gdańsk", "ul. Kolejowa", "12"),
-                new Address(0L, "55-558", "Gdańsk", "ul. Uliczna", "8C/15"),
-                new Address(0L, "55-559", "Gdańsk", "ul. Zwycięstwa", "12"),
+                new Address(null, "11-111", "Poznań", "ul. Roosevelta", "1"),
+                new Address(null, "11-111", "Poznań", "ul. Kolejowa", "2"),
+                new Address(null, "11-111", "Poznań", "ul. Piątkowska", "3"),
+                new Address(null, "22-222", "Warszawa", "ul. Marszałkowska", "1"),
+                new Address(null, "22-222", "Warszawa", "ul. Główna", "2"),
+                new Address(null, "22-222", "Warszawa", "ul. Dębowa", "3"),
+                new Address(null, "33-333", "Wrocław", "ul. Kolejowa", "4"),
+                new Address(null, "44-444", "Kraków", "ul. Niepodległości", "100A"),
+                new Address(null, "55-555", "Gdańsk", "ul. Zwycięstwa", "12C/3"),
+                new Address(null, "55-556", "Gdańsk", "ul. Niepodległości", "3"),
+                new Address(null, "55-557", "Gdańsk", "ul. Kolejowa", "12"),
+                new Address(null, "55-558", "Gdańsk", "ul. Uliczna", "8C/15"),
+                new Address(null, "55-559", "Gdańsk", "ul. Zwycięstwa", "12"),
 
         };
     }

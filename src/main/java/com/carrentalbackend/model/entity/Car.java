@@ -16,7 +16,7 @@ import lombok.*;
 public class Car implements CrudEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String make;
     private String model;
     private int mileage;
@@ -28,9 +28,27 @@ public class Car implements CrudEntity {
     private Color color;
     @Enumerated(EnumType.STRING)
     private CarStatus status;
-    @ManyToOne (fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private PriceList priceList;
-    @ManyToOne (fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Office currentOffice;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+
+        if (!(o instanceof Car))
+            return false;
+
+        Car other = (Car) o;
+
+        return id != null &&
+                id.equals(other.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
