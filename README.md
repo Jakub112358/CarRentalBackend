@@ -49,7 +49,6 @@ Angular application with PrimeNG library.
 **As Admin:**
 - login to the system
 - configuring company details
-- managing users (full CRUD operations, including assigning roles)
 - managing clients (full CRUD operations)
 - managing employees (full CRUD operations)
 - managing cars (full CRUD operations)
