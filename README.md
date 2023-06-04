@@ -3,20 +3,24 @@
 Frontend part of the application: https://github.com/Jakub112358/CarRentalFrontend
 
 ### Developer:
+
 - Jakub Szymański
 
 ### Running application:
 Before running application you have to configure your database. Instructions to do so are included in application.yml file.
 
+
 ### General app description:
 The main purpose of the application is to solve the problem of managing car rental company that has branch offices in various cities. 
 The solution will be to create a personalized web application.
+
 
 ### General technical description: 
 
 **Backend:**
 Spring Boot REST application. The application meets all the requirements of level 2 of the Richardson Maturity Model. 
 I use tools such as e.g. Lombok or JJWT. I focus on creating clean code and using appropriate design patters.
+
 
 
 **Frontend:**
@@ -39,7 +43,6 @@ Angular application with PrimeNG library.
   - JPA derived queries, 
   - JPA Criteria API,
   - JPQL custom queries
-
 
 **Frontend:**
 - Angular 15
@@ -88,6 +91,7 @@ Angular application with PrimeNG library.
 - managing finances: in the current version incomes are auto-generated in moment of making/cancelling a reservation and saving in Data Base, but access to them via API is not implemented yet.
 - currency converter: in the current version all prices are set in one currency. Next version will support cunverting currency by using external API provided by Narodowy Bank Polski.
 
+
 ### Version control: 
 - system: GIT
 - main branches:
@@ -102,4 +106,5 @@ Angular application with PrimeNG library.
 
 #1 Run the application. <br>
 #2 Open in your browser: http://localhost:8080/swagger-ui/index.html
+
 
