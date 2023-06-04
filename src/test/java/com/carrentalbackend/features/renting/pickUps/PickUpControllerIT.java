@@ -199,7 +199,7 @@ public class PickUpControllerIT extends BaseIT {
         var result = requestTool.sendPatchRequest(path, toJsonString(request));
 
         //then
-        result.andExpect(status().isForbidden());
+        result.andExpect(status().isBadRequest());
     }
 
 
@@ -234,7 +234,7 @@ public class PickUpControllerIT extends BaseIT {
         var result = requestTool.sendPatchRequest(path, toJsonString(updateRequest));
 
         //then
-        result.andExpect(status().isForbidden());
+        result.andExpect(status().isBadRequest());
     }
 
     @Test
@@ -268,7 +268,7 @@ public class PickUpControllerIT extends BaseIT {
         var result = requestTool.sendPatchRequest(path, toJsonString(updateRequest));
 
         //then
-        result.andExpect(status().isForbidden());
+        result.andExpect(status().isBadRequest());
     }
 
     @Test
@@ -302,7 +302,7 @@ public class PickUpControllerIT extends BaseIT {
         var result = requestTool.sendPatchRequest(path, toJsonString(updateRequest));
 
         //then
-        result.andExpect(status().isForbidden());
+        result.andExpect(status().isBadRequest());
     }
 
 

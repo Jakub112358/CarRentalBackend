@@ -35,6 +35,7 @@ public class PickUpService {
     public Response update(Long id, PickUpUpdateRequest request) {
         PickUp instance = pickUpRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
         updateTool.updateEntity(instance, request);
+        pickUpRepository.save(instance);
         return pickUpMapper.toResponse(instance);
     }
 

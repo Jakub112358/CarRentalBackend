@@ -71,7 +71,7 @@ public class CarControllerIT extends BaseIT {
         var result = requestTool.sendPostRequest(CAR, toJsonString(request));
 
         //then
-        result.andExpect(status().isForbidden());
+        result.andExpect(status().isBadRequest());
     }
 
     @Test
@@ -85,7 +85,7 @@ public class CarControllerIT extends BaseIT {
         var result = requestTool.sendPostRequest(CAR, toJsonString(request));
 
         //then
-        result.andExpect(status().isForbidden());
+        result.andExpect(status().isBadRequest());
     }
 
     @Test
@@ -99,7 +99,7 @@ public class CarControllerIT extends BaseIT {
         var result = requestTool.sendPostRequest(CAR, toJsonString(request));
 
         //then
-        result.andExpect(status().isForbidden());
+        result.andExpect(status().isBadRequest());
     }
 
     @Test
@@ -300,7 +300,7 @@ public class CarControllerIT extends BaseIT {
         var result = requestTool.sendPatchRequest(path, toJsonString(request));
 
         //then
-        result.andExpect(status().isForbidden());
+        result.andExpect(status().isBadRequest());
     }
 
     @Test
@@ -419,7 +419,7 @@ public class CarControllerIT extends BaseIT {
                 .andExpect(jsonPath("$.color").value(CarFactory.simpleCarColor.name()))
                 .andExpect(jsonPath("$.status").value(CarFactory.simpleCarStatus.name()))
                 .andExpect(jsonPath("$.priceListId").value(priceListId))
-                .andExpect(jsonPath("$.currentBranchOfficeId").value(officeId));
+                .andExpect(jsonPath("$.currentOfficeId").value(officeId));
     }
 
     private void assertCarFieldsNull(PickUp pickUp, CarReturn carReturn, Reservation reservation) {

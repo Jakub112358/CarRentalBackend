@@ -5,14 +5,8 @@ import com.carrentalbackend.features.generics.CrudService;
 import com.carrentalbackend.features.offices.rest.OfficeMapper;
 import com.carrentalbackend.features.offices.rest.OfficeRequest;
 import com.carrentalbackend.features.offices.rest.OfficeUpdateTool;
-import com.carrentalbackend.model.entity.Car;
-import com.carrentalbackend.model.entity.Employee;
-import com.carrentalbackend.model.entity.Office;
-import com.carrentalbackend.model.entity.Reservation;
-import com.carrentalbackend.repository.CarRepository;
-import com.carrentalbackend.repository.EmployeeRepository;
-import com.carrentalbackend.repository.OfficeRepository;
-import com.carrentalbackend.repository.ReservationRepository;
+import com.carrentalbackend.model.entity.*;
+import com.carrentalbackend.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,31 +17,50 @@ public class OfficeService extends CrudService<Office, OfficeRequest, OfficeRequ
     private final EmployeeRepository employeeRepository;
     private final CarRepository carRepository;
     private final ReservationRepository reservationRepository;
+    private final PickUpRepository pickUpRepository;
+    private final CarReturnRepository carReturnRepository;
 
     public OfficeService(OfficeRepository repository,
                          OfficeMapper officeMapper,
                          OfficeUpdateTool updateTool,
                          EmployeeRepository employeeRepository,
                          CarRepository carRepository,
-                         ReservationRepository reservationRepository) {
+                         ReservationRepository reservationRepository,
+                         PickUpRepository pickUpRepository,
+                         CarReturnRepository carReturnRepository) {
         super(repository, officeMapper, updateTool);
         this.officeRepository = repository;
         this.employeeRepository = employeeRepository;
         this.carRepository = carRepository;
         this.reservationRepository = reservationRepository;
+        this.pickUpRepository = pickUpRepository;
+        this.carReturnRepository = carReturnRepository;
     }
 
 
     @Override
     public void deleteById(Long id) {
-        if(!officeRepository.existsById(id))
+        if (!officeRepository.existsById(id))
             throw new ResourceNotFoundException(id);
 
         nullOfficeInEmployees(id);
         nullOfficeInCars(id);
         nullPickUpOfficeInReservations(id);
         nullReturnOfficeInReservations(id);
+        nullOfficeInPickUps(id);
+        nullOfficeInCarReturns(id);
         officeRepository.deleteById(id);
+    }
+
+    private void nullOfficeInCarReturns(Long id) {
+        List<CarReturn> carReturns = carReturnRepository.findAllByOffice_Id(id);
+        carReturns.forEach(cr -> cr.setOffice(null));
+
+    }
+
+    private void nullOfficeInPickUps(Long id) {
+        List<PickUp> pickUps = pickUpRepository.findAllByOffice_Id(id);
+        pickUps.forEach(pu -> pu.setOffice(null));
     }
 
     private void nullReturnOfficeInReservations(Long id) {

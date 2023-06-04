@@ -22,6 +22,5 @@ public class CarReturnResponse implements Response {
     private Long employeeId;
     private Long reservationId;
     private Long carId;
-    private Long branchOfficeId;
-    private int mileage;
+    private Long officeId;
 }

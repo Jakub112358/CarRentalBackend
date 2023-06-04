@@ -40,6 +40,7 @@ public class CarSearchService {
         boolean sameOffices = Objects.equals(returnOfficeId, pickUpOfficeId);
 
         return cars.stream()
+                .filter(c -> c.getPriceList() != null)
                 .filter(c -> checkIfAvailable(c, dateFrom, dateTo, pickUpOfficeId))
                 .map(carMapper::toCarRentResponse)
                 .peek(response -> response.setPrice(rentingUtil.calculatePrice(response, rentalLength, sameOffices)))
@@ -56,7 +57,9 @@ public class CarSearchService {
     private boolean checkIfCarWillBeInChosenOffice(Car car, LocalDate dateFrom, Long pickUpOfficeId) {
 
         List<Reservation> reservations = getNotRealizedCarReservations(car, dateFrom);
-        Optional<Reservation> lastReservation = reservations.stream().max(Comparator.comparing(Reservation::getDateTo));
+        Optional<Reservation> lastReservation = reservations.stream()
+                .filter(r -> r.getReturnOffice() != null)
+                .max(Comparator.comparing(Reservation::getDateTo));
         return lastReservation
                 .map(reservation -> compareOffices(reservation.getReturnOffice(), pickUpOfficeId))
                 .orElseGet(() -> compareOffices(car.getCurrentOffice(), pickUpOfficeId));
@@ -74,7 +77,7 @@ public class CarSearchService {
 
     private boolean compareOffices(Office office, Long pickUpOfficeId) {
         if (office != null) {
-            return office.getId() == pickUpOfficeId;
+            return Objects.equals(office.getId(), pickUpOfficeId);
         }
         return false;
     }

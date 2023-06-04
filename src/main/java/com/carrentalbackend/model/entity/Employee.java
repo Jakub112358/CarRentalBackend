@@ -14,7 +14,7 @@ import java.util.List;
 public class Employee extends User implements CrudEntity {
 
 @Builder
-    public Employee(long id, String email, String password, Role role, String firstName, String lastName, JobPosition jobPosition, Office office, List<PickUp> pickUps) {
+    public Employee(Long id, String email, String password, Role role, String firstName, String lastName, JobPosition jobPosition, Office office, List<PickUp> pickUps) {
         super(id, email, password, role);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -27,8 +27,25 @@ public class Employee extends User implements CrudEntity {
     private String lastName;
     @Enumerated(EnumType.STRING)
     private JobPosition jobPosition;
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     private Office office;
     @OneToMany (mappedBy = "employee", cascade = CascadeType.PERSIST)
     private List<PickUp> pickUps;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+
+        if (!(o instanceof Employee other))
+            return false;
+
+        return id != null &&
+                id.equals(other.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

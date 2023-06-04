@@ -52,7 +52,7 @@ public class CarMapper implements CrudMapper<Car, CarRequest> {
                 .color(entity.getColor())
                 .status(entity.getStatus())
                 .priceListId(priceListId)
-                .currentBranchOfficeId(officeId)
+                .currentOfficeId(officeId)
                 .build();
     }
 

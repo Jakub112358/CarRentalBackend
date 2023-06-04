@@ -22,5 +22,5 @@ public class CarResponse implements Response {
     private Color color;
     private CarStatus status;
     private Long priceListId;
-    private Long currentBranchOfficeId;
+    private Long currentOfficeId;
 }

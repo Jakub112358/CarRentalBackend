@@ -18,7 +18,7 @@ import lombok.*;
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Pattern(regexp = "[0-9]{2}-[0-9]{3}")
     private String zipCode;
     @NotBlank
@@ -27,4 +27,21 @@ public class Address {
     private String street;
     @NotBlank
     private String houseNumber;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+
+        if (!(o instanceof Address other))
+            return false;
+
+        return id != null &&
+                id.equals(other.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

@@ -16,20 +16,36 @@ import java.time.LocalDate;
 public class CarReturn implements CrudEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String comments;
     private BigDecimal extraCharge;
     private LocalDate returnDate;
     private LocalDate plannedReturnDate;
     @Enumerated(value = EnumType.STRING)
     private RentalActionStatus status;
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     private Employee employee;
-    @OneToOne(mappedBy = "carReturn")
+    @OneToOne(mappedBy = "carReturn", fetch = FetchType.LAZY)
     private Reservation reservation;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Car car;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Office office;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+
+        if (!(o instanceof CarReturn other))
+            return false;
+
+        return id != null &&
+                id.equals(other.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

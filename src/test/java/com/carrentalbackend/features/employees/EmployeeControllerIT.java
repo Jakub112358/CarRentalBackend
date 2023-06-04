@@ -68,7 +68,7 @@ public class EmployeeControllerIT extends BaseIT {
         var result = requestTool.sendPostRequest(EMPLOYEE, toJsonString(request));
 
         //then
-        result.andExpect(status().isForbidden());
+        result.andExpect(status().isBadRequest());
     }
 
     @Test
@@ -81,7 +81,7 @@ public class EmployeeControllerIT extends BaseIT {
         var result = requestTool.sendPostRequest(EMPLOYEE, toJsonString(request));
 
         //then
-        result.andExpect(status().isForbidden());
+        result.andExpect(status().isBadRequest());
     }
 
     @Test
@@ -260,7 +260,7 @@ public class EmployeeControllerIT extends BaseIT {
         var result = requestTool.sendPatchRequest(path, toJsonString(request));
 
         //then
-        result.andExpect(status().isForbidden());
+        result.andExpect(status().isBadRequest());
     }
 
     @Test

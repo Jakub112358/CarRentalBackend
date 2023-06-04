@@ -2,10 +2,12 @@ package com.carrentalbackend.features.renting.reservations.rest;
 
 import com.carrentalbackend.exception.ResourceNotFoundException;
 import com.carrentalbackend.features.cars.rest.CarMapper;
+import com.carrentalbackend.features.cars.rest.CarResponse;
 import com.carrentalbackend.features.generics.Response;
 import com.carrentalbackend.features.offices.rest.OfficeMapper;
 import com.carrentalbackend.features.generics.CrudMapper;
 
+import com.carrentalbackend.features.offices.rest.OfficeResponse;
 import com.carrentalbackend.model.entity.*;
 import com.carrentalbackend.model.enumeration.RentalActionStatus;
 import com.carrentalbackend.model.enumeration.ReservationStatus;
@@ -32,6 +34,9 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationCre
     @Override
     public ReservationResponse toResponse(Reservation reservation) {
         Long clientId = reservation.getClient() != null ? reservation.getClient().getId() : null;
+        CarResponse car = reservation.getCar() != null ? carMapper.toResponse(reservation.getCar()) : null;
+        OfficeResponse pickUpOffice = reservation.getPickUpOffice() != null ? officeMapper.toResponse(reservation.getPickUpOffice()) : null;
+        OfficeResponse returnOffice = reservation.getReturnOffice() != null ? officeMapper.toResponse(reservation.getReturnOffice()) : null;
 
         return ReservationResponse.builder()
                 .id(reservation.getId())
@@ -41,9 +46,9 @@ public class ReservationMapper implements CrudMapper<Reservation, ReservationCre
                 .price(reservation.getPrice())
                 .status(reservation.getStatus())
                 .clientId(clientId)
-                .car(carMapper.toResponse(reservation.getCar()))
-                .pickUpOffice(officeMapper.toResponse(reservation.getPickUpOffice()))
-                .returnOffice(officeMapper.toResponse(reservation.getReturnOffice()))
+                .car(car)
+                .pickUpOffice(pickUpOffice)
+                .returnOffice(returnOffice)
                 .build();
     }
 

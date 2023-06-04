@@ -8,6 +8,6 @@ import org.springframework.stereotype.Component;
 public class ReservationUpdateTool implements UpdateTool <Reservation, ReservationUpdateRequest> {
     @Override
     public void updateEntity(Reservation entity, ReservationUpdateRequest updateRequest) {
-        entity.setStatus(updateRequest.getReservationStatus());
+        entity.setStatus(updateRequest.getStatus());
     }
 }

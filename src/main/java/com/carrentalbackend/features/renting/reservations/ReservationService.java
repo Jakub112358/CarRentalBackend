@@ -74,7 +74,7 @@ public class ReservationService extends CrudService<Reservation, ReservationCrea
     public void throwIfNotPermittedToUpdate(Long reservationId, ReservationUpdateRequest updateRequest, Authentication auth) {
         if (authHasRole(auth, "ROLE_ADMIN") || authHasRole(auth, "ROLE_EMPLOYEE"))
             return;
-        if (!updateRequest.getReservationStatus().equals(ReservationStatus.CANCELLED))
+        if (!updateRequest.getStatus().equals(ReservationStatus.CANCELLED))
             throw new ForbiddenOperationException("Client is allowed only to cancel his reservations");
 
         Long clientId = extractClientId(reservationId);

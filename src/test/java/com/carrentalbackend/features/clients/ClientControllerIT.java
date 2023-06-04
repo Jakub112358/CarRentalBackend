@@ -62,7 +62,7 @@ public class ClientControllerIT extends BaseIT {
         var result = requestTool.sendPostRequest(CLIENT, simpleClientRequestJson);
 
         //then
-        result.andExpect(status().isForbidden());
+        result.andExpect(status().isBadRequest());
     }
 
     @Test
@@ -87,7 +87,7 @@ public class ClientControllerIT extends BaseIT {
         var result = requestTool.sendPostRequest(CLIENT, clientRequestJson);
 
         //then
-        result.andExpect(status().isForbidden());
+        result.andExpect(status().isBadRequest());
     }
 
     @Test
@@ -201,7 +201,7 @@ public class ClientControllerIT extends BaseIT {
         var result = requestTool.sendPatchRequest(path, toJsonString(updateRequest));
 
         //then
-        result.andExpect(status().isForbidden());
+        result.andExpect(status().isBadRequest());
     }
 
     @Test

@@ -25,7 +25,7 @@ public class ClientFactory {
      }
 
      public static Client getSimpleClient(){
-          return new Client(0L,
+          return new Client(null,
                   simpleEmail,
                   passwordEncoder.encode(simplePassword),
                   Role.CLIENT,

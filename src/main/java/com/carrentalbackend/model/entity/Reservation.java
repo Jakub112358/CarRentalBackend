@@ -17,26 +17,41 @@ import java.time.LocalDateTime;
 public class Reservation implements CrudEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private LocalDateTime reservationDate;
     private BigDecimal price;
     private LocalDate dateFrom;
     private LocalDate dateTo;
     @Enumerated(value = EnumType.STRING)
     private ReservationStatus status;
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     private Client client;
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     private Car car;
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     private Office pickUpOffice;
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     private Office returnOffice;
     @OneToOne (cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
     private PickUp pickUp;
     @OneToOne (cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
     private CarReturn carReturn;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
 
+        if (!(o instanceof Reservation other))
+            return false;
+
+        return id != null &&
+                id.equals(other.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 
 }

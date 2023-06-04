@@ -11,7 +11,7 @@ public class AddressFactory {
     public static String simpleHouseNumber = "9";
 
     public static Address getSimpleAddress(){
-        return new Address(0L, simpleZipCode, simpleTown, simpleStreet, simpleHouseNumber);
+        return new Address(null, simpleZipCode, simpleTown, simpleStreet, simpleHouseNumber);
     }
 
     public static AddressBuilder getSimpleAddressBuilder(){

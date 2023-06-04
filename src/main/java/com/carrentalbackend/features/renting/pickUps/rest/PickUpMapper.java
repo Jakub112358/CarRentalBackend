@@ -23,7 +23,7 @@ public class PickUpMapper {
                 .employeeId(employeeId)
                 .reservationId(reservationId)
                 .carId(carId)
-                .branchOfficeId(branchOfficeId)
+                .officeId(branchOfficeId)
                 .build();
     }
 

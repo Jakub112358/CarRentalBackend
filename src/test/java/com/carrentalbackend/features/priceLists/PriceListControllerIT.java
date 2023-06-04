@@ -56,7 +56,7 @@ public class PriceListControllerIT extends BaseIT {
         var result = requestTool.sendPostRequest(PRICE_LIST, jsonRequest);
 
         //then
-        result.andExpect(status().isForbidden());
+        result.andExpect(status().isBadRequest());
     }
 
     @Test
@@ -218,7 +218,7 @@ public class PriceListControllerIT extends BaseIT {
         var result = requestTool.sendPatchRequest(path, toJsonString(request));
 
         //then
-        result.andExpect(status().isForbidden());
+        result.andExpect(status().isBadRequest());
     }
 
     @Test

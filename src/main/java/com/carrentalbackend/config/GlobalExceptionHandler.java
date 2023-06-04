@@ -3,8 +3,10 @@ package com.carrentalbackend.config;
 import com.carrentalbackend.exception.*;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.validation.ConstraintViolationException;
+import org.hibernate.PersistentObjectException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,7 +20,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> handleMethodArgumentNotValidException(Exception e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MissingTokenClaimException.class)
@@ -33,7 +35,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<String> handleExpiredJwtException (Exception e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(ExistingEmailException.class)
@@ -56,5 +58,15 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
     }
 
+
+    @ExceptionHandler(PersistentObjectException.class)
+    public ResponseEntity<String> handlePersistentObjectException (Exception e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<String> handleHttpMessageNotReadableException (Exception e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 
 }

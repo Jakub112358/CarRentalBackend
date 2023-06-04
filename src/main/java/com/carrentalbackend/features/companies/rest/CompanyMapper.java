@@ -20,6 +20,8 @@ public class CompanyMapper implements CrudMapper<Company, CompanyRequest> {
                 .differentOfficesExtraCharge(request.getDifferentOfficesExtraCharge())
                 .mediumTermRentMinDays(request.getMediumTermRentMinDays())
                 .longTermRentMinDays(request.getLongTermRentMinDays())
+                .freeCancellationDaysLimit(request.getFreeCancellationDaysLimit())
+                .lateCancellationRatio(request.getLateCancellationRatio())
                 .build();
     }
 
@@ -34,6 +36,8 @@ public class CompanyMapper implements CrudMapper<Company, CompanyRequest> {
                 .differentOfficesExtraCharge(entity.getDifferentOfficesExtraCharge())
                 .mediumTermRentMinDays(entity.getMediumTermRentMinDays())
                 .longTermRentMinDays(entity.getLongTermRentMinDays())
+                .freeCancellationDaysLimit(entity.getFreeCancellationDaysLimit())
+                .lateCancellationRatio(entity.getLateCancellationRatio())
                 .build();
     }
 
