@@ -35,7 +35,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<String> handleExpiredJwtException (Exception e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(ExistingEmailException.class)
@@ -68,6 +68,5 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleHttpMessageNotReadableException (Exception e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
-
 
 }
