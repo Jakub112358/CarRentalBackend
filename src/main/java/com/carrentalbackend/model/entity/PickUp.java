@@ -21,12 +21,12 @@ public class PickUp implements CrudEntity {
     private LocalDate plannedPickUpDate;
     @Enumerated(value = EnumType.STRING)
     private RentalActionStatus status;
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     private Employee employee;
-    @OneToOne(mappedBy = "pickUp")
+    @OneToOne(mappedBy = "pickUp", fetch = FetchType.LAZY)
     private Reservation reservation;
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     private Car car;
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     private Office office;
 }

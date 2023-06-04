@@ -18,9 +18,9 @@ public class RentingValidation {
     }
 
     public void throwIfInvalidPrice(BigDecimal expectedPrice, ReservationCreateRequest request) {
-        var requestPrice = request.getPrice();
+        var requestPrice = request.getPrice().doubleValue();
 
-        if(!expectedPrice.equals(requestPrice))
+        if(expectedPrice.doubleValue() != (requestPrice))
             throw new InvalidReservationDataException("incorrect given price, given: " + requestPrice + " , should be: " + expectedPrice);
     }
 }

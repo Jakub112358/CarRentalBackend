@@ -27,7 +27,7 @@ public class Employee extends User implements CrudEntity {
     private String lastName;
     @Enumerated(EnumType.STRING)
     private JobPosition jobPosition;
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     private Office office;
     @OneToMany (mappedBy = "employee", cascade = CascadeType.PERSIST)
     private List<PickUp> pickUps;

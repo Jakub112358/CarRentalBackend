@@ -16,8 +16,8 @@ public class Income {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private BigDecimal incomeValue;
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     private Reservation reservation;
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     private Finances finances;
 }

@@ -17,6 +17,6 @@ public class Finances {
     private long id;
     @OneToMany(mappedBy = "finances", cascade = CascadeType.ALL)
     private List<Income> incomes;
-    @OneToOne(mappedBy = "finances")
+    @OneToOne(mappedBy = "finances", fetch = FetchType.LAZY)
     private Company company;
 }

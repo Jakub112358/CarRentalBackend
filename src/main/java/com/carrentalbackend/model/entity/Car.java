@@ -28,9 +28,9 @@ public class Car implements CrudEntity {
     private Color color;
     @Enumerated(EnumType.STRING)
     private CarStatus status;
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     private PriceList priceList;
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     private Office currentOffice;
 
 }

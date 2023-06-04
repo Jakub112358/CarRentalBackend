@@ -23,13 +23,13 @@ public class CarReturn implements CrudEntity{
     private LocalDate plannedReturnDate;
     @Enumerated(value = EnumType.STRING)
     private RentalActionStatus status;
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     private Employee employee;
-    @OneToOne(mappedBy = "carReturn")
+    @OneToOne(mappedBy = "carReturn", fetch = FetchType.LAZY)
     private Reservation reservation;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Car car;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Office office;
 
 }

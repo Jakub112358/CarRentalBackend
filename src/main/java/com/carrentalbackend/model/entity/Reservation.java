@@ -24,13 +24,13 @@ public class Reservation implements CrudEntity {
     private LocalDate dateTo;
     @Enumerated(value = EnumType.STRING)
     private ReservationStatus status;
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     private Client client;
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     private Car car;
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     private Office pickUpOffice;
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     private Office returnOffice;
     @OneToOne (cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
     private PickUp pickUp;
