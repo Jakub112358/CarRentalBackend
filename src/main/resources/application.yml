@@ -1,0 +1,10 @@
+#1. Create application-dev.yml file by using TEMPLATE-H2.yml for H2 database or TEMPLATE-MySQL.yml for MySQL Database.
+#2. Create application-test.yml file by using TEMPLATE-H2.yml for H2 database or TEMPLATE-MySQL.yml for MySQL Database.
+#3. Choose active profile test for tests or dev for development.
+#4. INFO: H2 Database is ready to use. To use MySQL you have to create database schema before running this application.
+
+spring:
+  profiles:
+    active: dev
+  jpa:
+    open-in-view: false
